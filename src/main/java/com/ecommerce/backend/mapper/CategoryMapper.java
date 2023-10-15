@@ -1,6 +1,7 @@
 package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.category.CategoryAdminDto;
+import com.ecommerce.backend.dto.category.CategoryDto;
 import com.ecommerce.backend.form.category.CreateCategoryForm;
 import com.ecommerce.backend.form.category.UpdateCategoryForm;
 import com.ecommerce.backend.storage.entity.Category;
@@ -39,4 +40,12 @@ public interface CategoryMapper {
 
     @IterableMapping(elementTargetType = CategoryAdminDto.class, qualifiedByName = "adminGetMapping")
     List<CategoryAdminDto> fromEntityListToCategoryAdminDtoList(List<Category> categories);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "level", target = "level")
+    @Mapping(source = "parent", target = "parent")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToCategoryDto")
+    CategoryDto fromEntityToCategoryDto(Category category);
 }

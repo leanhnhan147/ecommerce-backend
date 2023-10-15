@@ -1,0 +1,41 @@
+package com.ecommerce.backend.mapper;
+
+import com.ecommerce.backend.dto.option.OptionAdminDto;
+import com.ecommerce.backend.form.option.CreateOptionForm;
+import com.ecommerce.backend.form.option.UpdateOptionForm;
+import com.ecommerce.backend.storage.entity.Option;
+import org.mapstruct.*;
+
+import java.util.List;
+
+@Mapper(componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        uses = {CategoryMapper.class})
+public interface OptionMapper {
+
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "displayName", target = "displayName")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("adminCreateMapping")
+    Option fromCreateOptionFormToEntity(CreateOptionForm createOptionForm);
+
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "displayName", target = "displayName")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("adminUpdateMapping")
+    void fromUpdateOptionFormToEntity(UpdateOptionForm updateOptionForm, @MappingTarget Option option);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "displayName", target = "displayName")
+    @Mapping(source = "category", target = "category", qualifiedByName = "fromEntityToCategoryDto")
+    @Mapping(source = "createdDate", target = "createdDate")
+    @Mapping(source = "modifiedDate", target = "modifiedDate")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("adminGetMapping")
+    OptionAdminDto fromEntityToOptionAdminDto(Option option);
+
+    @IterableMapping(elementTargetType = OptionAdminDto.class, qualifiedByName = "adminGetMapping")
+    List<OptionAdminDto> fromEntityListToOptionAdminDtoList(List<Option> options);
+}
