@@ -2,14 +2,10 @@ package com.ecommerce.backend.controller;
 
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.category.CategoryAdminDto;
 import com.ecommerce.backend.dto.option.OptionAdminDto;
-import com.ecommerce.backend.form.category.CreateCategoryForm;
-import com.ecommerce.backend.form.category.UpdateCategoryForm;
 import com.ecommerce.backend.form.option.CreateOptionForm;
 import com.ecommerce.backend.form.option.UpdateOptionForm;
 import com.ecommerce.backend.service.OptionService;
-import com.ecommerce.backend.storage.criteria.CategoryCriteria;
 import com.ecommerce.backend.storage.criteria.OptionCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
