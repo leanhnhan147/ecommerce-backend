@@ -1,6 +1,7 @@
 package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.product.ProductAdminDto;
+import com.ecommerce.backend.dto.product.ProductDto;
 import com.ecommerce.backend.form.product.CreateProductForm;
 import com.ecommerce.backend.form.product.UpdateProductForm;
 import com.ecommerce.backend.storage.entity.Product;
@@ -44,4 +45,11 @@ public interface ProductMapper {
 
     @IterableMapping(elementTargetType = ProductAdminDto.class, qualifiedByName = "adminGetMapping")
     List<ProductAdminDto> fromEntityListToProductAdminDtoList(List<Product> products);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToProductDto")
+    ProductDto fromEntityToProductDto(Product product);
+
 }
