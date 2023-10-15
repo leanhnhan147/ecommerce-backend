@@ -33,7 +33,7 @@ public class CategoryController {
         ApiMessageDto<CategoryAdminDto> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(categoryService.getCategoryById(id));
         apiMessageDto.setMessage("Get category success");
-        return  apiMessageDto;
+        return apiMessageDto;
     }
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
