@@ -9,17 +9,17 @@ import javax.validation.constraints.NotNull;
 @Data
 public class CreateCategoryForm {
     @NotEmpty(message = "name can not be null")
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(name = "name", required = true)
     private String name;
 
     @NotNull(message = "level can not be null")
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(name = "level", required = true)
     private Integer level;
 
     @ApiModelProperty(name = "parentId")
     private Long parentId;
 
     @NotNull(message = "status can not be null")
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(name = "status", required = true)
     private Integer status;
 }
