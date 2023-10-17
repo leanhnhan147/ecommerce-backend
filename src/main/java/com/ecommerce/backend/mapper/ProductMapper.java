@@ -35,6 +35,7 @@ public interface ProductMapper {
     @Mapping(source = "name", target = "name")
     @Mapping(source = "avatar", target = "avatar")
     @Mapping(source = "description", target = "description")
+    @Mapping(source = "stock", target = "stock")
     @Mapping(source = "category", target = "category", qualifiedByName = "fromEntityToCategoryDto")
     @Mapping(source = "status", target = "status")
     @Mapping(source = "createdDate", target = "createdDate")
@@ -51,5 +52,4 @@ public interface ProductMapper {
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToProductDto")
     ProductDto fromEntityToProductDto(Product product);
-
 }
