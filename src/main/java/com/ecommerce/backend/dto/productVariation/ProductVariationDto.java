@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class ProductVariationDto {
     private Long id;
-    private Double originPrice;
+    private Double price;
     private Integer state;
     private ProductDto product;
 }

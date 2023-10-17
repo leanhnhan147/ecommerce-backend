@@ -14,20 +14,20 @@ import java.util.List;
         uses = {ProductMapper.class})
 public interface ProductVariationMapper {
 
-    @Mapping(source = "originPrice", target = "originPrice")
+    @Mapping(source = "price", target = "price")
     @Mapping(source = "state", target = "state")
     @BeanMapping(ignoreByDefault = true)
     @Named("adminCreateMapping")
     ProductVariation fromCreateProductVariationFormToEntity(CreateProductVariationForm createProductVariationForm);
 
-    @Mapping(source = "originPrice", target = "originPrice")
+    @Mapping(source = "price", target = "price")
     @Mapping(source = "state", target = "state")
     @BeanMapping(ignoreByDefault = true)
     @Named("adminUpdateMapping")
     void fromUpdateProductVariationFormToEntity(UpdateProductVariationForm updateProductVariationForm, @MappingTarget ProductVariation productVariation);
 
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "originPrice", target = "originPrice")
+    @Mapping(source = "price", target = "price")
     @Mapping(source = "state", target = "state")
     @Mapping(source = "product", target = "product", qualifiedByName = "fromEntityToProductDto")
     @Mapping(source = "createdDate", target = "createdDate")
@@ -38,5 +38,4 @@ public interface ProductVariationMapper {
 
     @IterableMapping(elementTargetType = ProductVariationAdminDto.class, qualifiedByName = "adminGetMapping")
     List<ProductVariationAdminDto> fromEntityListToProductVariationAdminDtoList(List<ProductVariation> productVariations);
-
 }

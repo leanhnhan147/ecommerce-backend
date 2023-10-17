@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class ProductVariationAdminDto extends BasicAdminDto {
-    private Double originPrice;
+    private Double price;
     private Integer state;
     private ProductDto product;
 }
