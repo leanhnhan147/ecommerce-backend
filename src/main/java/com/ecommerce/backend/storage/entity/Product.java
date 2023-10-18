@@ -25,18 +25,18 @@ public class Product extends Auditable {
 
     private Double minPrice;
     private Double maxPrice;
-    private Double minOriginPrice;
-    private Double maxOriginPrice;
+    private Double minDiscountedPrice;
+    private Double maxDiscountedPrice;
     private Integer discount;
-    private Integer sold;
-    private Integer reviewed;
+    private Integer soldCount;
+    private Integer ratingCount;
     private Integer rating1;
     private Integer rating2;
     private Integer rating3;
     private Integer rating4;
     private Integer rating5;
     private Double averageRating;
-    private Integer outOfStock;
+    private Integer stock;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")

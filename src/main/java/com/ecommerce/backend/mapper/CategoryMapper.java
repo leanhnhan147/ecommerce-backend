@@ -30,6 +30,7 @@ public interface CategoryMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "level", target = "level")
+    @Mapping(source = "hasChildren", target = "hasChildren")
     @Mapping(source = "parent", target = "parent")
     @Mapping(source = "createdDate", target = "createdDate")
     @Mapping(source = "modifiedDate", target = "modifiedDate")
@@ -48,4 +49,16 @@ public interface CategoryMapper {
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToCategoryDto")
     CategoryDto fromEntityToCategoryDto(Category category);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "level", target = "level")
+    @Mapping(source = "hasChildren", target = "hasChildren")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("autoCompleteGetMapping")
+    CategoryDto fromEntityToCategoryDtoAutoComplete(Category category);
+
+    @IterableMapping(elementTargetType = CategoryDto.class, qualifiedByName = "autoCompleteGetMapping")
+    List<CategoryDto> fromEntityListToCategoryDtoAutoCompleteList(List<Category> categories);
 }
+

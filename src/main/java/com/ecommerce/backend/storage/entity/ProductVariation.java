@@ -20,10 +20,10 @@ public class ProductVariation extends Auditable {
     private Long id;
 
     private Double price;
-    private Double originPrice;
+    private Double discountedPrice;
     private Integer discount;
-    private Integer sold;
-    private Integer availableQuantity;
+    private Integer soldCount;
+    private Integer stock;
     private Integer state;
 
     @ManyToOne(fetch = FetchType.LAZY)

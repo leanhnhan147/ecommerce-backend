@@ -11,9 +11,9 @@ public class UpdateProductVariationForm {
     @ApiModelProperty(name = "id", required = true)
     private Long id;
 
-    @NotNull(message = "originPrice can not be null")
-    @ApiModelProperty(name = "originPrice", required = true)
-    private Integer originPrice;
+    @NotNull(message = "price can not be null")
+    @ApiModelProperty(name = "price", required = true)
+    private Integer price;
 
     @NotNull(message = "state can not be null")
     @ApiModelProperty(name = "state", required = true)
