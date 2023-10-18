@@ -2,6 +2,7 @@ package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.category.CategoryAdminDto;
+import com.ecommerce.backend.dto.category.CategoryDto;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.category.CreateCategoryForm;
 import com.ecommerce.backend.form.category.UpdateCategoryForm;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,6 +55,9 @@ public class CategoryServiceImpl implements CategoryService {
                 throw new NotFoundException("Not found parent category");
             }
             category.setParent(parentCategory);
+            if (!parentCategory.getHasChildren()){
+                parentCategory.setHasChildren(true);
+            }
         }
         categoryRepository.save(category);
     }
@@ -65,5 +70,11 @@ public class CategoryServiceImpl implements CategoryService {
         }
         categoryMapper.fromUpdateCategoryFormToEntity(updateCategoryForm, category);
         categoryRepository.save(category);
+    }
+
+    @Override
+    public List<CategoryDto> getCategoryListAutoComplete(CategoryCriteria categoryCriteria) {
+        List<Category> categorys = categoryRepository.findAll(categoryCriteria.getCriteria());
+        return categoryMapper.fromEntityListToCategoryDtoAutoCompleteList(categorys);
     }
 }

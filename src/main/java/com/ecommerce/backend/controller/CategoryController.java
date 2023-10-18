@@ -3,6 +3,7 @@ package com.ecommerce.backend.controller;
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.category.CategoryAdminDto;
+import com.ecommerce.backend.dto.category.CategoryDto;
 import com.ecommerce.backend.form.category.CreateCategoryForm;
 import com.ecommerce.backend.form.category.UpdateCategoryForm;
 import com.ecommerce.backend.service.CategoryService;
@@ -57,6 +58,14 @@ public class CategoryController {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         categoryService.updateCategory(updateCategoryForm);
         apiMessageDto.setMessage("Update category success");
+        return apiMessageDto;
+    }
+
+    @GetMapping(value = "/auto-complete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<List<CategoryDto>> getListAutoComplete(CategoryCriteria categoryCriteria) {
+        ApiMessageDto<List<CategoryDto>> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(categoryService.getCategoryListAutoComplete(categoryCriteria));
+        apiMessageDto.setMessage("Get list auto complete success");
         return apiMessageDto;
     }
 }
