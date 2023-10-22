@@ -27,4 +27,8 @@ public class CreateProductForm {
     @NotNull(message = "status can not be null")
     @ApiModelProperty(name = "status", required = true)
     private Integer status;
+
+    @NotNull(message = "options can not be null")
+    @ApiModelProperty(name = "options", required = true)
+    private Long[] options;
 }
