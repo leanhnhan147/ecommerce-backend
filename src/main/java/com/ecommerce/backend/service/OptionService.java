@@ -2,6 +2,7 @@ package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.option.OptionAdminDto;
+import com.ecommerce.backend.dto.option.OptionDto;
 import com.ecommerce.backend.form.option.CreateOptionForm;
 import com.ecommerce.backend.form.option.UpdateOptionForm;
 import com.ecommerce.backend.storage.criteria.OptionCriteria;
@@ -18,4 +19,6 @@ public interface OptionService {
     void createOption(CreateOptionForm createOptionForm);
 
     void updateOption(UpdateOptionForm updateOptionForm);
+
+    List<OptionDto> getOptionListAutoComplete(OptionCriteria optionCriteria);
 }

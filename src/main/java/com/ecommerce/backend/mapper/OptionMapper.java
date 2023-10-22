@@ -47,4 +47,14 @@ public interface OptionMapper {
     @Named("fromEntityToOptionDto")
     OptionDto fromEntityToOptionDto(Option option);
 
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "displayName", target = "displayName")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("autoCompleteGetMapping")
+    OptionDto fromEntityToOptionDtoAutoComplete(Option option);
+
+    @IterableMapping(elementTargetType = OptionDto.class, qualifiedByName = "autoCompleteGetMapping")
+    List<OptionDto> fromEntityListToOptionDtoAutoCompleteList(List<Option> options);
+
 }

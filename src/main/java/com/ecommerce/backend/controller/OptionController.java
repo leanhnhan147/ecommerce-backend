@@ -3,6 +3,7 @@ package com.ecommerce.backend.controller;
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.option.OptionAdminDto;
+import com.ecommerce.backend.dto.option.OptionDto;
 import com.ecommerce.backend.form.option.CreateOptionForm;
 import com.ecommerce.backend.form.option.UpdateOptionForm;
 import com.ecommerce.backend.service.OptionService;
@@ -55,6 +56,14 @@ public class OptionController {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         optionService.updateOption(updateOptionForm);
         apiMessageDto.setMessage("Update option success");
+        return apiMessageDto;
+    }
+
+    @GetMapping(value = "/auto-complete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<List<OptionDto>> getListAutoComplete(OptionCriteria optionCriteria) {
+        ApiMessageDto<List<OptionDto>> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(optionService.getOptionListAutoComplete(optionCriteria));
+        apiMessageDto.setMessage("Get list auto complete success");
         return apiMessageDto;
     }
 }
