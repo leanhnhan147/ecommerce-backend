@@ -1,0 +1,60 @@
+package com.ecommerce.site.admin.controller;
+
+import com.ecommerce.site.admin.dto.ApiMessageDto;
+import com.ecommerce.site.admin.dto.ResponseListDto;
+import com.ecommerce.site.admin.dto.optionValue.OptionValueAdminDto;
+import com.ecommerce.site.admin.form.optionValue.CreateOptionValueForm;
+import com.ecommerce.site.admin.form.optionValue.UpdateOptionValueForm;
+import com.ecommerce.site.admin.service.OptionValueService;
+import com.ecommerce.site.admin.storage.criteria.OptionValueCriteria;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
+@RequestMapping("/v1/option-value")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@Slf4j
+public class OptionValueController {
+
+    @Autowired
+    OptionValueService optionValueService;
+
+    @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<OptionValueAdminDto> get(@PathVariable("id") Long id) {
+        ApiMessageDto<OptionValueAdminDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(optionValueService.getOptionValueById(id));
+        apiMessageDto.setMessage("Get option value success");
+        return apiMessageDto;
+    }
+
+    @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<ResponseListDto<List<OptionValueAdminDto>>> getList(OptionValueCriteria optionValueCriteria, Pageable pageable) {
+        ApiMessageDto<ResponseListDto<List<OptionValueAdminDto>>> responseListDtoApiMessageDto = new ApiMessageDto<>();
+        responseListDtoApiMessageDto.setData(optionValueService.getOptionValueList(optionValueCriteria, pageable));
+        responseListDtoApiMessageDto.setMessage("Get list option value success");
+        return responseListDtoApiMessageDto;
+    }
+
+    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<String> create(@Valid @RequestBody CreateOptionValueForm createOptionValueForm, BindingResult bindingResult) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        optionValueService.createOptionValue(createOptionValueForm);
+        apiMessageDto.setMessage("Create option value success");
+        return apiMessageDto;
+    }
+
+    @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<String> update(@Valid @RequestBody UpdateOptionValueForm updateOptionValueForm, BindingResult bindingResult) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        optionValueService.updateOptionValue(updateOptionValueForm);
+        apiMessageDto.setMessage("Update option value success");
+        return apiMessageDto;
+    }
+}

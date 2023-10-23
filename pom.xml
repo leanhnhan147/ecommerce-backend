@@ -27,6 +27,11 @@
         <lombok.version>1.18.12</lombok.version>
 
     </properties>
+
+    <modules>
+        <module>site-admin</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
