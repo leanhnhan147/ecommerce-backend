@@ -18,4 +18,8 @@ public class UpdateProductVariationForm {
     @NotNull(message = "state can not be null")
     @ApiModelProperty(name = "state", required = true)
     private Integer state;
+
+    @NotNull(message = "optionValues can not be null")
+    @ApiModelProperty(name = "optionValues", required = true)
+    private Long[] optionValues;
 }

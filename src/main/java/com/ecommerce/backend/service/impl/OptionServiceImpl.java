@@ -2,6 +2,7 @@ package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.option.OptionAdminDto;
+import com.ecommerce.backend.dto.option.OptionDto;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.option.CreateOptionForm;
 import com.ecommerce.backend.form.option.UpdateOptionForm;
@@ -68,5 +69,11 @@ public class OptionServiceImpl implements OptionService {
         }
         optionMapper.fromUpdateOptionFormToEntity(updateOptionForm, option);
         optionRepository.save(option);
+    }
+
+    @Override
+    public List<OptionDto> getOptionListAutoComplete(OptionCriteria optionCriteria) {
+        List<Option> options = optionRepository.findAll(optionCriteria.getCriteria());
+        return optionMapper.fromEntityListToOptionDtoAutoCompleteList(options);
     }
 }

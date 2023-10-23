@@ -15,7 +15,11 @@ public class CreateProductVariationForm {
     @ApiModelProperty(name = "state", required = true)
     private Integer state;
 
-    @NotNull(message = "productId can not null")
+    @NotNull(message = "productId can not be null")
     @ApiModelProperty(name = "productId", required = true)
     private Long productId;
+
+    @NotNull(message = "optionValues can not be null")
+    @ApiModelProperty(name = "optionValues", required = true)
+    private Long[] optionValues;
 }

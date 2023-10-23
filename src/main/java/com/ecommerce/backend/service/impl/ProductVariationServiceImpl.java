@@ -6,12 +6,16 @@ import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.productVariation.CreateProductVariationForm;
 import com.ecommerce.backend.form.productVariation.UpdateProductVariationForm;
 import com.ecommerce.backend.mapper.ProductVariationMapper;
+import com.ecommerce.backend.repository.OptionValueRepository;
 import com.ecommerce.backend.repository.ProductRepository;
+import com.ecommerce.backend.repository.ProductVariationOptionValueRepository;
 import com.ecommerce.backend.repository.ProductVariationRepository;
 import com.ecommerce.backend.service.ProductVariationService;
 import com.ecommerce.backend.storage.criteria.ProductVariationCriteria;
+import com.ecommerce.backend.storage.entity.OptionValue;
 import com.ecommerce.backend.storage.entity.Product;
 import com.ecommerce.backend.storage.entity.ProductVariation;
+import com.ecommerce.backend.storage.entity.ProductVariationOptionValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +31,12 @@ public class ProductVariationServiceImpl implements ProductVariationService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    OptionValueRepository optionValueRepository;
+
+    @Autowired
+    ProductVariationOptionValueRepository productVariationOptionValueRepository;
 
     @Autowired
     ProductVariationMapper productVariationMapper;
@@ -58,6 +68,16 @@ public class ProductVariationServiceImpl implements ProductVariationService {
         ProductVariation productVariation = productVariationMapper.fromCreateProductVariationFormToEntity(createProductVariationForm);
         productVariation.setProduct(product);
         productVariationRepository.save(productVariation);
+
+        for(int i = 0; i < createProductVariationForm.getOptionValues().length; i++){
+            OptionValue optionValue = optionValueRepository.findById(createProductVariationForm.getOptionValues()[i]).orElse(null);
+            if(optionValue != null){
+                ProductVariationOptionValue productVariationOptionValue = new ProductVariationOptionValue();
+                productVariationOptionValue.setProductVariation(productVariation);
+                productVariationOptionValue.setOptionValue(optionValue);
+                productVariationOptionValueRepository.save(productVariationOptionValue);
+            }
+        }
     }
 
     @Override
@@ -68,5 +88,15 @@ public class ProductVariationServiceImpl implements ProductVariationService {
         }
         productVariationMapper.fromUpdateProductVariationFormToEntity(updateProductVariationForm, productVariation);
         productVariationRepository.save(productVariation);
+
+        for(int i = 0; i < updateProductVariationForm.getOptionValues().length; i++){
+            OptionValue optionValue = optionValueRepository.findById(updateProductVariationForm.getOptionValues()[i]).orElse(null);
+            if(optionValue != null){
+                ProductVariationOptionValue productVariationOptionValue = new ProductVariationOptionValue();
+                productVariationOptionValue.setProductVariation(productVariation);
+                productVariationOptionValue.setOptionValue(optionValue);
+                productVariationOptionValueRepository.save(productVariationOptionValue);
+            }
+        }
     }
 }
