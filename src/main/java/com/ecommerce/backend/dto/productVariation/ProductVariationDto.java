@@ -1,7 +1,10 @@
 package com.ecommerce.backend.dto.productVariation;
 
 import com.ecommerce.backend.dto.product.ProductDto;
+import com.ecommerce.backend.dto.productVariationOptionValue.ProductVariationOptionValueDto;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class ProductVariationDto {
@@ -9,4 +12,5 @@ public class ProductVariationDto {
     private Double price;
     private Integer state;
     private ProductDto product;
+    private List<ProductVariationOptionValueDto> productVariationOptionValues;
 }

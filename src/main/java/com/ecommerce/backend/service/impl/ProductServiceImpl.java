@@ -2,6 +2,7 @@ package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.product.ProductAdminDto;
+import com.ecommerce.backend.dto.product.ProductDto;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.product.CreateProductForm;
 import com.ecommerce.backend.form.product.UpdateProductForm;
@@ -42,10 +43,10 @@ public class ProductServiceImpl implements ProductService {
     ProductMapper productMapper;
 
     @Override
-    public ProductAdminDto getProductById(Long id) {
+    public ProductDto getProductById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found product"));
-        return productMapper.fromEntityToProductAdminDto(product);
+        return productMapper.fromEntityToProductDto(product);
     }
 
     @Override

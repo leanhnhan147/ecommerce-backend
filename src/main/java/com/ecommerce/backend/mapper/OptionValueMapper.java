@@ -1,6 +1,7 @@
 package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.optionValue.OptionValueAdminDto;
+import com.ecommerce.backend.dto.optionValue.OptionValueDto;
 import com.ecommerce.backend.form.optionValue.CreateOptionValueForm;
 import com.ecommerce.backend.form.optionValue.UpdateOptionValueForm;
 import com.ecommerce.backend.storage.entity.OptionValue;
@@ -38,4 +39,13 @@ public interface OptionValueMapper {
 
     @IterableMapping(elementTargetType = OptionValueAdminDto.class, qualifiedByName = "adminGetMapping")
     List<OptionValueAdminDto> fromEntityListToOptionValueAdminDtoList(List<OptionValue> optionValues);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "value", target = "value")
+    @Mapping(source = "displayName", target = "displayName")
+    @Mapping(source = "option", target = "option", qualifiedByName = "fromEntityToOptionDto")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToOptionValueDto")
+    OptionValueDto fromEntityToOptionValueDto(OptionValue optionValue);
+
 }

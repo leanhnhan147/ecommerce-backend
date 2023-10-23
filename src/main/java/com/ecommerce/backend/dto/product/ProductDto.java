@@ -1,7 +1,10 @@
 package com.ecommerce.backend.dto.product;
 
 import com.ecommerce.backend.dto.category.CategoryDto;
+import com.ecommerce.backend.dto.productVariation.ProductVariationDto;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class ProductDto {
@@ -9,5 +12,7 @@ public class ProductDto {
     private String name;
     private String avatar;
     private String description;
+    private Integer stock;
     private CategoryDto category;
+    private List<ProductVariationDto> productVariations;
 }

@@ -1,6 +1,7 @@
 package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.productVariation.ProductVariationAdminDto;
+import com.ecommerce.backend.dto.productVariation.ProductVariationDto;
 import com.ecommerce.backend.form.productVariation.CreateProductVariationForm;
 import com.ecommerce.backend.form.productVariation.UpdateProductVariationForm;
 import com.ecommerce.backend.storage.entity.ProductVariation;
@@ -11,7 +12,7 @@ import java.util.List;
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-        uses = {ProductMapper.class})
+        uses = {ProductMapper.class, ProductVariationOptionValueMapper.class})
 public interface ProductVariationMapper {
 
     @Mapping(source = "price", target = "price")
@@ -29,7 +30,7 @@ public interface ProductVariationMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "state", target = "state")
-    @Mapping(source = "product", target = "product", qualifiedByName = "fromEntityToProductDto")
+//    @Mapping(source = "product", target = "product", qualifiedByName = "fromEntityToProductDto")
     @Mapping(source = "createdDate", target = "createdDate")
     @Mapping(source = "modifiedDate", target = "modifiedDate")
     @BeanMapping(ignoreByDefault = true)
@@ -38,4 +39,16 @@ public interface ProductVariationMapper {
 
     @IterableMapping(elementTargetType = ProductVariationAdminDto.class, qualifiedByName = "adminGetMapping")
     List<ProductVariationAdminDto> fromEntityListToProductVariationAdminDtoList(List<ProductVariation> productVariations);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "price", target = "price")
+    @Mapping(source = "productVariationOptionValues", target = "productVariationOptionValues", qualifiedByName = "fromEntityListToProductVariationOptionValueDtoList")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToProductVariationDto")
+    ProductVariationDto fromEntityToProductVariationDto(ProductVariation productVariation);
+
+    @IterableMapping(elementTargetType = ProductVariationDto.class, qualifiedByName = "fromEntityToProductVariationDto")
+    @Named("fromEntityListToProductVariationDtoList")
+    List<ProductVariationDto> fromEntityListToProductVariationDtoList(List<ProductVariation> productVariations);
+
 }
