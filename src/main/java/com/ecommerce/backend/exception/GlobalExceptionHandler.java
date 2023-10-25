@@ -22,7 +22,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({NotFoundException.class})
     public ResponseEntity<ApiMessageDto<String>> globalExceptionHandler(NotFoundException ex) {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        apiMessageDto.setCode("ERROR");
+        apiMessageDto.setCode("ERROR-404");
         apiMessageDto.setResult(false);
         apiMessageDto.setMessage(ex.getMessage());
         return new ResponseEntity<>(apiMessageDto, HttpStatus.NOT_FOUND);
@@ -34,7 +34,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ApiMessageDto<List<ErrorForm>> exceptionHandler(Exception ex) {
         log.error("error: " + ex.getMessage(), ex);
         ApiMessageDto<List<ErrorForm>> apiMessageDto = new ApiMessageDto<>();
-        apiMessageDto.setCode("ERROR");
+        apiMessageDto.setCode("ERROR-400");
         apiMessageDto.setResult(false);
         if(ex instanceof MyBindingException){
             try {
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 log.error(e.getMessage());
             }
         }else{
-            apiMessageDto.setMessage("[Ex2]: "+ex.getMessage());
+            apiMessageDto.setMessage("[Ex2]: " + ex.getMessage());
         }
         return apiMessageDto;
     }

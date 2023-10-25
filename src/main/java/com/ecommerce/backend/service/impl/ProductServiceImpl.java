@@ -106,10 +106,13 @@ public class ProductServiceImpl implements ProductService {
         for (int i = 0; i < updateProductForm.getOptions().length; i++){
             Option option = optionRepository.findById(updateProductForm.getOptions()[i]).orElse(null);
             if(option != null){
-                ProductOption productOption = new ProductOption();
-                productOption.setProduct(product);
-                productOption.setOption(option);
-                productOptionRepository.save(productOption);
+                Boolean existedProductOption = productOptionRepository.existsByProductIdAndOptionId(product.getId(), option.getId());
+                if(!existedProductOption){
+                    ProductOption productOption = new ProductOption();
+                    productOption.setProduct(product);
+                    productOption.setOption(option);
+                    productOptionRepository.save(productOption);
+                }
             }
         }
     }
