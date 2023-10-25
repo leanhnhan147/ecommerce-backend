@@ -7,20 +7,16 @@ import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.product.CreateProductForm;
 import com.ecommerce.backend.form.product.UpdateProductForm;
 import com.ecommerce.backend.mapper.ProductMapper;
-import com.ecommerce.backend.repository.CategoryRepository;
-import com.ecommerce.backend.repository.OptionRepository;
-import com.ecommerce.backend.repository.ProductOptionRepository;
-import com.ecommerce.backend.repository.ProductRepository;
+import com.ecommerce.backend.repository.*;
+import com.ecommerce.backend.service.MediaResourceService;
 import com.ecommerce.backend.service.ProductService;
 import com.ecommerce.backend.storage.criteria.ProductCriteria;
-import com.ecommerce.backend.storage.entity.Category;
-import com.ecommerce.backend.storage.entity.Option;
-import com.ecommerce.backend.storage.entity.Product;
-import com.ecommerce.backend.storage.entity.ProductOption;
+import com.ecommerce.backend.storage.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,6 +34,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductOptionRepository productOptionRepository;
+
+    @Autowired
+    ProductImageRepository productImageRepository;
+
+    @Autowired
+    MediaResourceService mediaResourceService;
 
     @Autowired
     ProductMapper productMapper;
@@ -60,6 +62,7 @@ public class ProductServiceImpl implements ProductService {
         return responseListDto;
     }
 
+    @Transactional
     @Override
     public void createProduct(CreateProductForm createProductForm) {
         Category category = categoryRepository.findById(createProductForm.getCategoryId()).orElse(null);
@@ -77,6 +80,16 @@ public class ProductServiceImpl implements ProductService {
                 productOption.setProduct(product);
                 productOption.setOption(option);
                 productOptionRepository.save(productOption);
+            }
+        }
+
+        for(int i = 0; i < createProductForm.getImages().length; i++){
+            MediaResource mediaResource = mediaResourceService.createMediaResource(createProductForm.getImages()[i]);
+            if(mediaResource != null){
+                ProductImage productImage = new ProductImage();
+                productImage.setProduct(product);
+                productImage.setMediaResource(mediaResource);
+                productImageRepository.save(productImage);
             }
         }
     }

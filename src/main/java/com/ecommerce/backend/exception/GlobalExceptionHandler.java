@@ -32,7 +32,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ApiMessageDto<List<ErrorForm>> exceptionHandler(Exception ex) {
-        log.error(""+ex.getMessage(), ex);
+        log.error("error: " + ex.getMessage(), ex);
         ApiMessageDto<List<ErrorForm>> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setCode("ERROR");
         apiMessageDto.setResult(false);
