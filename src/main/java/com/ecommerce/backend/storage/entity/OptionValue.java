@@ -19,7 +19,6 @@ public class OptionValue extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String value;
     private String displayName;
 
     @ManyToOne(fetch = FetchType.LAZY)

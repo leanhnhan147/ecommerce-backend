@@ -14,7 +14,6 @@ import java.util.List;
 public class OptionValueCriteria {
 
     private Long id;
-    private String value;
     private String displayName;
     private Integer status;
     private Long optionId;
@@ -27,10 +26,6 @@ public class OptionValueCriteria {
                 List<Predicate> predicates = new ArrayList<>();
                 if(getId() != null){
                     predicates.add(cb.equal(root.get("id"), getId()));
-                }
-
-                if(!StringUtils.isEmpty(getValue())){
-                    predicates.add(cb.like(cb.lower(root.get("value")),"%" + getValue()+ "%"));
                 }
 
                 if(!StringUtils.isEmpty(getDisplayName())){

@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class OptionValueDto {
     private Long id;
-    private String value;
     private String displayName;
     private OptionDto option;
 }

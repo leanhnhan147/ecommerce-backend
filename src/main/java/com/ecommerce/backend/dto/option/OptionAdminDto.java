@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class OptionAdminDto extends BasicAdminDto {
-    private String name;
     private String displayName;
     private CategoryDto category;
 }
