@@ -88,15 +88,5 @@ public class ProductVariationServiceImpl implements ProductVariationService {
         }
         productVariationMapper.fromUpdateProductVariationFormToEntity(updateProductVariationForm, productVariation);
         productVariationRepository.save(productVariation);
-
-        for(int i = 0; i < updateProductVariationForm.getOptionValues().length; i++){
-            OptionValue optionValue = optionValueRepository.findById(updateProductVariationForm.getOptionValues()[i]).orElse(null);
-            if(optionValue != null){
-                ProductVariationOptionValue productVariationOptionValue = new ProductVariationOptionValue();
-                productVariationOptionValue.setProductVariation(productVariation);
-                productVariationOptionValue.setOptionValue(optionValue);
-                productVariationOptionValueRepository.save(productVariationOptionValue);
-            }
-        }
     }
 }
