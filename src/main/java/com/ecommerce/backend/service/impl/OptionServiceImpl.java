@@ -54,7 +54,7 @@ public class OptionServiceImpl implements OptionService {
     public void createOption(CreateOptionForm createOptionForm) {
         Category category = categoryRepository.findById(createOptionForm.getCategoryId()).orElse(null);
         if(category == null) {
-            throw new NotFoundException("Not found category");
+            throw new NotFoundException("Not found option");
         }
         Option option = optionMapper.fromCreateOptionFormToEntity(createOptionForm);
         option.setCategory(category);
