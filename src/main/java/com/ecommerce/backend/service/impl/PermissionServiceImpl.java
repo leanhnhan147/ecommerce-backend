@@ -57,7 +57,7 @@ public class PermissionServiceImpl implements PermissionService {
         if(groupPermission == null){
             throw new NotFoundException("Not found group permission");
         }
-        Permission permission = permissionMapper.fromCreateOptionFormToEntity(createPermissionForm);
+        Permission permission = permissionMapper.fromCreatePermissionFormToEntity(createPermissionForm);
         permission.setGroupPermission(groupPermission);
         permissionRepository.save(permission);
     }
@@ -68,7 +68,7 @@ public class PermissionServiceImpl implements PermissionService {
         if(permission == null){
             throw new NotFoundException("Not found permission");
         }
-        permissionMapper.fromUpdateOptionFormToEntity(updatePermissionForm, permission);
+        permissionMapper.fromUpdatePermissionFormToEntity(updatePermissionForm, permission);
         permissionRepository.save(permission);
     }
 }
