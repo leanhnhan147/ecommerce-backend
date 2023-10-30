@@ -8,10 +8,6 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class CreateOptionForm {
-    @NotEmpty(message = "name can not be null")
-    @ApiModelProperty(name = "name", required = true)
-    private String name;
-
     @NotEmpty(message = "displayName can not be null")
     @ApiModelProperty(name = "displayName", required = true)
     private String displayName;

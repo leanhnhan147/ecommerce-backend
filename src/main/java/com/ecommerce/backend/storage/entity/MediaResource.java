@@ -13,15 +13,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "option_value")
-public class OptionValue extends Auditable {
+@Table(name = "media_resource")
+public class MediaResource extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String displayName;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "option_id")
-    private Option option;
+    private Integer kind; // 1: image  2: video
+    private String url;
 }

@@ -15,20 +15,17 @@ import java.util.List;
         uses = {CategoryMapper.class})
 public interface OptionMapper {
 
-    @Mapping(source = "name", target = "name")
     @Mapping(source = "displayName", target = "displayName")
     @BeanMapping(ignoreByDefault = true)
     @Named("adminCreateMapping")
     Option fromCreateOptionFormToEntity(CreateOptionForm createOptionForm);
 
-    @Mapping(source = "name", target = "name")
     @Mapping(source = "displayName", target = "displayName")
     @BeanMapping(ignoreByDefault = true)
     @Named("adminUpdateMapping")
     void fromUpdateOptionFormToEntity(UpdateOptionForm updateOptionForm, @MappingTarget Option option);
 
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
     @Mapping(source = "displayName", target = "displayName")
     @Mapping(source = "category", target = "category", qualifiedByName = "fromEntityToCategoryDto")
     @Mapping(source = "createdDate", target = "createdDate")
@@ -41,14 +38,12 @@ public interface OptionMapper {
     List<OptionAdminDto> fromEntityListToOptionAdminDtoList(List<Option> options);
 
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
     @Mapping(source = "displayName", target = "displayName")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToOptionDto")
     OptionDto fromEntityToOptionDto(Option option);
 
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
     @Mapping(source = "displayName", target = "displayName")
     @BeanMapping(ignoreByDefault = true)
     @Named("autoCompleteGetMapping")

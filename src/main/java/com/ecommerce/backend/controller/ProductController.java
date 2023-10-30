@@ -43,8 +43,8 @@ public class ProductController {
         return responseListDtoApiMessageDto;
     }
 
-    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<String> create(@Valid @RequestBody CreateProductForm createProductForm, BindingResult bindingResult) {
+    @GetMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<String> create(@Valid CreateProductForm createProductForm, BindingResult bindingResult) {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         productService.createProduct(createProductForm);
         apiMessageDto.setMessage("Create product success");

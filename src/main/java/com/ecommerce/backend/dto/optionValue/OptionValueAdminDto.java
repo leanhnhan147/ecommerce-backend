@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class OptionValueAdminDto extends BasicAdminDto {
-    private String value;
     private String displayName;
     private OptionDto option;
 }
