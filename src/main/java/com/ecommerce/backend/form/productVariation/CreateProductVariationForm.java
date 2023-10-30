@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 public class CreateProductVariationForm {
     @NotNull(message = "price can not be null")
     @ApiModelProperty(name = "price", required = true)
-    private Integer price;
+    private Double[] price;
 
     @NotNull(message = "state can not be null")
     @ApiModelProperty(name = "state", required = true)
@@ -19,7 +19,7 @@ public class CreateProductVariationForm {
     @ApiModelProperty(name = "productId", required = true)
     private Long productId;
 
-    @NotNull(message = "optionValues can not be null")
-    @ApiModelProperty(name = "optionValues", required = true)
-    private Long[] optionValues;
+    @NotNull(message = "optionVariationForms can not be null")
+    @ApiModelProperty(name = "optionVariationForms", required = true)
+    private Long[][] optionValues;
 }

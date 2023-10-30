@@ -65,17 +65,23 @@ public class ProductVariationServiceImpl implements ProductVariationService {
         if(product == null) {
             throw new NotFoundException("Not found product");
         }
-        ProductVariation productVariation = productVariationMapper.fromCreateProductVariationFormToEntity(createProductVariationForm);
-        productVariation.setProduct(product);
-        productVariationRepository.save(productVariation);
 
         for(int i = 0; i < createProductVariationForm.getOptionValues().length; i++){
-            OptionValue optionValue = optionValueRepository.findById(createProductVariationForm.getOptionValues()[i]).orElse(null);
-            if(optionValue != null){
-                ProductVariationOptionValue productVariationOptionValue = new ProductVariationOptionValue();
-                productVariationOptionValue.setProductVariation(productVariation);
-                productVariationOptionValue.setOptionValue(optionValue);
-                productVariationOptionValueRepository.save(productVariationOptionValue);
+            ProductVariation productVariation = new ProductVariation();
+            productVariation.setPrice(createProductVariationForm.getPrice()[i]);
+            productVariation.setProduct(product);
+            productVariation.setState(createProductVariationForm.getState());
+            productVariationRepository.save(productVariation);
+
+            Long[] optionValues = createProductVariationForm.getOptionValues()[i];
+            for(int j = 0; j < optionValues.length; j++){
+                OptionValue optionValue = optionValueRepository.findById(optionValues[j]).orElse(null);
+                if(optionValue != null) {
+                    ProductVariationOptionValue productVariationOptionValue = new ProductVariationOptionValue();
+                    productVariationOptionValue.setProductVariation(productVariation);
+                    productVariationOptionValue.setOptionValue(optionValue);
+                    productVariationOptionValueRepository.save(productVariationOptionValue);
+                }
             }
         }
     }
