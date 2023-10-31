@@ -2,14 +2,12 @@ package com.ecommerce.backend.controller;
 
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.option.OptionAdminDto;
+import com.ecommerce.backend.dto.login.LoginDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
-import com.ecommerce.backend.form.option.CreateOptionForm;
-import com.ecommerce.backend.form.option.UpdateOptionForm;
+import com.ecommerce.backend.form.login.LoginForm;
 import com.ecommerce.backend.form.user.CreateUserForm;
 import com.ecommerce.backend.form.user.UpdateUserForm;
 import com.ecommerce.backend.service.UserService;
-import com.ecommerce.backend.storage.criteria.OptionCriteria;
 import com.ecommerce.backend.storage.criteria.UserCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +57,14 @@ public class UserController {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         userService.updateUser(updateUserForm);
         apiMessageDto.setMessage("Update user success");
+        return apiMessageDto;
+    }
+
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<LoginDto> login(@Valid @RequestBody LoginForm loginForm, BindingResult bindingResult) {
+        ApiMessageDto<LoginDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(userService.login(loginForm));
+        apiMessageDto.setMessage("Login success");
         return apiMessageDto;
     }
 }
