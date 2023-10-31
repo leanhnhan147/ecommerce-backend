@@ -21,7 +21,7 @@ public class OptionValue extends Auditable {
 
     private String displayName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "option_id")
     private Option option;
 }

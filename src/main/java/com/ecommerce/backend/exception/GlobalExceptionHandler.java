@@ -28,6 +28,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiMessageDto, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({AlreadyExistsException.class})
+    public ResponseEntity<ApiMessageDto<String>> alreadyExistsExceptionHandler(AlreadyExistsException ex) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setResult(false);
+        apiMessageDto.setMessage(ex.getMessage());
+        return new ResponseEntity<>(apiMessageDto, HttpStatus.OK);
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     @ResponseBody
@@ -48,5 +56,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             apiMessageDto.setMessage("[Ex2]: " + ex.getMessage());
         }
         return apiMessageDto;
+    }
+
+    @ExceptionHandler({LoginException.class})
+    public ResponseEntity<ApiMessageDto<String>> loginExceptionHandler(LoginException ex) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setResult(false);
+        apiMessageDto.setMessage(ex.getMessage());
+        return new ResponseEntity<>(apiMessageDto, HttpStatus.OK);
     }
 }
