@@ -27,7 +27,7 @@ public class ProductVariation extends Auditable {
     private Integer stock;
     private Integer state;  // 1: available  2: sold out    3: lock
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
