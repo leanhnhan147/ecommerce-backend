@@ -1,9 +1,11 @@
 package com.ecommerce.backend.controller;
 
+import com.ecommerce.backend.config.security.CustomUserDetails;
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.login.LoginDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
+import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.form.login.LoginForm;
 import com.ecommerce.backend.form.user.CreateUserForm;
 import com.ecommerce.backend.form.user.UpdateUserForm;
@@ -13,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,6 +68,14 @@ public class UserController {
         ApiMessageDto<LoginDto> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(userService.login(loginForm));
         apiMessageDto.setMessage("Login success");
+        return apiMessageDto;
+    }
+
+    @GetMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<UserDto> get(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        ApiMessageDto<UserDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(userService.getProfile(userDetails.getUser().getId()));
+        apiMessageDto.setMessage("Get profile success");
         return apiMessageDto;
     }
 }

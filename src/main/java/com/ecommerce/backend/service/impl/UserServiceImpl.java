@@ -3,6 +3,7 @@ package com.ecommerce.backend.service.impl;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.login.LoginDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
+import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.exception.AlreadyExistsException;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.exception.LoginException;
@@ -131,5 +132,14 @@ public class UserServiceImpl implements UserService {
         loginDto.setAccessToken(token);
 
         return loginDto;
+    }
+
+    @Override
+    public UserDto getProfile(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if(user == null){
+            throw new NotFoundException("Not found user");
+        }
+        return userMapper.fromEntityToUserProfileDto(user);
     }
 }
