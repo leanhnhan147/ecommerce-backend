@@ -9,6 +9,7 @@ import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.exception.LoginException;
 import com.ecommerce.backend.form.login.LoginForm;
 import com.ecommerce.backend.form.user.CreateUserForm;
+import com.ecommerce.backend.form.user.UpdateProfileUserForm;
 import com.ecommerce.backend.form.user.UpdateUserForm;
 import com.ecommerce.backend.mapper.UserMapper;
 import com.ecommerce.backend.repository.RoleRepository;
@@ -141,5 +142,24 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException("Not found user");
         }
         return userMapper.fromEntityToUserProfileDto(user);
+    }
+
+    @Override
+    public void updateProfile(Long id, UpdateProfileUserForm updateProfileUserForm) {
+        User user = userRepository.findById(id).orElse(null);
+        if(user == null){
+            throw new NotFoundException("Not found user");
+        }
+        if(!passwordEncoder.matches(updateProfileUserForm.getOldPassword(), user.getPassword())){
+            throw new LoginException("Old password is incorrect");
+        }
+        if (StringUtils.isNoneBlank(updateProfileUserForm.getNewPassword())) {
+            if(!updateProfileUserForm.getNewPassword().equals(updateProfileUserForm.getConfirmNewPassword())){
+                throw new LoginException("Confirm new password mismatches");
+            }
+            user.setPassword(passwordEncoder.encode(updateProfileUserForm.getNewPassword()));
+        }
+        userMapper.fromUpdateProfileUserFormToEntity(updateProfileUserForm, user);
+        userRepository.save(user);
     }
 }

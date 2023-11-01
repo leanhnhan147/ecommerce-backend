@@ -8,6 +8,7 @@ import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.form.login.LoginForm;
 import com.ecommerce.backend.form.user.CreateUserForm;
+import com.ecommerce.backend.form.user.UpdateProfileUserForm;
 import com.ecommerce.backend.form.user.UpdateUserForm;
 import com.ecommerce.backend.service.UserService;
 import com.ecommerce.backend.storage.criteria.UserCriteria;
@@ -76,6 +77,16 @@ public class UserController {
         ApiMessageDto<UserDto> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(userService.getProfile(userDetails.getUser().getId()));
         apiMessageDto.setMessage("Get profile success");
+        return apiMessageDto;
+    }
+
+    @PutMapping(value = "/update-profile", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<String> updateProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                               @Valid @RequestBody UpdateProfileUserForm updateProfileUserForm,
+                                               BindingResult bindingResult) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        userService.updateProfile(userDetails.getUser().getId(), updateProfileUserForm);
+        apiMessageDto.setMessage("Update profile success");
         return apiMessageDto;
     }
 }

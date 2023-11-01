@@ -3,6 +3,7 @@ package com.ecommerce.backend.mapper;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.form.user.CreateUserForm;
+import com.ecommerce.backend.form.user.UpdateProfileUserForm;
 import com.ecommerce.backend.form.user.UpdateUserForm;
 import com.ecommerce.backend.storage.entity.User;
 import org.mapstruct.*;
@@ -60,4 +61,11 @@ public interface UserMapper {
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToUserProfileDto")
     UserDto fromEntityToUserProfileDto(User user);
+
+    @Mapping(source = "fullName", target = "fullName")
+    @Mapping(source = "avatar", target = "avatar")
+    @Mapping(source = "birhday", target = "birhday")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromUpdateProfileUserFormToEntity")
+    void fromUpdateProfileUserFormToEntity(UpdateProfileUserForm updateProfileUserForm, @MappingTarget User user);
 }
