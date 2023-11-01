@@ -3,6 +3,7 @@ package com.ecommerce.backend.controller;
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.optionValue.OptionValueAdminDto;
+import com.ecommerce.backend.dto.optionValue.OptionValueDto;
 import com.ecommerce.backend.form.optionValue.CreateOptionValueForm;
 import com.ecommerce.backend.form.optionValue.UpdateOptionValueForm;
 import com.ecommerce.backend.service.OptionValueService;
@@ -43,9 +44,9 @@ public class OptionValueController {
     }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<String> create(@Valid @RequestBody CreateOptionValueForm createOptionValueForm, BindingResult bindingResult) {
-        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        optionValueService.createOptionValue(createOptionValueForm);
+    public ApiMessageDto<OptionValueDto> create(@Valid @RequestBody CreateOptionValueForm createOptionValueForm, BindingResult bindingResult) {
+        ApiMessageDto<OptionValueDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(optionValueService.createOptionValue(createOptionValueForm));
         apiMessageDto.setMessage("Create option value success");
         return apiMessageDto;
     }

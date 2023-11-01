@@ -51,7 +51,7 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public void createOption(CreateOptionForm createOptionForm) {
+    public OptionDto createOption(CreateOptionForm createOptionForm) {
         Category category = categoryRepository.findById(createOptionForm.getCategoryId()).orElse(null);
         if(category == null) {
             throw new NotFoundException("Not found option");
@@ -59,6 +59,10 @@ public class OptionServiceImpl implements OptionService {
         Option option = optionMapper.fromCreateOptionFormToEntity(createOptionForm);
         option.setCategory(category);
         optionRepository.save(option);
+
+        OptionDto optionDto = new OptionDto();
+        optionDto.setId(option.getId());
+        return optionDto;
     }
 
     @Override
