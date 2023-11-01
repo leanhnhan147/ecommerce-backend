@@ -58,8 +58,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return apiMessageDto;
     }
 
-    @ExceptionHandler({LoginException.class})
-    public ResponseEntity<ApiMessageDto<String>> loginExceptionHandler(LoginException ex) {
+    @ExceptionHandler({RequestException.class})
+    public ResponseEntity<ApiMessageDto<String>> requestExceptionHandler(RequestException ex) {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setResult(false);
         apiMessageDto.setMessage(ex.getMessage());

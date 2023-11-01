@@ -6,7 +6,7 @@ import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.exception.AlreadyExistsException;
 import com.ecommerce.backend.exception.NotFoundException;
-import com.ecommerce.backend.exception.LoginException;
+import com.ecommerce.backend.exception.RequestException;
 import com.ecommerce.backend.form.login.LoginForm;
 import com.ecommerce.backend.form.user.CreateUserForm;
 import com.ecommerce.backend.form.user.UpdateProfileUserForm;
@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
     public LoginDto login(LoginForm loginForm) {
         Optional<User> user = userRepository.findByUsername(loginForm.getUsername());
         if(user.isEmpty() || !passwordEncoder.matches((loginForm.getPassword()), user.get().getPassword())){
-            throw new LoginException("Username or password is invalid");
+            throw new RequestException("Username or password is invalid");
         }
 
         authenticationManager
@@ -151,11 +151,11 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException("Not found user");
         }
         if(!passwordEncoder.matches(updateProfileUserForm.getOldPassword(), user.getPassword())){
-            throw new LoginException("Old password is incorrect");
+            throw new RequestException("Old password is incorrect");
         }
         if (StringUtils.isNoneBlank(updateProfileUserForm.getNewPassword())) {
             if(!updateProfileUserForm.getNewPassword().equals(updateProfileUserForm.getConfirmNewPassword())){
-                throw new LoginException("Confirm new password mismatches");
+                throw new RequestException("Confirm new password mismatches");
             }
             user.setPassword(passwordEncoder.encode(updateProfileUserForm.getNewPassword()));
         }
