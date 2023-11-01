@@ -1,11 +1,15 @@
 package com.ecommerce.backend.utils;
 
+import com.ecommerce.backend.config.security.CustomUserDetails;
 import com.ecommerce.backend.constant.SecurityConstants;
+import com.ecommerce.backend.storage.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
@@ -17,6 +21,19 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class JwtUtils {
+
+    public static User getPrincipal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = null;
+        if (authentication != null) {
+            principal = authentication.getPrincipal();
+        }
+        if(!principal.equals("anonymousUser")){
+            CustomUserDetails userDetails = (CustomUserDetails) principal;
+            return userDetails.getUser();
+        }
+        return null;
+    }
 
     public static String getJwtFromRequest(HttpServletRequest request) {
         String headerAuth = request.getHeader(SecurityConstants.HEADER_STRING);
