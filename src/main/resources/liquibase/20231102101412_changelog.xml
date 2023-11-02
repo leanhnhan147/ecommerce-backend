@@ -1,0 +1,84 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="LENOVO (generated)" id="1698920058101-1">
+        <dropNotNullConstraint columnDataType="boolean" columnName="has_children" tableName="category"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-2">
+        <addDefaultValue columnDataType="boolean" columnName="has_children" defaultValueComputed="0" tableName="category"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-3">
+        <createTable tableName="test">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="testPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT"/>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-4">
+        <addUniqueConstraint columnNames="email" constraintName="UC_USERSEMAIL_COL" tableName="users"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-5">
+        <addUniqueConstraint columnNames="phone" constraintName="UC_USERSPHONE_COL" tableName="users"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-6">
+        <addUniqueConstraint columnNames="username" constraintName="UC_USERSUSERNAME_COL" tableName="users"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-7">
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="product" constraintName="FK1mtsbur82frn64de7balymq9s" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="category" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-8">
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="category" constraintName="FK2y94svpmqttx80mshyny85wqr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="category" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-9">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="users" constraintName="FK4qu1gr772nnf6ve5af002rwya" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-10">
+        <addForeignKeyConstraint baseColumnNames="product_variation_id" baseTableName="product_variation_option_value" constraintName="FK4wy221c0b9vioxv3rkc3rgqw4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_variation" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-11">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_image" constraintName="FK6oo0cvcdtb6qmwsga468uuukk" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-12">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_permission" constraintName="FKa6jx8n8xkesmjmv6jqug6bg68" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-13">
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="options" constraintName="FKbfl6u2il5f7hqlci9atnkhimq" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="category" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-14">
+        <addForeignKeyConstraint baseColumnNames="permission_id" baseTableName="role_permission" constraintName="FKf8yllw1ecvwqy3ehyxawqa1qp" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="permission" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-15">
+        <addForeignKeyConstraint baseColumnNames="option_value_id" baseTableName="product_variation_option_value" constraintName="FKf95t6tyejusmamx6npoo6rt4v" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="option_value" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-16">
+        <addForeignKeyConstraint baseColumnNames="media_resource_id" baseTableName="product_image" constraintName="FKfmh6153qx1y37bajbbyxat4xn" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="media_resource" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-17">
+        <addForeignKeyConstraint baseColumnNames="option_id" baseTableName="product_option" constraintName="FKkctfrsccrhni1gmk1q40igvs4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="options" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-18">
+        <addForeignKeyConstraint baseColumnNames="group_permission_id" baseTableName="permission" constraintName="FKl0g1qs5ms3pe8ktmeiep8vcdx" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="group_permission" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-19">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_option" constraintName="FKn4hmm6ex1vgn60c6uiqte400f" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-20">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_variation" constraintName="FKpryf02se86hpv5v7xn5afye4v" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1698920058101-21">
+        <addForeignKeyConstraint baseColumnNames="option_id" baseTableName="option_value" constraintName="FKrbn71u0py72dx5gv09hdbeham" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="options" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

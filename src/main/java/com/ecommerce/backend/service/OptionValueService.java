@@ -2,6 +2,7 @@ package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.optionValue.OptionValueAdminDto;
+import com.ecommerce.backend.dto.optionValue.OptionValueDto;
 import com.ecommerce.backend.form.optionValue.CreateOptionValueForm;
 import com.ecommerce.backend.form.optionValue.UpdateOptionValueForm;
 import com.ecommerce.backend.storage.criteria.OptionValueCriteria;
@@ -15,7 +16,7 @@ public interface OptionValueService {
 
     ResponseListDto<List<OptionValueAdminDto>> getOptionValueList(OptionValueCriteria optionValueCriteria, Pageable pageable);
 
-    void createOptionValue(CreateOptionValueForm createOptionValueForm);
+    OptionValueDto createOptionValue(CreateOptionValueForm createOptionValueForm);
 
     void updateOptionValue(UpdateOptionValueForm updateOptionValueForm);
 }
