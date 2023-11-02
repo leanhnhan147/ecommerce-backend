@@ -44,9 +44,9 @@ public class OptionController {
     }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<String> create(@Valid @RequestBody CreateOptionForm createOptionForm, BindingResult bindingResult) {
-        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        optionService.createOption(createOptionForm);
+    public ApiMessageDto<OptionDto> create(@Valid @RequestBody CreateOptionForm createOptionForm, BindingResult bindingResult) {
+        ApiMessageDto<OptionDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(optionService.createOption(createOptionForm));
         apiMessageDto.setMessage("Create option success");
         return apiMessageDto;
     }

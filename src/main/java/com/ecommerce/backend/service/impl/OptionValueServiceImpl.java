@@ -2,6 +2,7 @@ package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.optionValue.OptionValueAdminDto;
+import com.ecommerce.backend.dto.optionValue.OptionValueDto;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.optionValue.CreateOptionValueForm;
 import com.ecommerce.backend.form.optionValue.UpdateOptionValueForm;
@@ -50,7 +51,7 @@ public class OptionValueServiceImpl implements OptionValueService {
     }
 
     @Override
-    public void createOptionValue(CreateOptionValueForm createOptionValueForm) {
+    public OptionValueDto createOptionValue(CreateOptionValueForm createOptionValueForm) {
         Option option = optionRepository.findById(createOptionValueForm.getOptionId()).orElse(null);
         if(option == null){
             throw new NotFoundException("Not found option");
@@ -58,6 +59,9 @@ public class OptionValueServiceImpl implements OptionValueService {
         OptionValue optionValue = optionValueMapper.fromCreateOptionValueFormToEntity(createOptionValueForm);
         optionValue.setOption(option);
         optionValueRepository.save(optionValue);
+        OptionValueDto optionValueDto = new OptionValueDto();
+        optionValueDto.setId(optionValue.getId());
+        return optionValueDto;
     }
 
     @Override

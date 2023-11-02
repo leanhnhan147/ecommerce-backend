@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "product")
-public class Product extends Auditable {
+public class Product extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,7 +40,7 @@ public class Product extends Auditable {
     private Double averageRating;
     private Integer stock;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 

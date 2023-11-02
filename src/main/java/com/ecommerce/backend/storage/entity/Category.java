@@ -15,14 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "category")
-public class Category extends Auditable {
+public class Category extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private Integer level;
-    @Column(columnDefinition = "bit default 0 not null")
     private Boolean hasChildren = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
