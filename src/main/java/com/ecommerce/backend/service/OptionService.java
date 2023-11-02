@@ -16,7 +16,7 @@ public interface OptionService {
 
     ResponseListDto<List<OptionAdminDto>> getOptionList(OptionCriteria optionCriteria, Pageable pageable);
 
-    void createOption(CreateOptionForm createOptionForm);
+    OptionDto createOption(CreateOptionForm createOptionForm);
 
     void updateOption(UpdateOptionForm updateOptionForm);
 

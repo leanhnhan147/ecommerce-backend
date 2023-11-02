@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "product_variation_option_value")
-public class ProductVariationOptionValue extends Auditable {
+public class ProductVariationOptionValue extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,20 +1,22 @@
 package com.ecommerce.backend.controller;
 
+import com.ecommerce.backend.config.security.CustomUserDetails;
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.option.OptionAdminDto;
+import com.ecommerce.backend.dto.login.LoginDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
-import com.ecommerce.backend.form.option.CreateOptionForm;
-import com.ecommerce.backend.form.option.UpdateOptionForm;
+import com.ecommerce.backend.dto.user.UserDto;
+import com.ecommerce.backend.form.login.LoginForm;
 import com.ecommerce.backend.form.user.CreateUserForm;
+import com.ecommerce.backend.form.user.UpdateProfileUserForm;
 import com.ecommerce.backend.form.user.UpdateUserForm;
 import com.ecommerce.backend.service.UserService;
-import com.ecommerce.backend.storage.criteria.OptionCriteria;
 import com.ecommerce.backend.storage.criteria.UserCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,6 +61,32 @@ public class UserController {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         userService.updateUser(updateUserForm);
         apiMessageDto.setMessage("Update user success");
+        return apiMessageDto;
+    }
+
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<LoginDto> login(@Valid @RequestBody LoginForm loginForm, BindingResult bindingResult) {
+        ApiMessageDto<LoginDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(userService.login(loginForm));
+        apiMessageDto.setMessage("Login success");
+        return apiMessageDto;
+    }
+
+    @GetMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<UserDto> get(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        ApiMessageDto<UserDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(userService.getProfile(userDetails.getUser().getId()));
+        apiMessageDto.setMessage("Get profile success");
+        return apiMessageDto;
+    }
+
+    @PutMapping(value = "/update-profile", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<String> updateProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                               @Valid @RequestBody UpdateProfileUserForm updateProfileUserForm,
+                                               BindingResult bindingResult) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        userService.updateProfile(userDetails.getUser().getId(), updateProfileUserForm);
+        apiMessageDto.setMessage("Update profile success");
         return apiMessageDto;
     }
 }

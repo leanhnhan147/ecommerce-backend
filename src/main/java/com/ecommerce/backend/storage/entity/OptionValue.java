@@ -14,14 +14,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "option_value")
-public class OptionValue extends Auditable {
+public class OptionValue extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String displayName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "option_id")
     private Option option;
 }
