@@ -22,7 +22,6 @@ public class Category extends Auditable<String> {
 
     private String name;
     private Integer level;
-    @Column(columnDefinition = "bit default 0 not null")
     private Boolean hasChildren = false;
 
     @ManyToOne(fetch = FetchType.LAZY)

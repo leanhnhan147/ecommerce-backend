@@ -1,68 +1,75 @@
-2023.11.02 14:09:50.624 [INFO] com.ecommerce.backend.EcommerceBackendApplication: Starting EcommerceBackendApplication on LAPTOP-OHDAKCI8 with PID 2428 (D:\JavaWebBackEnd\vti-workspace\ecommerce-be\target\classes started by LENOVO in D:\JavaWebBackEnd\vti-workspace\ecommerce-be)
-2023.11.02 14:09:50.630 [INFO] com.ecommerce.backend.EcommerceBackendApplication: No active profile set, falling back to default profiles: default
-2023.11.02 14:09:50.663 [INFO] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2023.11.02 14:09:50.663 [INFO] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2023.11.02 14:09:51.407 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate: Bootstrapping Spring Data JPA repositories in DEFERRED mode.
-2023.11.02 14:09:51.507 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate: Finished Spring Data repository scanning in 94ms. Found 13 JPA repository interfaces.
-2023.11.02 14:09:51.881 [INFO] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker: Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@7ac6f2e6' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023.11.02 14:09:51.889 [INFO] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker: Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2023.11.02 14:09:52.186 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer: Tomcat initialized with port(s): 8484 (http)
-2023.11.02 14:09:52.194 [INFO] org.apache.coyote.http11.Http11NioProtocol: Initializing ProtocolHandler ["http-nio-8484"]
-2023.11.02 14:09:52.195 [INFO] org.apache.catalina.core.StandardService: Starting service [Tomcat]
-2023.11.02 14:09:52.195 [INFO] org.apache.catalina.core.StandardEngine: Starting Servlet engine: [Apache Tomcat/9.0.35]
-2023.11.02 14:09:52.294 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]: Initializing Spring embedded WebApplicationContext
-2023.11.02 14:09:52.446 [INFO] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor: Initializing ExecutorService 'applicationTaskExecutor'
-2023.11.02 14:09:52.487 [INFO] org.hibernate.jpa.internal.util.LogHelper: HHH000204: Processing PersistenceUnitInfo [name: default]
-2023.11.02 14:09:52.529 [INFO] org.hibernate.Version: HHH000412: Hibernate ORM core version 5.6.15.Final
-2023.11.02 14:09:52.537 [WARN] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2023.11.02 14:09:52.635 [INFO] org.hibernate.annotations.common.Version: HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2023.11.02 14:09:52.737 [INFO] com.zaxxer.hikari.HikariDataSource: HikariPool-1 - Starting...
-2023.11.02 14:09:52.969 [INFO] com.zaxxer.hikari.HikariDataSource: HikariPool-1 - Start completed.
-2023.11.02 14:09:52.995 [INFO] org.hibernate.dialect.Dialect: HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2023.11.02 14:09:53.021 [INFO] org.hibernate.envers.boot.internal.EnversServiceImpl: Envers integration enabled? : true
-2023.11.02 14:09:53.746 [INFO] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2023.11.02 14:09:53.753 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean: Initialized JPA EntityManagerFactory for persistence unit 'default'
-2023.11.02 14:09:54.043 [INFO] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer: LiveReload server is running on port 35729
-2023.11.02 14:09:54.096 [INFO] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping: Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2023.11.02 14:09:54.243 [INFO] org.springframework.security.web.DefaultSecurityFilterChain: Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@11a9a595, org.springframework.security.web.context.SecurityContextPersistenceFilter@63ad2fa6, org.springframework.security.web.header.HeaderWriterFilter@fc27429, org.springframework.web.filter.CorsFilter@90b8014, org.springframework.security.web.authentication.logout.LogoutFilter@af60f5c, com.ecommerce.backend.config.security.JwtAuthenticationFilter@7171e4d2, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@16fdb8cd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@22106801, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4517b76f, org.springframework.security.web.session.SessionManagementFilter@5ac22543, org.springframework.security.web.access.ExceptionTranslationFilter@3cb1daab, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@741f867d]
-2023.11.02 14:09:54.506 [INFO] org.apache.coyote.http11.Http11NioProtocol: Starting ProtocolHandler ["http-nio-8484"]
-2023.11.02 14:09:54.522 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer: Tomcat started on port(s): 8484 (http) with context path ''
-2023.11.02 14:09:54.523 [INFO] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper: Context refreshed
-2023.11.02 14:09:54.536 [INFO] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper: Found 1 custom documentation plugin(s)
-2023.11.02 14:09:54.553 [INFO] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner: Scanning for api listing references
-2023.11.02 14:09:54.653 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_1
-2023.11.02 14:09:54.657 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_1
-2023.11.02 14:09:54.663 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_1
-2023.11.02 14:09:54.665 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_1
-2023.11.02 14:09:54.669 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_2
-2023.11.02 14:09:54.672 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_2
-2023.11.02 14:09:54.678 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_2
-2023.11.02 14:09:54.681 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListAutoCompleteUsingGET_1
-2023.11.02 14:09:54.682 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_2
-2023.11.02 14:09:54.686 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_3
-2023.11.02 14:09:54.689 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_3
-2023.11.02 14:09:54.694 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_3
-2023.11.02 14:09:54.696 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_3
-2023.11.02 14:09:54.698 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_4
-2023.11.02 14:09:54.701 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_4
-2023.11.02 14:09:54.706 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_4
-2023.11.02 14:09:54.708 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_4
-2023.11.02 14:09:54.718 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_5
-2023.11.02 14:09:54.732 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_5
-2023.11.02 14:09:54.735 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_5
-2023.11.02 14:09:54.739 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_5
-2023.11.02 14:09:54.743 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_6
-2023.11.02 14:09:54.751 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_6
-2023.11.02 14:09:54.754 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_6
-2023.11.02 14:09:54.757 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_6
-2023.11.02 14:09:54.761 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_7
-2023.11.02 14:09:54.766 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_7
-2023.11.02 14:09:54.769 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_7
-2023.11.02 14:09:54.777 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_7
-2023.11.02 14:09:54.782 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_8
-2023.11.02 14:09:54.794 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_9
-2023.11.02 14:09:54.799 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_8
-2023.11.02 14:09:54.804 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_8
-2023.11.02 14:09:54.816 [INFO] org.springframework.data.repository.config.DeferredRepositoryInitializationListener: Triggering deferred initialization of Spring Data repositories…
-2023.11.02 14:09:55.047 [INFO] org.springframework.data.repository.config.DeferredRepositoryInitializationListener: Spring Data repositories initialized!
-2023.11.02 14:09:55.054 [INFO] com.ecommerce.backend.EcommerceBackendApplication: Started EcommerceBackendApplication in 4.665 seconds (JVM running for 5.644)
+2023.11.02 17:54:06.042 [INFO] com.ecommerce.backend.EcommerceBackendApplication: Starting EcommerceBackendApplication on LAPTOP-OHDAKCI8 with PID 22016 (D:\JavaWebBackEnd\vti-workspace\ecommerce-be\target\classes started by LENOVO in D:\JavaWebBackEnd\vti-workspace\ecommerce-be)
+2023.11.02 17:54:06.046 [INFO] com.ecommerce.backend.EcommerceBackendApplication: No active profile set, falling back to default profiles: default
+2023.11.02 17:54:06.079 [INFO] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023.11.02 17:54:06.079 [INFO] org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023.11.02 17:54:06.820 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate: Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2023.11.02 17:54:06.920 [INFO] org.springframework.data.repository.config.RepositoryConfigurationDelegate: Finished Spring Data repository scanning in 94ms. Found 13 JPA repository interfaces.
+2023.11.02 17:54:07.285 [INFO] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker: Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@4983589' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023.11.02 17:54:07.292 [INFO] org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker: Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023.11.02 17:54:07.585 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer: Tomcat initialized with port(s): 8484 (http)
+2023.11.02 17:54:07.593 [INFO] org.apache.coyote.http11.Http11NioProtocol: Initializing ProtocolHandler ["http-nio-8484"]
+2023.11.02 17:54:07.593 [INFO] org.apache.catalina.core.StandardService: Starting service [Tomcat]
+2023.11.02 17:54:07.594 [INFO] org.apache.catalina.core.StandardEngine: Starting Servlet engine: [Apache Tomcat/9.0.35]
+2023.11.02 17:54:07.687 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]: Initializing Spring embedded WebApplicationContext
+2023.11.02 17:54:07.731 [INFO] com.zaxxer.hikari.HikariDataSource: HikariPool-1 - Starting...
+2023.11.02 17:54:07.990 [INFO] com.zaxxer.hikari.HikariDataSource: HikariPool-1 - Start completed.
+2023.11.02 17:54:07.995 [INFO] org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration: H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/db_ecommerce_webapp'
+2023.11.02 17:54:08.436 [INFO] liquibase.lockservice: Successfully acquired change log lock
+2023.11.02 17:54:08.760 [INFO] liquibase.changelog: Reading from db_ecommerce_webapp.DATABASECHANGELOG
+2023.11.02 17:54:08.839 [INFO] liquibase.changelog: Table test dropped
+2023.11.02 17:54:08.840 [INFO] liquibase.changelog: ChangeSet liquibase/20231102105249_changelog.xml::1698922375062-1::LENOVO (generated) ran successfully in 8ms
+2023.11.02 17:54:08.847 [INFO] liquibase.lockservice: Successfully released change log lock
+2023.11.02 17:54:08.905 [INFO] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor: Initializing ExecutorService 'applicationTaskExecutor'
+2023.11.02 17:54:08.941 [INFO] org.hibernate.jpa.internal.util.LogHelper: HHH000204: Processing PersistenceUnitInfo [name: default]
+2023.11.02 17:54:08.986 [INFO] org.hibernate.Version: HHH000412: Hibernate ORM core version 5.6.15.Final
+2023.11.02 17:54:08.990 [WARN] org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023.11.02 17:54:09.096 [INFO] org.hibernate.annotations.common.Version: HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023.11.02 17:54:09.191 [INFO] org.hibernate.dialect.Dialect: HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2023.11.02 17:54:09.217 [INFO] org.hibernate.envers.boot.internal.EnversServiceImpl: Envers integration enabled? : true
+2023.11.02 17:54:09.841 [INFO] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023.11.02 17:54:09.848 [INFO] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean: Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023.11.02 17:54:10.140 [INFO] springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping: Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2023.11.02 17:54:10.267 [INFO] org.springframework.security.web.DefaultSecurityFilterChain: Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@27bd4921, org.springframework.security.web.context.SecurityContextPersistenceFilter@36673090, org.springframework.security.web.header.HeaderWriterFilter@ad1d831, org.springframework.web.filter.CorsFilter@d6ffd8b, org.springframework.security.web.authentication.logout.LogoutFilter@648d0324, com.ecommerce.backend.config.security.JwtAuthenticationFilter@49a2b55a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@295cf318, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4451f6b9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@221fca1d, org.springframework.security.web.session.SessionManagementFilter@78605d4c, org.springframework.security.web.access.ExceptionTranslationFilter@798a593a, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@36419bc5]
+2023.11.02 17:54:10.405 [INFO] org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer: LiveReload server is running on port 35729
+2023.11.02 17:54:10.560 [INFO] org.apache.coyote.http11.Http11NioProtocol: Starting ProtocolHandler ["http-nio-8484"]
+2023.11.02 17:54:10.575 [INFO] org.springframework.boot.web.embedded.tomcat.TomcatWebServer: Tomcat started on port(s): 8484 (http) with context path ''
+2023.11.02 17:54:10.576 [INFO] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper: Context refreshed
+2023.11.02 17:54:10.589 [INFO] springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper: Found 1 custom documentation plugin(s)
+2023.11.02 17:54:10.605 [INFO] springfox.documentation.spring.web.scanners.ApiListingReferenceScanner: Scanning for api listing references
+2023.11.02 17:54:10.717 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_1
+2023.11.02 17:54:10.721 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_1
+2023.11.02 17:54:10.727 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_1
+2023.11.02 17:54:10.729 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_1
+2023.11.02 17:54:10.733 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_2
+2023.11.02 17:54:10.736 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_2
+2023.11.02 17:54:10.742 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_2
+2023.11.02 17:54:10.744 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListAutoCompleteUsingGET_1
+2023.11.02 17:54:10.746 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_2
+2023.11.02 17:54:10.749 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_3
+2023.11.02 17:54:10.752 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_3
+2023.11.02 17:54:10.756 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_3
+2023.11.02 17:54:10.758 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_3
+2023.11.02 17:54:10.760 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_4
+2023.11.02 17:54:10.763 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_4
+2023.11.02 17:54:10.774 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_4
+2023.11.02 17:54:10.776 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_4
+2023.11.02 17:54:10.783 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_5
+2023.11.02 17:54:10.790 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_5
+2023.11.02 17:54:10.792 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_5
+2023.11.02 17:54:10.794 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_5
+2023.11.02 17:54:10.797 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_6
+2023.11.02 17:54:10.803 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_6
+2023.11.02 17:54:10.804 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_6
+2023.11.02 17:54:10.806 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_6
+2023.11.02 17:54:10.809 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_7
+2023.11.02 17:54:10.813 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_7
+2023.11.02 17:54:10.814 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_7
+2023.11.02 17:54:10.820 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: createUsingPOST_7
+2023.11.02 17:54:10.823 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_8
+2023.11.02 17:54:10.832 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getUsingGET_9
+2023.11.02 17:54:10.836 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: getListUsingGET_8
+2023.11.02 17:54:10.839 [INFO] springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: Generating unique operation named: updateUsingPUT_8
+2023.11.02 17:54:10.848 [INFO] org.springframework.data.repository.config.DeferredRepositoryInitializationListener: Triggering deferred initialization of Spring Data repositories…
+2023.11.02 17:54:11.079 [INFO] org.springframework.data.repository.config.DeferredRepositoryInitializationListener: Spring Data repositories initialized!
+2023.11.02 17:54:11.086 [INFO] com.ecommerce.backend.EcommerceBackendApplication: Started EcommerceBackendApplication in 5.242 seconds (JVM running for 6.305)
+2023.11.02 17:54:34.696 [INFO] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]: Initializing Spring DispatcherServlet 'dispatcherServlet'
