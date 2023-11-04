@@ -42,6 +42,7 @@ public interface ProductVariationMapper {
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "price", target = "price")
+    @Mapping(source = "stock", target = "stock")
     @Mapping(source = "productVariationOptionValues", target = "productVariationOptionValues", qualifiedByName = "fromEntityListToProductVariationOptionValueDtoList")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToProductVariationDto")

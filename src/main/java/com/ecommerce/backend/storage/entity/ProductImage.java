@@ -23,7 +23,10 @@ public class ProductImage extends Auditable<String> {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "media_resource_id")
     private MediaResource mediaResource;
+
+    @OneToOne(mappedBy = "productImage")
+    private OptionValueImage optionValueImage;
 }

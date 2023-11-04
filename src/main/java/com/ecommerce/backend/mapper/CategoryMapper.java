@@ -45,6 +45,7 @@ public interface CategoryMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "level", target = "level")
+    @Mapping(source = "hasChildren", target = "hasChildren")
     @Mapping(source = "parent", target = "parent")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToCategoryDto")

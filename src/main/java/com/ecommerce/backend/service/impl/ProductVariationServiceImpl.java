@@ -6,16 +6,10 @@ import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.productVariation.CreateProductVariationForm;
 import com.ecommerce.backend.form.productVariation.UpdateProductVariationForm;
 import com.ecommerce.backend.mapper.ProductVariationMapper;
-import com.ecommerce.backend.repository.OptionValueRepository;
-import com.ecommerce.backend.repository.ProductRepository;
-import com.ecommerce.backend.repository.ProductVariationOptionValueRepository;
-import com.ecommerce.backend.repository.ProductVariationRepository;
+import com.ecommerce.backend.repository.*;
 import com.ecommerce.backend.service.ProductVariationService;
 import com.ecommerce.backend.storage.criteria.ProductVariationCriteria;
-import com.ecommerce.backend.storage.entity.OptionValue;
-import com.ecommerce.backend.storage.entity.Product;
-import com.ecommerce.backend.storage.entity.ProductVariation;
-import com.ecommerce.backend.storage.entity.ProductVariationOptionValue;
+import com.ecommerce.backend.storage.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +31,12 @@ public class ProductVariationServiceImpl implements ProductVariationService {
 
     @Autowired
     ProductVariationOptionValueRepository productVariationOptionValueRepository;
+
+    @Autowired
+    ProductImageRepository productImageRepository;
+
+    @Autowired
+    OptionValueImageRepository optionValueImageRepository;
 
     @Autowired
     ProductVariationMapper productVariationMapper;
@@ -83,6 +83,21 @@ public class ProductVariationServiceImpl implements ProductVariationService {
                     productVariationOptionValueRepository.save(productVariationOptionValue);
                 }
             }
+        }
+
+        for (int i = 0; i < createProductVariationForm.getImageIds().length; i++){
+            OptionValue optionValue = optionValueRepository.findById(createProductVariationForm.getImageIds()[i].getOptionValueId()).orElse(null);
+            if(optionValue == null){
+                throw new NotFoundException("Not found option value");
+            }
+            ProductImage productImage = productImageRepository.findById(createProductVariationForm.getImageIds()[i].getImageId()).orElse((null));
+            if(productImage == null){
+                throw new NotFoundException("Not found image");
+            }
+            OptionValueImage optionValueImage = new OptionValueImage();
+            optionValueImage.setOptionValue(optionValue);
+            optionValueImage.setProductImage(productImage);
+            optionValueImageRepository.save(optionValueImage);
         }
     }
 

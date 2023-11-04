@@ -1,5 +1,6 @@
 package com.ecommerce.backend.form.productVariation;
 
+import com.ecommerce.backend.form.optionValueImage.CreateOptionValueImageForm;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -22,4 +23,6 @@ public class CreateProductVariationForm {
     @NotNull(message = "optionVariationForms can not be null")
     @ApiModelProperty(name = "optionVariationForms", required = true)
     private Long[][] optionValues;
+
+    private CreateOptionValueImageForm[] imageIds;
 }

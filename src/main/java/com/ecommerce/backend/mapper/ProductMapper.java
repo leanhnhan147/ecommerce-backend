@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-        uses = {CategoryMapper.class, ProductVariationMapper.class})
+        uses = {CategoryMapper.class, ProductVariationMapper.class, ProductImageMapper.class})
 public interface ProductMapper {
 
     @Mapping(source = "name", target = "name")
@@ -52,8 +52,12 @@ public interface ProductMapper {
     @Mapping(source = "avatar", target = "avatar")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "stock", target = "stock")
+    @Mapping(source = "soldCount", target = "soldCount")
+    @Mapping(source = "ratingCount", target = "ratingCount")
+    @Mapping(source = "averageRating", target = "averageRating")
     @Mapping(source = "category", target = "category", qualifiedByName = "fromEntityToCategoryDto")
     @Mapping(source = "productVariations", target = "productVariations", qualifiedByName = "fromEntityListToProductVariationDtoList")
+    @Mapping(source = "productImages", target = "productImages", qualifiedByName = "fromEntityListToProductImageDtoList")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToProductDto")
     ProductDto fromEntityToProductDto(Product product);
