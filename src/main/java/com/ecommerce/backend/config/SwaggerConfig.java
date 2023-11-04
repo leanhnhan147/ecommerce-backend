@@ -24,6 +24,7 @@ public class SwaggerConfig {
                 .useDefaultResponseMessages(false)
                 .select().apis(RequestHandlerSelectors.basePackage("com.ecommerce.backend.controller"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .pathMapping("/");
     }
 }
