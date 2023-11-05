@@ -13,7 +13,7 @@ public class UpdateProductVariationForm {
 
     @NotNull(message = "price can not be null")
     @ApiModelProperty(name = "price", required = true)
-    private Integer price;
+    private Double price;
 
     @NotNull(message = "state can not be null")
     @ApiModelProperty(name = "state", required = true)

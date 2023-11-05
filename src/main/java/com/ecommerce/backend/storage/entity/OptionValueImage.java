@@ -13,18 +13,17 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "product_variation_option_value_image")
-public class ProductVariationOptionValueImage extends Auditable {
+@Table(name = "option_value_image")
+public class OptionValueImage extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "product_variation_option_value_id")
-    private ProductVariationOptionValue productVariationOptionValue;
+    @JoinColumn(name = "option_value_id")
+    private OptionValue optionValue;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "product_image_id")
     private ProductImage productImage;
-
 }

@@ -2,6 +2,7 @@ package com.ecommerce.backend.controller;
 
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
+import com.ecommerce.backend.dto.format.product.ProductFormat;
 import com.ecommerce.backend.dto.product.ProductAdminDto;
 import com.ecommerce.backend.dto.product.ProductDto;
 import com.ecommerce.backend.form.product.CreateProductForm;
@@ -28,8 +29,8 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<ProductDto> get(@PathVariable("id") Long id) {
-        ApiMessageDto<ProductDto> apiMessageDto = new ApiMessageDto<>();
+    public ApiMessageDto<ProductFormat> get(@PathVariable("id") Long id) {
+        ApiMessageDto<ProductFormat> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(productService.getProductById(id));
         apiMessageDto.setMessage("Get product success");
         return apiMessageDto;

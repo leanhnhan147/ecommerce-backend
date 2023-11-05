@@ -19,6 +19,7 @@ public class MediaResource extends Auditable<String> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer kind; // 1: image  2: video
+    private String fileName;
     private String url;
+    private Integer kind; // 1: image  2: video
 }

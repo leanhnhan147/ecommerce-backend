@@ -32,7 +32,7 @@ public class CreateProductForm {
 
     @NotNull(message = "options can not be null")
     @ApiModelProperty(name = "options", required = true)
-    private Long[] options;
+    private Long[] optionIds;
 
     private MultipartFile[] images;
 }

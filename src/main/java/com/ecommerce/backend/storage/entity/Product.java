@@ -46,4 +46,7 @@ public class Product extends Auditable<String> {
 
     @OneToMany(mappedBy = "product")
     private List<ProductVariation> productVariations;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductImage> productImages;
 }

@@ -15,11 +15,11 @@ import java.util.List;
         uses = {ProductMapper.class, ProductVariationOptionValueMapper.class})
 public interface ProductVariationMapper {
 
-    @Mapping(source = "price", target = "price")
-    @Mapping(source = "state", target = "state")
-    @BeanMapping(ignoreByDefault = true)
-    @Named("adminCreateMapping")
-    ProductVariation fromCreateProductVariationFormToEntity(CreateProductVariationForm createProductVariationForm);
+//    @Mapping(source = "price", target = "price")
+//    @Mapping(source = "state", target = "state")
+//    @BeanMapping(ignoreByDefault = true)
+//    @Named("adminCreateMapping")
+//    ProductVariation fromCreateProductVariationFormToEntity(CreateProductVariationForm createProductVariationForm);
 
     @Mapping(source = "price", target = "price")
     @Mapping(source = "state", target = "state")
@@ -42,6 +42,7 @@ public interface ProductVariationMapper {
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "price", target = "price")
+    @Mapping(source = "stock", target = "stock")
     @Mapping(source = "productVariationOptionValues", target = "productVariationOptionValues", qualifiedByName = "fromEntityListToProductVariationOptionValueDtoList")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToProductVariationDto")
