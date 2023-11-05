@@ -36,5 +36,5 @@ public class CreateProductForm {
 
     @NotNull(message = "images can not be null")
     @ApiModelProperty(name = "images", required = true)
-        private MultipartFile[] images;
+    private MultipartFile[] images;
 }

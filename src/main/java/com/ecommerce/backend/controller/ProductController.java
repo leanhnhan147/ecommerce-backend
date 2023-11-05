@@ -45,7 +45,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/create", produces = {MediaType.APPLICATION_JSON_VALUE,
-            MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+            MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiMessageDto<String> create(@Valid CreateProductForm createProductForm, BindingResult bindingResult) {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         productService.createProduct(createProductForm);
