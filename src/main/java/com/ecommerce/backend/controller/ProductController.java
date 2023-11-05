@@ -44,7 +44,8 @@ public class ProductController {
         return responseListDtoApiMessageDto;
     }
 
-    @GetMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create", produces = {MediaType.APPLICATION_JSON_VALUE,
+            MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public ApiMessageDto<String> create(@Valid CreateProductForm createProductForm, BindingResult bindingResult) {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         productService.createProduct(createProductForm);
