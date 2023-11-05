@@ -69,6 +69,7 @@ public class ProductVariationServiceImpl implements ProductVariationService {
         for(int i = 0; i < createProductVariationForm.getOptionValues().length; i++){
             ProductVariation productVariation = new ProductVariation();
             productVariation.setPrice(createProductVariationForm.getPrice()[i]);
+            productVariation.setStock(createProductVariationForm.getStock()[i]);
             productVariation.setProduct(product);
             productVariation.setState(createProductVariationForm.getState());
             productVariationRepository.save(productVariation);

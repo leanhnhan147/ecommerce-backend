@@ -12,6 +12,10 @@ public class CreateProductVariationForm {
     @ApiModelProperty(name = "price", required = true)
     private Double[] price;
 
+    @NotNull(message = "stock can not be null")
+    @ApiModelProperty(name = "stock", required = true)
+    private Integer[] stock;
+
     @NotNull(message = "state can not be null")
     @ApiModelProperty(name = "state", required = true)
     private Integer state;
