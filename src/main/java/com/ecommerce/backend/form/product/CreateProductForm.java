@@ -14,9 +14,9 @@ public class CreateProductForm {
     @ApiModelProperty(name = "name", required = true)
     private String name;
 
-//    @NotEmpty(message = "avatar can not be null")
-//    @ApiModelProperty(name = "avatar", required = true)
-//    private String avatar;
+    @NotEmpty(message = "avatar can not be null")
+    @ApiModelProperty(name = "avatar", required = true)
+    private String avatar;
 
     @NotEmpty(message = "description can not be null")
     @ApiModelProperty(name = "description", required = true)
@@ -34,5 +34,7 @@ public class CreateProductForm {
     @ApiModelProperty(name = "options", required = true)
     private Long[] optionIds;
 
-    private MultipartFile[] images;
+    @NotNull(message = "images can not be null")
+    @ApiModelProperty(name = "images", required = true)
+        private MultipartFile[] images;
 }
