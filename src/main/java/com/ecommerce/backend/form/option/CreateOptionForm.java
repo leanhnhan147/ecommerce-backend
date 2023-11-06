@@ -12,7 +12,7 @@ public class CreateOptionForm {
     @ApiModelProperty(name = "displayName", required = true)
     private String displayName;
 
-    @NotNull(message = "categoryId can not null")
-    @ApiModelProperty(name = "categoryId", required = true)
-    private Long categoryId;
+    @NotNull(message = "categoryIds can not null")
+    @ApiModelProperty(name = "categoryIds", required = true)
+    private Long[] categoryIds;
 }

@@ -7,11 +7,13 @@ import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.option.CreateOptionForm;
 import com.ecommerce.backend.form.option.UpdateOptionForm;
 import com.ecommerce.backend.mapper.OptionMapper;
+import com.ecommerce.backend.repository.CategoryOptionRepository;
 import com.ecommerce.backend.repository.CategoryRepository;
 import com.ecommerce.backend.repository.OptionRepository;
 import com.ecommerce.backend.service.OptionService;
 import com.ecommerce.backend.storage.criteria.OptionCriteria;
 import com.ecommerce.backend.storage.entity.Category;
+import com.ecommerce.backend.storage.entity.CategoryOption;
 import com.ecommerce.backend.storage.entity.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,9 @@ public class OptionServiceImpl implements OptionService {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    CategoryOptionRepository categoryOptionRepository;
 
     @Autowired
     OptionMapper optionMapper;
@@ -52,13 +57,9 @@ public class OptionServiceImpl implements OptionService {
 
     @Override
     public OptionDto createOption(CreateOptionForm createOptionForm) {
-        Category category = categoryRepository.findById(createOptionForm.getCategoryId()).orElse(null);
-        if(category == null) {
-            throw new NotFoundException("Not found option");
-        }
         Option option = optionMapper.fromCreateOptionFormToEntity(createOptionForm);
-        option.setCategory(category);
         optionRepository.save(option);
+        createCategoryOption(option, createOptionForm.getCategoryIds());
 
         OptionDto optionDto = new OptionDto();
         optionDto.setId(option.getId());
@@ -67,12 +68,22 @@ public class OptionServiceImpl implements OptionService {
 
     @Override
     public void updateOption(UpdateOptionForm updateOptionForm) {
-        Option option = optionRepository.findById(updateOptionForm.getId()).orElse(null);
-        if(option == null){
-            throw new NotFoundException("Not found option");
-        }
+        Option option = optionRepository.findById(updateOptionForm.getId())
+                .orElseThrow(() -> new NotFoundException("Not found option"));
         optionMapper.fromUpdateOptionFormToEntity(updateOptionForm, option);
         optionRepository.save(option);
+
+        categoryOptionRepository.deleteAllByOptionId(option.getId());
+        createCategoryOption(option, updateOptionForm.getCategoryIds());
+    }
+
+    private void createCategoryOption(Option option, Long[] categoryIds){
+        for(int i = 0; i < categoryIds.length; i++){
+            Category category = categoryRepository.findById(categoryIds[i])
+                    .orElseThrow(() -> new NotFoundException("Not found category"));
+            CategoryOption categoryOption = new CategoryOption(category, option);
+            categoryOptionRepository.save(categoryOption);
+        }
     }
 
     @Override
