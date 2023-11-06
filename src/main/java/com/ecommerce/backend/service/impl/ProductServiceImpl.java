@@ -11,6 +11,7 @@ import com.ecommerce.backend.dto.option.OptionDto;
 import com.ecommerce.backend.dto.optionValue.OptionValueDto;
 import com.ecommerce.backend.dto.product.ProductAdminDto;
 import com.ecommerce.backend.dto.product.ProductDto;
+import com.ecommerce.backend.dto.product.ProductIdDto;
 import com.ecommerce.backend.dto.productImage.ProductImageDto;
 import com.ecommerce.backend.dto.productVariation.ProductVariationDto;
 import com.ecommerce.backend.exception.NotFoundException;
@@ -81,7 +82,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void createProduct(CreateProductForm createProductForm) {
+    public ProductIdDto createProduct(CreateProductForm createProductForm) {
         Category category = categoryRepository.findById(createProductForm.getCategoryId()).orElse(null);
         if(category == null) {
             throw new NotFoundException("Not found category");
@@ -92,23 +93,41 @@ public class ProductServiceImpl implements ProductService {
 
         for (int i = 0; i < createProductForm.getOptionIds().length; i++){
             Option option = optionRepository.findById(createProductForm.getOptionIds()[i]).orElse(null);
-            if(option != null){
-                ProductOption productOption = new ProductOption();
-                productOption.setProduct(product);
-                productOption.setOption(option);
-                productOptionRepository.save(productOption);
+            if(option == null){
+                throw new NotFoundException("Not found option");
             }
+            ProductOption productOption = new ProductOption(product, option);
+            productOptionRepository.save(productOption);
         }
 
-        for(int i = 0; i < createProductForm.getImages().length; i++){
-            MediaResource mediaResource = mediaResourceService.createMediaResource(path, createProductForm.getImages()[i]);
-            if(mediaResource != null){
-                ProductImage productImage = new ProductImage();
-                productImage.setProduct(product);
-                productImage.setMediaResource(mediaResource);
-                productImageRepository.save(productImage);
+        List<Long> imageIds = new ArrayList<>();
+        if(createProductForm.getImages() != null){
+            MediaResource mediaResource = mediaResourceService.createMediaResource(path, createProductForm.getImages()[0]);
+            if(mediaResource == null){
+                throw new NotFoundException("Not found media resource");
             }
+            ProductImage productImage = new ProductImage(product, mediaResource);
+            productImageRepository.save(productImage);
+            product.setAvatar(mediaResource.getUrl());
+            productRepository.save(product);
+            imageIds.add(productImage.getId());
         }
+
+        for(int i = 1; i < createProductForm.getImages().length; i++){
+            MediaResource mediaResource = mediaResourceService.createMediaResource(path, createProductForm.getImages()[i]);
+            if(mediaResource == null){
+                throw new NotFoundException("Not found media resource");
+            }
+            ProductImage productImage = new ProductImage(product, mediaResource);
+            productImageRepository.save(productImage);
+            imageIds.add(productImage.getId());
+        }
+
+        ProductIdDto productIdDto = new ProductIdDto();
+        productIdDto.setProductId(product.getId());
+        productIdDto.setImageIds(imageIds);
+
+        return productIdDto;
     }
 
     @Override

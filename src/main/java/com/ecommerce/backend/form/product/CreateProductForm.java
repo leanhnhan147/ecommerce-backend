@@ -14,10 +14,6 @@ public class CreateProductForm {
     @ApiModelProperty(name = "name", required = true)
     private String name;
 
-    @NotEmpty(message = "avatar can not be null")
-    @ApiModelProperty(name = "avatar", required = true)
-    private String avatar;
-
     @NotEmpty(message = "description can not be null")
     @ApiModelProperty(name = "description", required = true)
     private String description;

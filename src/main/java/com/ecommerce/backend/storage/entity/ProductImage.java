@@ -29,4 +29,9 @@ public class ProductImage extends Auditable<String> {
 
     @OneToOne(mappedBy = "productImage")
     private OptionValueImage optionValueImage;
+
+    public ProductImage(Product product, MediaResource mediaResource) {
+        this.product = product;
+        this.mediaResource = mediaResource;
+    }
 }
