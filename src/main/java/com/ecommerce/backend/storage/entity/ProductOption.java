@@ -26,4 +26,9 @@ public class ProductOption extends Auditable<String> {
     @ManyToOne
     @JoinColumn(name = "option_id")
     private Option option;
+
+    public ProductOption(Product product, Option option){
+        this.product = product;
+        this.option = option;
+    }
 }

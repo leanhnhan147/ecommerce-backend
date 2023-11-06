@@ -93,9 +93,7 @@ public class ProductServiceImpl implements ProductService {
         for (int i = 0; i < createProductForm.getOptionIds().length; i++){
             Option option = optionRepository.findById(createProductForm.getOptionIds()[i]).orElse(null);
             if(option != null){
-                ProductOption productOption = new ProductOption();
-                productOption.setProduct(product);
-                productOption.setOption(option);
+                ProductOption productOption = new ProductOption(product, option);
                 productOptionRepository.save(productOption);
             }
         }
@@ -103,9 +101,7 @@ public class ProductServiceImpl implements ProductService {
         for(int i = 0; i < createProductForm.getImages().length; i++){
             MediaResource mediaResource = mediaResourceService.createMediaResource(path, createProductForm.getImages()[i]);
             if(mediaResource != null){
-                ProductImage productImage = new ProductImage();
-                productImage.setProduct(product);
-                productImage.setMediaResource(mediaResource);
+                ProductImage productImage = new ProductImage(product, mediaResource);
                 productImageRepository.save(productImage);
             }
         }
