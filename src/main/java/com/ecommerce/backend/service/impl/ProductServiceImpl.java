@@ -92,18 +92,31 @@ public class ProductServiceImpl implements ProductService {
 
         for (int i = 0; i < createProductForm.getOptionIds().length; i++){
             Option option = optionRepository.findById(createProductForm.getOptionIds()[i]).orElse(null);
-            if(option != null){
-                ProductOption productOption = new ProductOption(product, option);
-                productOptionRepository.save(productOption);
+            if(option == null){
+                throw new NotFoundException("Not found option");
             }
+            ProductOption productOption = new ProductOption(product, option);
+            productOptionRepository.save(productOption);
         }
 
-        for(int i = 0; i < createProductForm.getImages().length; i++){
-            MediaResource mediaResource = mediaResourceService.createMediaResource(path, createProductForm.getImages()[i]);
-            if(mediaResource != null){
-                ProductImage productImage = new ProductImage(product, mediaResource);
-                productImageRepository.save(productImage);
+        if(createProductForm.getImages() != null){
+            MediaResource mediaResource = mediaResourceService.createMediaResource(path, createProductForm.getImages()[0]);
+            if(mediaResource == null){
+                throw new NotFoundException("Not found media resource");
             }
+            ProductImage productImage = new ProductImage(product, mediaResource);
+            productImageRepository.save(productImage);
+            product.setAvatar(mediaResource.getUrl());
+            productRepository.save(product);
+        }
+
+        for(int i = 1; i < createProductForm.getImages().length; i++){
+            MediaResource mediaResource = mediaResourceService.createMediaResource(path, createProductForm.getImages()[i]);
+            if(mediaResource == null){
+                throw new NotFoundException("Not found media resource");
+            }
+            ProductImage productImage = new ProductImage(product, mediaResource);
+            productImageRepository.save(productImage);
         }
     }
 
