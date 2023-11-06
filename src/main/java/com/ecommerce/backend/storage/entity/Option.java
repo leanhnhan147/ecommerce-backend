@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +21,7 @@ public class Option extends Auditable<String> {
     private Long id;
 
     private String displayName;
+
+    @OneToMany(mappedBy = "option")
+    private List<CategoryOption> categoryOptions;
 }
