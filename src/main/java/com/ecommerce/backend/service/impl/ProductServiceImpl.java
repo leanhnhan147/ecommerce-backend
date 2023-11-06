@@ -11,6 +11,7 @@ import com.ecommerce.backend.dto.option.OptionDto;
 import com.ecommerce.backend.dto.optionValue.OptionValueDto;
 import com.ecommerce.backend.dto.product.ProductAdminDto;
 import com.ecommerce.backend.dto.product.ProductDto;
+import com.ecommerce.backend.dto.product.ProductIdDto;
 import com.ecommerce.backend.dto.productImage.ProductImageDto;
 import com.ecommerce.backend.dto.productVariation.ProductVariationDto;
 import com.ecommerce.backend.exception.NotFoundException;
@@ -81,7 +82,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void createProduct(CreateProductForm createProductForm) {
+    public ProductIdDto createProduct(CreateProductForm createProductForm) {
         Category category = categoryRepository.findById(createProductForm.getCategoryId()).orElse(null);
         if(category == null) {
             throw new NotFoundException("Not found category");
@@ -99,6 +100,7 @@ public class ProductServiceImpl implements ProductService {
             productOptionRepository.save(productOption);
         }
 
+        List<Long> imageIds = new ArrayList<>();
         if(createProductForm.getImages() != null){
             MediaResource mediaResource = mediaResourceService.createMediaResource(path, createProductForm.getImages()[0]);
             if(mediaResource == null){
@@ -108,6 +110,7 @@ public class ProductServiceImpl implements ProductService {
             productImageRepository.save(productImage);
             product.setAvatar(mediaResource.getUrl());
             productRepository.save(product);
+            imageIds.add(productImage.getId());
         }
 
         for(int i = 1; i < createProductForm.getImages().length; i++){
@@ -117,7 +120,14 @@ public class ProductServiceImpl implements ProductService {
             }
             ProductImage productImage = new ProductImage(product, mediaResource);
             productImageRepository.save(productImage);
+            imageIds.add(productImage.getId());
         }
+
+        ProductIdDto productIdDto = new ProductIdDto();
+        productIdDto.setProductId(product.getId());
+        productIdDto.setImageIds(imageIds);
+
+        return productIdDto;
     }
 
     @Override

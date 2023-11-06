@@ -5,6 +5,7 @@ import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.format.product.ProductFormat;
 import com.ecommerce.backend.dto.product.ProductAdminDto;
 import com.ecommerce.backend.dto.product.ProductDto;
+import com.ecommerce.backend.dto.product.ProductIdDto;
 import com.ecommerce.backend.form.product.CreateProductForm;
 import com.ecommerce.backend.form.product.UpdateProductForm;
 import com.ecommerce.backend.service.ProductService;
@@ -46,9 +47,9 @@ public class ProductController {
 
     @PostMapping(value = "/create", produces = {MediaType.APPLICATION_JSON_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ApiMessageDto<String> create(@Valid CreateProductForm createProductForm, BindingResult bindingResult) {
-        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        productService.createProduct(createProductForm);
+    public ApiMessageDto<ProductIdDto> create(@Valid CreateProductForm createProductForm, BindingResult bindingResult) {
+        ApiMessageDto<ProductIdDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(productService.createProduct(createProductForm));
         apiMessageDto.setMessage("Create product success");
         return apiMessageDto;
     }
