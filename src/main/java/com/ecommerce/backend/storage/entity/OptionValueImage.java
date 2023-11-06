@@ -26,4 +26,9 @@ public class OptionValueImage extends Auditable<String> {
     @OneToOne
     @JoinColumn(name = "product_image_id")
     private ProductImage productImage;
+
+    public OptionValueImage(OptionValue optionValue, ProductImage productImage) {
+        this.optionValue = optionValue;
+        this.productImage = productImage;
+    }
 }
