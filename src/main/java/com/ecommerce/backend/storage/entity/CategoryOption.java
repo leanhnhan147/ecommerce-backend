@@ -13,11 +13,22 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "options")
-public class Option extends Auditable<String> {
+@Table(name = "category_option")
+public class CategoryOption extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String displayName;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "option_id")
+    private Option option;
+
+    public CategoryOption(Category category, Option option) {
+        this.category = category;
+        this.option = option;
+    }
 }
