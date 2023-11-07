@@ -21,4 +21,6 @@ public interface CategoryService {
     void updateCategory(UpdateCategoryForm updateCategoryForm);
 
     List<CategoryDto> getCategoryListAutoComplete(CategoryCriteria categoryCriteria);
+
+    void deleteCategory(Long id);
 }

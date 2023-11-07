@@ -10,9 +10,11 @@ import com.ecommerce.backend.form.category.CreateCategoryForm;
 import com.ecommerce.backend.form.category.UpdateCategoryForm;
 import com.ecommerce.backend.mapper.CategoryMapper;
 import com.ecommerce.backend.repository.CategoryRepository;
+import com.ecommerce.backend.repository.ProductRepository;
 import com.ecommerce.backend.service.CategoryService;
 import com.ecommerce.backend.storage.criteria.CategoryCriteria;
 import com.ecommerce.backend.storage.entity.Category;
+import com.ecommerce.backend.storage.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    ProductRepository productRepository;
 
     @Autowired
     CategoryMapper categoryMapper;
@@ -89,5 +94,18 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> getCategoryListAutoComplete(CategoryCriteria categoryCriteria) {
         List<Category> categorys = categoryRepository.findAll(categoryCriteria.getCriteria());
         return categoryMapper.fromEntityListToCategoryDtoAutoCompleteList(categorys);
+    }
+
+    @Override
+    public void deleteCategory(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found category"));
+        Product existingProduct = productRepository.findFirstByCategoryId(category.getId());
+        if(existingProduct != null){
+            category.setStatus(Constant.CATEGORY_STATUS_DELETE);
+            categoryRepository.save(category);
+        }else {
+            categoryRepository.deleteById(id);
+        }
     }
 }

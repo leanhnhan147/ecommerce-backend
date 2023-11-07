@@ -7,4 +7,6 @@ public class Constant {
     public static final Integer MEDIA_RESOURCE_KIND_IMAGE = 1;
 
     public static final Integer CATEGORY_LEVEL_1 = 1;
+
+    public static final Integer CATEGORY_STATUS_DELETE = -2;
 }
