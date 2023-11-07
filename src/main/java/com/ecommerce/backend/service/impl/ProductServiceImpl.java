@@ -83,22 +83,12 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public ProductIdDto createProduct(CreateProductForm createProductForm) {
-        Category category = categoryRepository.findById(createProductForm.getCategoryId()).orElse(null);
-        if(category == null) {
-            throw new NotFoundException("Not found category");
-        }
+        Category category = categoryRepository.findById(createProductForm.getCategoryId())
+                .orElseThrow(() -> new NotFoundException("Not found category"));
         Product product = productMapper.fromCreateProductFormToEntity(createProductForm);
         product.setCategory(category);
         productRepository.save(product);
-
-        for (int i = 0; i < createProductForm.getOptionIds().length; i++){
-            Option option = optionRepository.findById(createProductForm.getOptionIds()[i]).orElse(null);
-            if(option == null){
-                throw new NotFoundException("Not found option");
-            }
-            ProductOption productOption = new ProductOption(product, option);
-            productOptionRepository.save(productOption);
-        }
+        createProductOption(product, createProductForm.getOptionIds());
 
         List<Long> imageIds = new ArrayList<>();
         if(createProductForm.getImages() != null){
@@ -130,26 +120,24 @@ public class ProductServiceImpl implements ProductService {
         return productIdDto;
     }
 
+    @Transactional
     @Override
     public void updateProduct(UpdateProductForm updateProductForm) {
-        Product product = productRepository.findById(updateProductForm.getId()).orElse(null);
-        if(product == null){
-            throw new NotFoundException("Not found product");
-        }
+        Product product = productRepository.findById(updateProductForm.getId())
+                .orElseThrow(() -> new NotFoundException("Not found product"));
         productMapper.fromUpdateProductFormToEntity(updateProductForm, product);
         productRepository.save(product);
 
-        for (int i = 0; i < updateProductForm.getOptions().length; i++){
-            Option option = optionRepository.findById(updateProductForm.getOptions()[i]).orElse(null);
-            if(option != null){
-                Boolean existedProductOption = productOptionRepository.existsByProductIdAndOptionId(product.getId(), option.getId());
-                if(!existedProductOption){
-                    ProductOption productOption = new ProductOption();
-                    productOption.setProduct(product);
-                    productOption.setOption(option);
-                    productOptionRepository.save(productOption);
-                }
-            }
+        productOptionRepository.deleteAllByProductId(product.getId());
+        createProductOption(product, updateProductForm.getOptionIds());
+    }
+
+    private void createProductOption(Product product, Long[] optionIds){
+        for (int i = 0; i < optionIds.length; i++){
+            Option option = optionRepository.findById(optionIds[i])
+                    .orElseThrow(() -> new NotFoundException("Not found option"));
+            ProductOption productOption = new ProductOption(product, option);
+            productOptionRepository.save(productOption);
         }
     }
 

@@ -2,6 +2,7 @@ package com.ecommerce.backend.form.product;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -26,5 +27,9 @@ public class UpdateProductForm {
 
     @NotNull(message = "options can not be null")
     @ApiModelProperty(name = "options", required = true)
-    private Long[] options;
+    private Long[] optionIds;
+
+//    @NotNull(message = "images can not be null")
+//    @ApiModelProperty(name = "images", required = true)
+//    private MultipartFile[] images;
 }
