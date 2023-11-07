@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class OptionServiceImpl implements OptionService {
         return responseListDto;
     }
 
+    @Transactional
     @Override
     public OptionDto createOption(CreateOptionForm createOptionForm) {
         Option option = optionMapper.fromCreateOptionFormToEntity(createOptionForm);
@@ -66,6 +68,7 @@ public class OptionServiceImpl implements OptionService {
         return optionDto;
     }
 
+    @Transactional
     @Override
     public void updateOption(UpdateOptionForm updateOptionForm) {
         Option option = optionRepository.findById(updateOptionForm.getId())

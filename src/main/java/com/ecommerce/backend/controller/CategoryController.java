@@ -68,4 +68,12 @@ public class CategoryController {
         apiMessageDto.setMessage("Get list auto complete success");
         return apiMessageDto;
     }
+
+    @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<String> delete(@PathVariable("id") Long id) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        categoryService.deleteCategory(id);
+        apiMessageDto.setMessage("Delete category success");
+        return apiMessageDto;
+    }
 }
