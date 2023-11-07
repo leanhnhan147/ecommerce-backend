@@ -1,6 +1,7 @@
 package com.ecommerce.backend.storage.criteria;
 
 import com.ecommerce.backend.storage.entity.Category;
+import com.ecommerce.backend.storage.entity.CategoryOption;
 import com.ecommerce.backend.storage.entity.Option;
 import lombok.Data;
 import org.springframework.data.jpa.domain.Specification;
@@ -37,8 +38,9 @@ public class OptionCriteria {
                 }
 
                 if(getCategoryId() != null){
-                    Join<Option, Category> joinCategory = root.join("category", JoinType.INNER);
-                    predicates.add((cb.equal((joinCategory.get("id")), getCategoryId())));
+                    Join<Option, CategoryOption> joinCategoryOption = root.join("categoryOptions", JoinType.INNER);
+                    Join<CategoryOption, Category> joinCategory = joinCategoryOption.join("category", JoinType.INNER);
+                    predicates.add(cb.equal(joinCategory.get("id"), getCategoryId()));
                 }
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }

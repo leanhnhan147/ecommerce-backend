@@ -26,4 +26,9 @@ public class ProductVariationOptionValue extends Auditable<String> {
     @ManyToOne
     @JoinColumn(name = "option_value_id")
     private OptionValue optionValue;
+
+    public ProductVariationOptionValue(ProductVariation productVariation, OptionValue optionValue) {
+        this.productVariation = productVariation;
+        this.optionValue = optionValue;
+    }
 }

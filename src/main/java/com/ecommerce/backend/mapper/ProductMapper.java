@@ -23,7 +23,6 @@ public interface ProductMapper {
     Product fromCreateProductFormToEntity(CreateProductForm createProductForm);
 
     @Mapping(source = "name", target = "name")
-    @Mapping(source = "avatar", target = "avatar")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "status", target = "status")
     @BeanMapping(ignoreByDefault = true)

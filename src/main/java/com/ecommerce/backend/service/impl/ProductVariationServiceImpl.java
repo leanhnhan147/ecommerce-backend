@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -59,6 +60,7 @@ public class ProductVariationServiceImpl implements ProductVariationService {
         return responseListDto;
     }
 
+    @Transactional
     @Override
     public void createProductVariation(CreateProductVariationForm createProductVariationForm) {
         Product product = productRepository.findById(createProductVariationForm.getProductId()).orElse(null);
@@ -76,28 +78,20 @@ public class ProductVariationServiceImpl implements ProductVariationService {
 
             Long[] optionValues = createProductVariationForm.getOptionValues()[i];
             for(int j = 0; j < optionValues.length; j++){
-                OptionValue optionValue = optionValueRepository.findById(optionValues[j]).orElse(null);
-                if(optionValue != null) {
-                    ProductVariationOptionValue productVariationOptionValue = new ProductVariationOptionValue();
-                    productVariationOptionValue.setProductVariation(productVariation);
-                    productVariationOptionValue.setOptionValue(optionValue);
-                    productVariationOptionValueRepository.save(productVariationOptionValue);
-                }
+                OptionValue optionValue = optionValueRepository.findById(optionValues[j])
+                        .orElseThrow(() -> new NotFoundException("Not found option value"));
+                ProductVariationOptionValue productVariationOptionValue =
+                        new ProductVariationOptionValue(productVariation, optionValue);
+                productVariationOptionValueRepository.save(productVariationOptionValue);
             }
         }
 
         for (int i = 0; i < createProductVariationForm.getImageIds().length; i++){
-            OptionValue optionValue = optionValueRepository.findById(createProductVariationForm.getImageIds()[i].getOptionValueId()).orElse(null);
-            if(optionValue == null){
-                throw new NotFoundException("Not found option value");
-            }
-            ProductImage productImage = productImageRepository.findById(createProductVariationForm.getImageIds()[i].getImageId()).orElse((null));
-            if(productImage == null){
-                throw new NotFoundException("Not found image");
-            }
-            OptionValueImage optionValueImage = new OptionValueImage();
-            optionValueImage.setOptionValue(optionValue);
-            optionValueImage.setProductImage(productImage);
+            OptionValue optionValue = optionValueRepository.findById(createProductVariationForm.getImageIds()[i].getOptionValueId())
+                    .orElseThrow(() -> new NotFoundException("Not found option value"));
+            ProductImage productImage = productImageRepository.findById(createProductVariationForm.getImageIds()[i].getImageId())
+                    .orElseThrow(() -> new NotFoundException("Not found image"));
+            OptionValueImage optionValueImage = new OptionValueImage(optionValue, productImage);
             optionValueImageRepository.save(optionValueImage);
         }
     }
