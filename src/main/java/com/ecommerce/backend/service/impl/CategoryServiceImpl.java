@@ -100,12 +100,17 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteCategory(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found category"));
-        Product existingProduct = productRepository.findFirstByCategoryId(category.getId());
-        if(existingProduct != null){
+        Boolean existingProduct = checkCategoy(category.getId());
+        if(!existingProduct){
+            categoryRepository.deleteById(id);
+        }else {
             category.setStatus(Constant.CATEGORY_STATUS_DELETE);
             categoryRepository.save(category);
-        }else {
-            categoryRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public Boolean checkCategoy(Long id) {
+        return productRepository.existsByCategoryId(id);
     }
 }
