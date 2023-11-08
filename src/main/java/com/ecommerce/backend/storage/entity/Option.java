@@ -22,6 +22,9 @@ public class Option extends Auditable<String> {
 
     private String displayName;
 
+    @Column(unique = true)
+    private String code;
+
     @OneToMany(mappedBy = "option")
     private List<CategoryOption> categoryOptions;
 }

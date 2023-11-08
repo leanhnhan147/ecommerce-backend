@@ -21,6 +21,9 @@ public class OptionValue extends Auditable<String> {
 
     private String displayName;
 
+    @Column(unique = true)
+    private String code;
+
     @ManyToOne
     @JoinColumn(name = "option_id")
     private Option option;

@@ -29,6 +29,7 @@ public class Role extends Auditable<String> {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(name = "role_permission",
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"role_id", "permission_id"}))
     private List<Permission> permissions = new ArrayList<>();
 }
