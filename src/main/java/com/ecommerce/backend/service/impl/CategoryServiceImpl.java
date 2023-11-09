@@ -4,6 +4,7 @@ import com.ecommerce.backend.constant.Constant;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.category.CategoryAdminDto;
 import com.ecommerce.backend.dto.category.CategoryDto;
+import com.ecommerce.backend.exception.AlreadyExistsException;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.exception.RequestException;
 import com.ecommerce.backend.form.category.CreateCategoryForm;
@@ -56,6 +57,21 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void createCategory(CreateCategoryForm createCategoryForm) {
+        if(createCategoryForm.getLevel().equals(Constant.CATEGORY_LEVEL_1)){
+            Category categoryByName = categoryRepository.findByNameAndLevel(createCategoryForm.getName(), createCategoryForm.getLevel());
+            if(categoryByName != null){
+                throw new AlreadyExistsException("Category already exist name");
+            }
+        }else {
+            Category categoryByName = categoryRepository.findByNameAndLevelAndParentId(createCategoryForm.getName(), createCategoryForm.getLevel(), createCategoryForm.getParentId());
+            if(categoryByName != null){
+                throw new AlreadyExistsException("Category already exist name");
+            }
+        }
+        Category categoryByCode = categoryRepository.findByCode(createCategoryForm.getCode());
+        if(categoryByCode != null){
+            throw new AlreadyExistsException("Category already exist code");
+        }
         Category category = categoryMapper.fromCreateCategoryFormToEntity(createCategoryForm);
         if(createCategoryForm.getParentId() != null) {
             category.setParent(parentCategory(createCategoryForm.getLevel(), createCategoryForm.getParentId()));
@@ -86,6 +102,25 @@ public class CategoryServiceImpl implements CategoryService {
         if(category == null){
             throw new NotFoundException("Not found category");
         }
+        if(!category.getName().equals(updateCategoryForm.getName())){
+            if(category.getLevel().equals(Constant.CATEGORY_LEVEL_1)){
+                Category categoryByName = categoryRepository.findByNameAndLevel(updateCategoryForm.getName(), category.getLevel());
+                if(categoryByName != null){
+                    throw new AlreadyExistsException("Category already exist name");
+                }
+            }else {
+                Category categoryByName = categoryRepository.findByNameAndLevelAndParentId(updateCategoryForm.getName(), category.getLevel(), category.getParent().getId());
+                if(categoryByName != null){
+                    throw new AlreadyExistsException("Category already exist name");
+                }
+            }
+        }
+        if(!category.getCode().equals(updateCategoryForm.getCode())){
+            Category categoryByCode = categoryRepository.findByCode(updateCategoryForm.getCode());
+            if(categoryByCode != null){
+                throw new AlreadyExistsException("Category already exist code");
+            }
+        }
         categoryMapper.fromUpdateCategoryFormToEntity(updateCategoryForm, category);
         categoryRepository.save(category);
     }
@@ -100,12 +135,21 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteCategory(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found category"));
-        Product existingProduct = productRepository.findFirstByCategoryId(category.getId());
-        if(existingProduct != null){
+        Boolean existingProduct = checkCategoy(category.getId());
+        if(!existingProduct){
+            List<Long> childrenIds = categoryRepository.getAllCategoryIdByParentId(category.getParent().getId());
+            if(childrenIds.size() == 1){
+                category.getParent().setHasChildren(false);
+            }
+            categoryRepository.deleteById(id);
+        }else {
             category.setStatus(Constant.CATEGORY_STATUS_DELETE);
             categoryRepository.save(category);
-        }else {
-            categoryRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public Boolean checkCategoy(Long id) {
+        return productRepository.existsByCategoryId(id);
     }
 }

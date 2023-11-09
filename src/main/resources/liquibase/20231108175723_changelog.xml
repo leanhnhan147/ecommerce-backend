@@ -1,0 +1,30 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="LENOVO (generated)" id="1699466250103-1">
+        <addColumn tableName="category">
+            <column name="code" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699466250103-2">
+        <addColumn tableName="option_value">
+            <column name="code" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699466250103-3">
+        <addColumn tableName="options">
+            <column name="code" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699466250103-4">
+        <addUniqueConstraint columnNames="code" constraintName="UC_CATEGORYCODE_COL" tableName="category"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699466250103-5">
+        <addUniqueConstraint columnNames="code" constraintName="UC_OPTIONSCODE_COL" tableName="options"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699466250103-6">
+        <addUniqueConstraint columnNames="code" constraintName="UC_OPTION_VALUECODE_COL" tableName="option_value"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699466250103-7">
+        <addUniqueConstraint columnNames="role_id, permission_id" constraintName="UKt49nxpqax9cveurs8f61sns2d" tableName="role_permission"/>
+    </changeSet>
+</databaseChangeLog>

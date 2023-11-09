@@ -3,6 +3,7 @@ package com.ecommerce.backend.service.impl;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.option.OptionAdminDto;
 import com.ecommerce.backend.dto.option.OptionDto;
+import com.ecommerce.backend.exception.AlreadyExistsException;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.option.CreateOptionForm;
 import com.ecommerce.backend.form.option.UpdateOptionForm;
@@ -59,6 +60,14 @@ public class OptionServiceImpl implements OptionService {
     @Transactional
     @Override
     public OptionDto createOption(CreateOptionForm createOptionForm) {
+        Option optionByDisplayName = optionRepository.findByDisplayName(createOptionForm.getDisplayName());
+        if(optionByDisplayName != null){
+            throw new AlreadyExistsException("Option already exist display name");
+        }
+        Option optionByCode = optionRepository.findByCode(createOptionForm.getCode());
+        if(optionByCode != null){
+            throw new AlreadyExistsException("Option already exist code");
+        }
         Option option = optionMapper.fromCreateOptionFormToEntity(createOptionForm);
         optionRepository.save(option);
         createCategoryOption(option, createOptionForm.getCategoryIds());
@@ -73,6 +82,19 @@ public class OptionServiceImpl implements OptionService {
     public void updateOption(UpdateOptionForm updateOptionForm) {
         Option option = optionRepository.findById(updateOptionForm.getId())
                 .orElseThrow(() -> new NotFoundException("Not found option"));
+
+        if(!option.getDisplayName().equals(updateOptionForm.getDisplayName())){
+            Option optionByDisplayName = optionRepository.findByDisplayName(updateOptionForm.getDisplayName());
+            if(optionByDisplayName != null){
+                throw new AlreadyExistsException("Option already exist display name");
+            }
+        }
+        if(!option.getCode().equals(updateOptionForm.getCode())){
+            Option optionByCode = optionRepository.findByCode(updateOptionForm.getCode());
+            if(optionByCode != null){
+                throw new AlreadyExistsException("Option already exist code");
+            }
+        }
         optionMapper.fromUpdateOptionFormToEntity(updateOptionForm, option);
         optionRepository.save(option);
 

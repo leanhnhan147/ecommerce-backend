@@ -3,6 +3,7 @@ package com.ecommerce.backend.service.impl;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.optionValue.OptionValueAdminDto;
 import com.ecommerce.backend.dto.optionValue.OptionValueDto;
+import com.ecommerce.backend.exception.AlreadyExistsException;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.optionValue.CreateOptionValueForm;
 import com.ecommerce.backend.form.optionValue.UpdateOptionValueForm;
@@ -56,6 +57,14 @@ public class OptionValueServiceImpl implements OptionValueService {
         if(option == null){
             throw new NotFoundException("Not found option");
         }
+        OptionValue optionValueByDisplayName = optionValueRepository.findByDisplayName(createOptionValueForm.getDisplayName());
+        if(optionValueByDisplayName != null){
+            throw new AlreadyExistsException("Option value already exist display name");
+        }
+        OptionValue optionValueByCode = optionValueRepository.findByCode(createOptionValueForm.getCode());
+        if(optionValueByCode != null){
+            throw new AlreadyExistsException("Option value already exist code");
+        }
         OptionValue optionValue = optionValueMapper.fromCreateOptionValueFormToEntity(createOptionValueForm);
         optionValue.setOption(option);
         optionValueRepository.save(optionValue);
@@ -69,6 +78,18 @@ public class OptionValueServiceImpl implements OptionValueService {
         OptionValue optionValue = optionValueRepository.findById(updateOptionValueForm.getId()).orElse(null);
         if(optionValue == null){
             throw new NotFoundException("Not found option value");
+        }
+        if(!optionValue.getDisplayName().equals(updateOptionValueForm.getDisplayName())){
+            OptionValue optionValueByDisplayName = optionValueRepository.findByDisplayName(updateOptionValueForm.getDisplayName());
+            if(optionValueByDisplayName != null){
+                throw new AlreadyExistsException("Option value already exist display name");
+            }
+        }
+        if(!optionValue.getCode().equals(updateOptionValueForm.getCode())){
+            OptionValue optionValueByCode = optionValueRepository.findByCode(updateOptionValueForm.getCode());
+            if(optionValueByCode != null){
+                throw new AlreadyExistsException("Option value already exist code");
+            }
         }
         optionValueMapper.fromUpdateOptionValueFormToEntity(updateOptionValueForm, optionValue);
         optionValueRepository.save(optionValue);

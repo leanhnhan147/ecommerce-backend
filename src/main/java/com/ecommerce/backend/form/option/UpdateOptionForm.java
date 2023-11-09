@@ -16,6 +16,10 @@ public class UpdateOptionForm {
     @ApiModelProperty(name = "displayName", required = true)
     private String displayName;
 
+    @NotEmpty(message = "code can not be null")
+    @ApiModelProperty(name = "code", required = true)
+    private String code;
+
     @NotNull(message = "categoryIds can not null")
     @ApiModelProperty(name = "categoryIds", required = true)
     private Long[] categoryIds;

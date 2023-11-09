@@ -24,6 +24,9 @@ public class Category extends Auditable<String> {
     private Integer level;
     private Boolean hasChildren = false;
 
+    @Column(unique = true)
+    private String code;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Category parent;

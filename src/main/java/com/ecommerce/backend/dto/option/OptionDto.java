@@ -10,5 +10,6 @@ import java.util.List;
 public class OptionDto {
     private Long id;
     private String displayName;
+    private String code;
     private List<CategoryOptionDto> categoryOptions;
 }

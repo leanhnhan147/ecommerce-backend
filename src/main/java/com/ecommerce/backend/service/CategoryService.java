@@ -23,4 +23,6 @@ public interface CategoryService {
     List<CategoryDto> getCategoryListAutoComplete(CategoryCriteria categoryCriteria);
 
     void deleteCategory(Long id);
+
+    Boolean checkCategoy(Long id);
 }

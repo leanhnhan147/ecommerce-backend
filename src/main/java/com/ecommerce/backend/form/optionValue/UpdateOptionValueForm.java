@@ -15,4 +15,8 @@ public class UpdateOptionValueForm {
     @NotEmpty(message = "displayName can not be null")
     @ApiModelProperty(name = "displayName", required = true)
     private String displayName;
+
+    @NotEmpty(message = "code can not be null")
+    @ApiModelProperty(name = "code", required = true)
+    private String code;
 }
