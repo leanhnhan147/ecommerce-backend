@@ -16,12 +16,14 @@ public interface CategoryMapper {
 
     @Mapping(source = "name", target = "name")
     @Mapping(source = "level", target = "level")
+    @Mapping(source = "code", target = "code")
     @Mapping(source = "status", target = "status")
     @BeanMapping(ignoreByDefault = true)
     @Named("adminCreateMapping")
     Category fromCreateCategoryFormToEntity(CreateCategoryForm createCategoryForm);
 
     @Mapping(source = "name", target = "name")
+    @Mapping(source = "code", target = "code")
     @Mapping(source = "status", target = "status")
     @BeanMapping(ignoreByDefault = true)
     @Named("adminUpdateMapping")
@@ -30,6 +32,7 @@ public interface CategoryMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "level", target = "level")
+    @Mapping(source = "code", target = "code")
     @Mapping(source = "hasChildren", target = "hasChildren")
     @Mapping(source = "parent", target = "parent")
     @Mapping(source = "createdDate", target = "createdDate")
@@ -45,6 +48,7 @@ public interface CategoryMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "level", target = "level")
+    @Mapping(source = "code", target = "code")
     @Mapping(source = "hasChildren", target = "hasChildren")
     @Mapping(source = "parent", target = "parent")
     @BeanMapping(ignoreByDefault = true)
@@ -54,6 +58,7 @@ public interface CategoryMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "level", target = "level")
+    @Mapping(source = "code", target = "code")
     @Mapping(source = "hasChildren", target = "hasChildren")
     @BeanMapping(ignoreByDefault = true)
     @Named("autoCompleteGetMapping")

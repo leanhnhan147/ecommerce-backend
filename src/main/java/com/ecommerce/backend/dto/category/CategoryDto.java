@@ -8,5 +8,6 @@ public class CategoryDto {
     private String name;
     private Integer level;
     private Boolean hasChildren;
+    private String code;
     private CategoryDto parent;
 }
