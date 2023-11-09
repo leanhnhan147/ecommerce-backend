@@ -137,6 +137,10 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new NotFoundException("Not found category"));
         Boolean existingProduct = checkCategoy(category.getId());
         if(!existingProduct){
+            List<Long> childrenIds = categoryRepository.getAllCategoryIdByParentId(category.getParent().getId());
+            if(childrenIds.size() == 1){
+                category.getParent().setHasChildren(false);
+            }
             categoryRepository.deleteById(id);
         }else {
             category.setStatus(Constant.CATEGORY_STATUS_DELETE);
