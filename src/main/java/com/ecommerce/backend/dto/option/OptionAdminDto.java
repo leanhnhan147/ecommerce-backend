@@ -10,5 +10,6 @@ import java.util.List;
 @Data
 public class OptionAdminDto extends BasicAdminDto {
     private String displayName;
+    private String code;
     private List<CategoryOptionDto> categoryOptions;
 }
