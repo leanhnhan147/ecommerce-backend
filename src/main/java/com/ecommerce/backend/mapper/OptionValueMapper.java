@@ -16,17 +16,20 @@ import java.util.List;
 public interface OptionValueMapper {
 
     @Mapping(source = "displayName", target = "displayName")
+    @Mapping(source = "code", target = "code")
     @BeanMapping(ignoreByDefault = true)
     @Named("adminCreateMapping")
     OptionValue fromCreateOptionValueFormToEntity(CreateOptionValueForm createOptionValueForm);
 
     @Mapping(source = "displayName", target = "displayName")
+    @Mapping(source = "code", target = "code")
     @BeanMapping(ignoreByDefault = true)
     @Named("adminUpdateMapping")
     void fromUpdateOptionValueFormToEntity(UpdateOptionValueForm updateOptionValueForm, @MappingTarget OptionValue optionValue);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "displayName", target = "displayName")
+    @Mapping(source = "code", target = "code")
     @Mapping(source = "option", target = "option", qualifiedByName = "fromEntityToOptionDto")
     @Mapping(source = "createdDate", target = "createdDate")
     @Mapping(source = "modifiedDate", target = "modifiedDate")
@@ -39,6 +42,7 @@ public interface OptionValueMapper {
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "displayName", target = "displayName")
+    @Mapping(source = "code", target = "code")
     @Mapping(source = "option", target = "option", qualifiedByName = "fromEntityToOptionDto")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToOptionValueDto")
