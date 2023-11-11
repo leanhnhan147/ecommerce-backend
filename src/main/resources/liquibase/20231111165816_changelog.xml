@@ -1,0 +1,31 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="LENOVO (generated)" id="1699721903239-1">
+        <createTable tableName="option_category">
+            <column name="option_is" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699721903239-2">
+        <addUniqueConstraint columnNames="option_is, category_id" constraintName="UK866ew7x8neys8j03g2185yoie" tableName="option_category"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699721903239-3">
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="option_category" constraintName="FK1nc8xr4yww3u2w6fmusl6iy1u" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="category" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699721903239-4">
+        <addForeignKeyConstraint baseColumnNames="option_is" baseTableName="option_category" constraintName="FKn94j6u2jm6ttmogcpfn4txu38" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="options" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699721903239-5">
+        <dropForeignKeyConstraint baseTableName="category_option" constraintName="FK44qbqrfv3aaaonh553nbiqcyj"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699721903239-6">
+        <dropForeignKeyConstraint baseTableName="category_option" constraintName="FKhtjhhs863i1ap3k9ernml51bp"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699721903239-7">
+        <dropTable tableName="category_option"/>
+    </changeSet>
+</databaseChangeLog>

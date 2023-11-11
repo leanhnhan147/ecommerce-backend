@@ -25,6 +25,10 @@ public class Option extends Auditable<String> {
     @Column(unique = true)
     private String code;
 
-    @OneToMany(mappedBy = "option")
-    private List<CategoryOption> categoryOptions;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JoinTable(name = "option_category",
+            joinColumns = @JoinColumn(name = "option_is", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"option_is", "category_id"}))
+    private List<Category> categories;
 }

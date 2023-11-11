@@ -30,7 +30,7 @@ public interface OptionMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "displayName", target = "displayName")
     @Mapping(source = "code", target = "code")
-    @Mapping(source = "categoryOptions", target = "categoryOptions", qualifiedByName = "fromEntityListToCategoryOptionDtoList")
+//    @Mapping(source = "categoryOptions", target = "categoryOptions", qualifiedByName = "fromEntityListToCategoryOptionDtoList")
     @Mapping(source = "createdDate", target = "createdDate")
     @Mapping(source = "modifiedDate", target = "modifiedDate")
     @BeanMapping(ignoreByDefault = true)
