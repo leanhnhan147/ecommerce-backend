@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-        uses = {CategoryOptionMapper.class})
+        uses = {CategoryMapper.class})
 public interface OptionMapper {
 
     @Mapping(source = "displayName", target = "displayName")
@@ -30,7 +30,7 @@ public interface OptionMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "displayName", target = "displayName")
     @Mapping(source = "code", target = "code")
-//    @Mapping(source = "categoryOptions", target = "categoryOptions", qualifiedByName = "fromEntityListToCategoryOptionDtoList")
+    @Mapping(source = "categories", target = "categories", qualifiedByName = "fromEntityToCategoryDto")
     @Mapping(source = "createdDate", target = "createdDate")
     @Mapping(source = "modifiedDate", target = "modifiedDate")
     @BeanMapping(ignoreByDefault = true)

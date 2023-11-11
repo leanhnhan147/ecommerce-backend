@@ -36,11 +36,10 @@ public class OptionCriteria {
                     predicates.add(cb.equal(root.get("status"), getStatus()));
                 }
 
-//                if(getCategoryId() != null){
-//                    Join<Option, CategoryOption> joinCategoryOption = root.join("categoryOptions", JoinType.INNER);
-//                    Join<CategoryOption, Category> joinCategory = joinCategoryOption.join("category", JoinType.INNER);
-//                    predicates.add(cb.equal(joinCategory.get("id"), getCategoryId()));
-//                }
+                if(getCategoryId() != null){
+                    Join<Option, Category> joinCategory = root.join("categories", JoinType.INNER);
+                    predicates.add(cb.equal(joinCategory.get("id"), getCategoryId()));
+                }
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };

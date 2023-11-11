@@ -2,7 +2,6 @@ package com.ecommerce.backend.dto.option;
 
 import com.ecommerce.backend.dto.BasicAdminDto;
 import com.ecommerce.backend.dto.category.CategoryDto;
-import com.ecommerce.backend.dto.categoryOption.CategoryOptionDto;
 import lombok.Data;
 
 import java.util.List;
@@ -11,5 +10,5 @@ import java.util.List;
 public class OptionAdminDto extends BasicAdminDto {
     private String displayName;
     private String code;
-    private List<CategoryOptionDto> categoryOptions;
+    private List<CategoryDto> categories;
 }

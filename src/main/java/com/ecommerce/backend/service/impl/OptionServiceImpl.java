@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -64,8 +65,8 @@ public class OptionServiceImpl implements OptionService {
             throw new AlreadyExistsException("Option already exist code");
         }
         Option option = optionMapper.fromCreateOptionFormToEntity(createOptionForm);
+        option.setCategories(createCategoryOption(option, createOptionForm.getCategoryIds()));
         optionRepository.save(option);
-        createCategoryOption(option, createOptionForm.getCategoryIds());
 
         OptionDto optionDto = new OptionDto();
         optionDto.setId(option.getId());
@@ -91,19 +92,18 @@ public class OptionServiceImpl implements OptionService {
             }
         }
         optionMapper.fromUpdateOptionFormToEntity(updateOptionForm, option);
+        option.setCategories(createCategoryOption(option, updateOptionForm.getCategoryIds()));
         optionRepository.save(option);
-
-//        categoryOptionRepository.deleteAllByOptionId(option.getId());
-        createCategoryOption(option, updateOptionForm.getCategoryIds());
     }
 
-    private void createCategoryOption(Option option, Long[] categoryIds){
+    private List<Category> createCategoryOption(Option option, Long[] categoryIds){
+        List<Category> categories = new ArrayList<>();
         for(int i = 0; i < categoryIds.length; i++){
             Category category = categoryRepository.findById(categoryIds[i])
                     .orElseThrow(() -> new NotFoundException("Not found category"));
-//            CategoryOption categoryOption = new CategoryOption(category, option);
-//            categoryOptionRepository.save(categoryOption);
+            categories.add(category);
         }
+        return categories;
     }
 
     @Override
