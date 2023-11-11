@@ -1,10 +1,12 @@
 package com.ecommerce.backend.mapper;
 
+import com.ecommerce.backend.dto.optionValue.OptionValueDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.form.user.CreateUserForm;
 import com.ecommerce.backend.form.user.UpdateProfileUserForm;
 import com.ecommerce.backend.form.user.UpdateUserForm;
+import com.ecommerce.backend.storage.entity.OptionValue;
 import com.ecommerce.backend.storage.entity.User;
 import org.mapstruct.*;
 
@@ -51,6 +53,12 @@ public interface UserMapper {
 
     @IterableMapping(elementTargetType = UserAdminDto.class, qualifiedByName = "adminGetMapping")
     List<UserAdminDto> fromEntityListToUserAdminDtoList(List<User> users);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "fullName", target = "fullName")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToUserDto")
+    UserDto fromEntityToUserDto(User user);
 
     @Mapping(source = "fullName", target = "fullName")
     @Mapping(source = "avatar", target = "avatar")
