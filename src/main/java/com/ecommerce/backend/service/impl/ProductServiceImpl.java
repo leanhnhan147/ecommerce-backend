@@ -46,9 +46,6 @@ public class ProductServiceImpl implements ProductService {
     OptionRepository optionRepository;
 
     @Autowired
-    ProductOptionRepository productOptionRepository;
-
-    @Autowired
     ProductImageRepository productImageRepository;
 
     @Autowired
@@ -128,7 +125,7 @@ public class ProductServiceImpl implements ProductService {
         productMapper.fromUpdateProductFormToEntity(updateProductForm, product);
         productRepository.save(product);
 
-        productOptionRepository.deleteAllByProductId(product.getId());
+//        productOptionRepository.deleteAllByProductId(product.getId());
         createProductOption(product, updateProductForm.getOptionIds());
     }
 
@@ -136,8 +133,8 @@ public class ProductServiceImpl implements ProductService {
         for (int i = 0; i < optionIds.length; i++){
             Option option = optionRepository.findById(optionIds[i])
                     .orElseThrow(() -> new NotFoundException("Not found option"));
-            ProductOption productOption = new ProductOption(product, option);
-            productOptionRepository.save(productOption);
+//            ProductOption productOption = new ProductOption(product, option);
+//            productOptionRepository.save(productOption);
         }
     }
 

@@ -49,4 +49,11 @@ public class Product extends Auditable<String> {
 
     @OneToMany(mappedBy = "product")
     private List<ProductImage> productImages;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JoinTable(name = "product_option",
+            joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "option_is", referencedColumnName = "id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"product_id", "option_is"}))
+    private List<Option> options;
 }
