@@ -61,10 +61,10 @@ public interface CategoryMapper {
     @Mapping(source = "code", target = "code")
     @Mapping(source = "hasChildren", target = "hasChildren")
     @BeanMapping(ignoreByDefault = true)
-    @Named("autoCompleteGetMapping")
+    @Named("fromEntityToCategoryDtoAutoComplete")
     CategoryDto fromEntityToCategoryDtoAutoComplete(Category category);
 
-    @IterableMapping(elementTargetType = CategoryDto.class, qualifiedByName = "autoCompleteGetMapping")
+    @IterableMapping(elementTargetType = CategoryDto.class, qualifiedByName = "fromEntityToCategoryDtoAutoComplete")
     List<CategoryDto> fromEntityListToCategoryDtoAutoCompleteList(List<Category> categories);
 }
 
