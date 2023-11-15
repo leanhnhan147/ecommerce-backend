@@ -10,7 +10,6 @@
     <include file="20231102104153_changelog.xml" relativeToChangelogFile="true"/>
     <include file="20231102104615_changelog.xml" relativeToChangelogFile="true"/>
     <include file="20231102105249_changelog.xml" relativeToChangelogFile="true"/>
-
     <include file="20231103043709_changelog.xml" relativeToChangelogFile="true"/>
     <include file="20231103181521_changelog.xml" relativeToChangelogFile="true"/>
     <include file="20231106173600_changelog.xml" relativeToChangelogFile="true"/>
@@ -18,4 +17,5 @@
     <include file="20231111145617_changelog.xml" relativeToChangelogFile="true"/>
     <include file="20231111165816_changelog.xml" relativeToChangelogFile="true"/>
     <include file="20231112165322_changelog.xml" relativeToChangelogFile="true"/>
+    <include file="20231115180032_changelog.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
