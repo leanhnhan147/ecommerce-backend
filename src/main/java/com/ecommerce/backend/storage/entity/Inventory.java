@@ -7,28 +7,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "product_option")
-public class ProductOption extends Auditable<String> {
+@Table(name = "inventory")
+public class Inventory extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private Double originalPrice;
+    private Integer quantity;
+    private Date importTime;
 
     @ManyToOne
-    @JoinColumn(name = "option_id")
-    private Option option;
+    @JoinColumn(name = "product_variation_id")
+    private ProductVariation productVariation;
 
-    public ProductOption(Product product, Option option){
-        this.product = product;
-        this.option = option;
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

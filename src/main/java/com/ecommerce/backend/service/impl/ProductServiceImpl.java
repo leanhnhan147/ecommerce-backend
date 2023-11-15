@@ -46,9 +46,6 @@ public class ProductServiceImpl implements ProductService {
     OptionRepository optionRepository;
 
     @Autowired
-    ProductOptionRepository productOptionRepository;
-
-    @Autowired
     ProductImageRepository productImageRepository;
 
     @Autowired
@@ -87,8 +84,9 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new NotFoundException("Not found category"));
         Product product = productMapper.fromCreateProductFormToEntity(createProductForm);
         product.setCategory(category);
+        product.setOptions(createProductOption(product, createProductForm.getOptionIds()));
         productRepository.save(product);
-        createProductOption(product, createProductForm.getOptionIds());
+
 
         List<Long> imageIds = new ArrayList<>();
         if(createProductForm.getImages() != null){
@@ -126,19 +124,18 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(updateProductForm.getId())
                 .orElseThrow(() -> new NotFoundException("Not found product"));
         productMapper.fromUpdateProductFormToEntity(updateProductForm, product);
+        product.setOptions(createProductOption(product, updateProductForm.getOptionIds()));
         productRepository.save(product);
-
-        productOptionRepository.deleteAllByProductId(product.getId());
-        createProductOption(product, updateProductForm.getOptionIds());
     }
 
-    private void createProductOption(Product product, Long[] optionIds){
+    private List<Option> createProductOption(Product product, Long[] optionIds){
+        List<Option> options = new ArrayList<>();
         for (int i = 0; i < optionIds.length; i++){
             Option option = optionRepository.findById(optionIds[i])
                     .orElseThrow(() -> new NotFoundException("Not found option"));
-            ProductOption productOption = new ProductOption(product, option);
-            productOptionRepository.save(productOption);
+            options.add(option);
         }
+        return options;
     }
 
     private ProductFormat convertProduct(ProductDto productDto){

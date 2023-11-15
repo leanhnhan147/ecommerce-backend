@@ -1,0 +1,43 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="LENOVO (generated)" id="1699808009738-1">
+        <addNotNullConstraint columnDataType="bigint" columnName="product_id" tableName="product_option" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699808009738-2">
+        <addColumn tableName="product_option">
+            <column name="option_is" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699808009738-3">
+        <addUniqueConstraint columnNames="product_id, option_is" constraintName="UKokjulqm2qxecobw95cwvumlfq" tableName="product_option"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699808009738-4">
+        <addForeignKeyConstraint baseColumnNames="option_is" baseTableName="product_option" constraintName="FK7l6g7jhi5u8b486g18s43h1s2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="options" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699808009738-5">
+        <dropForeignKeyConstraint baseTableName="product_option" constraintName="FKkctfrsccrhni1gmk1q40igvs4"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699808009738-7">
+        <dropColumn columnName="created_by" tableName="product_option"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699808009738-8">
+        <dropColumn columnName="created_date" tableName="product_option"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699808009738-9">
+        <dropColumn columnName="id" tableName="product_option"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699808009738-10">
+        <dropColumn columnName="modified_by" tableName="product_option"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699808009738-11">
+        <dropColumn columnName="modified_date" tableName="product_option"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699808009738-12">
+        <dropColumn columnName="option_id" tableName="product_option"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1699808009738-13">
+        <dropColumn columnName="status" tableName="product_option"/>
+    </changeSet>
+</databaseChangeLog>

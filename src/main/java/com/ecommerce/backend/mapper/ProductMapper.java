@@ -50,6 +50,18 @@ public interface ProductMapper {
     @Mapping(source = "avatar", target = "avatar")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "stock", target = "stock")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToProductDtoForProductVariation")
+    ProductDto fromEntityToProductDtoForProductVariation(Product product);
+
+    @IterableMapping(elementTargetType = ProductDto.class, qualifiedByName = "fromEntityToProductDtoForProductVariation")
+    List<ProductDto> fromEntityListToProductDtoListForProductVariation(List<Product> products);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "avatar", target = "avatar")
+    @Mapping(source = "description", target = "description")
+    @Mapping(source = "stock", target = "stock")
     @Mapping(source = "soldCount", target = "soldCount")
     @Mapping(source = "ratingCount", target = "ratingCount")
     @Mapping(source = "averageRating", target = "averageRating")
