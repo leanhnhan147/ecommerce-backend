@@ -2,6 +2,7 @@ package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.groupPermission.GroupPermissionAdminDto;
+import com.ecommerce.backend.dto.groupPermission.GroupPermissionDto;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.groupPermission.CreateGroupPermissionForm;
 import com.ecommerce.backend.form.groupPermission.UpdateGroupPermissionForm;
@@ -9,6 +10,7 @@ import com.ecommerce.backend.mapper.GroupPermissionMapper;
 import com.ecommerce.backend.repository.GroupPermissionRepository;
 import com.ecommerce.backend.service.GroupPermissionService;
 import com.ecommerce.backend.storage.criteria.GroupPermissionCriteria;
+import com.ecommerce.backend.storage.entity.Category;
 import com.ecommerce.backend.storage.entity.GroupPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,6 +44,12 @@ public class GroupPermissionServiceImpl implements GroupPermissionService {
         responseListDto.setTotalPages(groupPermissions.getTotalPages());
         responseListDto.setTotalElements(groupPermissions.getTotalElements());
         return responseListDto;
+    }
+
+    @Override
+    public List<GroupPermissionDto> getGroupPermissionListAutoComplete(GroupPermissionCriteria groupPermissionCriteria) {
+        List<GroupPermission> groupPermissions = groupPermissionRepository.findAll(groupPermissionCriteria.getCriteria());
+        return groupPermissionMapper.fromEntityListToGroupPermissionDtoAutoCompleteList(groupPermissions);
     }
 
     @Override

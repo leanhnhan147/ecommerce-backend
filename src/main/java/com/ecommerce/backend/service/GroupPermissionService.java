@@ -2,6 +2,7 @@ package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.groupPermission.GroupPermissionAdminDto;
+import com.ecommerce.backend.dto.groupPermission.GroupPermissionDto;
 import com.ecommerce.backend.form.groupPermission.CreateGroupPermissionForm;
 import com.ecommerce.backend.form.groupPermission.UpdateGroupPermissionForm;
 import com.ecommerce.backend.storage.criteria.GroupPermissionCriteria;
@@ -14,6 +15,8 @@ public interface GroupPermissionService {
     GroupPermissionAdminDto getGroupPermissionById(Long id);
 
     ResponseListDto<List<GroupPermissionAdminDto>> getGroupPermissionList(GroupPermissionCriteria groupPermissionCriteria, Pageable pageable);
+
+    List<GroupPermissionDto> getGroupPermissionListAutoComplete(GroupPermissionCriteria groupPermissionCriteria);
 
     void createGroupPermission(CreateGroupPermissionForm createGroupPermissionForm);
 

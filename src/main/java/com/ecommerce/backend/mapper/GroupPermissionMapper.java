@@ -40,6 +40,16 @@ public interface GroupPermissionMapper {
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
+    @Mapping(source = "description", target = "description")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToGroupPermissionDtoAutoComplete")
+    GroupPermissionDto fromEntityToGroupPermissionDtoAutoComplete(GroupPermission groupPermission);
+
+    @IterableMapping(elementTargetType = GroupPermissionDto.class, qualifiedByName = "fromEntityToGroupPermissionDtoAutoComplete")
+    List<GroupPermissionDto> fromEntityListToGroupPermissionDtoAutoCompleteList(List<GroupPermission> groupPermissions);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToGroupPermissionDto")
     GroupPermissionDto fromEntityToGroupPermissionDto(GroupPermission groupPermission);
