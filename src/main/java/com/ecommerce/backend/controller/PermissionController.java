@@ -2,14 +2,11 @@ package com.ecommerce.backend.controller;
 
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.option.OptionAdminDto;
 import com.ecommerce.backend.dto.permission.PermissionAdminDto;
-import com.ecommerce.backend.form.option.CreateOptionForm;
-import com.ecommerce.backend.form.option.UpdateOptionForm;
+import com.ecommerce.backend.dto.permission.PermissionDto;
 import com.ecommerce.backend.form.permission.CreatePermissionForm;
 import com.ecommerce.backend.form.permission.UpdatePermissionForm;
 import com.ecommerce.backend.service.PermissionService;
-import com.ecommerce.backend.storage.criteria.OptionCriteria;
 import com.ecommerce.backend.storage.criteria.PermissionCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +41,14 @@ public class PermissionController {
         responseListDtoApiMessageDto.setData(permissionService.getPermissionList(permissionCriteria, pageable));
         responseListDtoApiMessageDto.setMessage("Get list permission success");
         return responseListDtoApiMessageDto;
+    }
+
+    @GetMapping(value = "/auto-complete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<List<PermissionDto>> getListAutoComplete(PermissionCriteria permissionCriteria) {
+        ApiMessageDto<List<PermissionDto>> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(permissionService.getPermissionListAutoComplete(permissionCriteria));
+        apiMessageDto.setMessage("Get list auto complete success");
+        return apiMessageDto;
     }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)

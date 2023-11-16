@@ -1,8 +1,8 @@
 package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.option.OptionAdminDto;
 import com.ecommerce.backend.dto.permission.PermissionAdminDto;
+import com.ecommerce.backend.dto.permission.PermissionDto;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.permission.CreatePermissionForm;
 import com.ecommerce.backend.form.permission.UpdatePermissionForm;
@@ -12,7 +12,6 @@ import com.ecommerce.backend.repository.PermissionRepository;
 import com.ecommerce.backend.service.PermissionService;
 import com.ecommerce.backend.storage.criteria.PermissionCriteria;
 import com.ecommerce.backend.storage.entity.GroupPermission;
-import com.ecommerce.backend.storage.entity.Option;
 import com.ecommerce.backend.storage.entity.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -49,6 +48,12 @@ public class PermissionServiceImpl implements PermissionService {
         responseListDto.setTotalPages(permissions.getTotalPages());
         responseListDto.setTotalElements(permissions.getTotalElements());
         return responseListDto;
+    }
+
+    @Override
+    public List<PermissionDto> getPermissionListAutoComplete(PermissionCriteria permissionCriteria) {
+        List<Permission> permissions = permissionRepository.findAll(permissionCriteria.getCriteria());
+        return permissionMapper.fromEntityListToPermissionDtoAutoCompleteList(permissions);
     }
 
     @Override

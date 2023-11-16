@@ -39,7 +39,7 @@ public class RoleCriteria {
                 }
 
                 if(getPermissionId() != null){
-                    Join<Role, Permission> joinPermission = root.join("permission", JoinType.INNER);
+                    Join<Role, Permission> joinPermission = root.join("permissions", JoinType.INNER);
                     predicates.add((cb.equal((joinPermission.get("id")), getPermissionId())));
                 }
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
