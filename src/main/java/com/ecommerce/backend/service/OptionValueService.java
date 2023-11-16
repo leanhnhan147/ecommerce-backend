@@ -16,6 +16,8 @@ public interface OptionValueService {
 
     ResponseListDto<List<OptionValueAdminDto>> getOptionValueList(OptionValueCriteria optionValueCriteria, Pageable pageable);
 
+    List<OptionValueDto> getOptionValueListAutoComplete(OptionValueCriteria optionValueCriteria);
+
     OptionValueDto createOptionValue(CreateOptionValueForm createOptionValueForm);
 
     void updateOptionValue(UpdateOptionValueForm updateOptionValueForm);

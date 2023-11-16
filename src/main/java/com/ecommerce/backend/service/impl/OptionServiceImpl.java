@@ -53,6 +53,12 @@ public class OptionServiceImpl implements OptionService {
         return responseListDto;
     }
 
+    @Override
+    public List<OptionDto> getOptionListAutoComplete(OptionCriteria optionCriteria) {
+        List<Option> options = optionRepository.findAll(optionCriteria.getCriteria());
+        return optionMapper.fromEntityListToOptionDtoAutoCompleteList(options);
+    }
+
     @Transactional
     @Override
     public OptionDto createOption(CreateOptionForm createOptionForm) {
@@ -104,11 +110,5 @@ public class OptionServiceImpl implements OptionService {
             categories.add(category);
         }
         return categories;
-    }
-
-    @Override
-    public List<OptionDto> getOptionListAutoComplete(OptionCriteria optionCriteria) {
-        List<Option> options = optionRepository.findAll(optionCriteria.getCriteria());
-        return optionMapper.fromEntityListToOptionDtoAutoCompleteList(options);
     }
 }

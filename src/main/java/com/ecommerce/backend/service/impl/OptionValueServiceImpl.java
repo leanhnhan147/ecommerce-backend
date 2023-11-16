@@ -52,6 +52,12 @@ public class OptionValueServiceImpl implements OptionValueService {
     }
 
     @Override
+    public List<OptionValueDto> getOptionValueListAutoComplete(OptionValueCriteria optionValueCriteria) {
+        List<OptionValue> optionValues = optionValueRepository.findAll(optionValueCriteria.getCriteria());
+        return optionValueMapper.fromEntityListToOptionValueDtoAutoCompleteList(optionValues);
+    }
+
+    @Override
     public OptionValueDto createOptionValue(CreateOptionValueForm createOptionValueForm) {
         Option option = optionRepository.findById(createOptionValueForm.getOptionId()).orElse(null);
         if(option == null){
