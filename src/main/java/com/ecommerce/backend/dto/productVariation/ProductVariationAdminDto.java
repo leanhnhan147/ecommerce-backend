@@ -10,6 +10,8 @@ import java.util.List;
 @Data
 public class ProductVariationAdminDto extends BasicAdminDto {
     private Double price;
+    private Double discountedPrice;
+    private Integer stock;
     private Integer state;
     private ProductDto product;
     private List<ProductVariationOptionValueDto> productVariationOptionValues;

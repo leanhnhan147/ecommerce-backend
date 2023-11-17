@@ -21,14 +21,12 @@ public interface ProductVariationMapper {
 //    @Named("adminCreateMapping")
 //    ProductVariation fromCreateProductVariationFormToEntity(CreateProductVariationForm createProductVariationForm);
 
-    @Mapping(source = "price", target = "price")
     @Mapping(source = "state", target = "state")
     @BeanMapping(ignoreByDefault = true)
     @Named("adminUpdateMapping")
     void fromUpdateProductVariationFormToEntity(UpdateProductVariationForm updateProductVariationForm, @MappingTarget ProductVariation productVariation);
 
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "price", target = "price")
     @Mapping(source = "state", target = "state")
     @Mapping(source = "product", target = "product", qualifiedByName = "fromEntityToProductDtoForProductVariation")
     @Mapping(source = "productVariationOptionValues", target = "productVariationOptionValues", qualifiedByName = "fromEntityListToProductVariationOptionValueDtoList")
@@ -42,8 +40,7 @@ public interface ProductVariationMapper {
     List<ProductVariationAdminDto> fromEntityListToProductVariationAdminDtoList(List<ProductVariation> productVariations);
 
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "price", target = "price")
-    @Mapping(source = "stock", target = "stock")
+    @Mapping(source = "state", target = "state")
     @Mapping(source = "productVariationOptionValues", target = "productVariationOptionValues", qualifiedByName = "fromEntityListToProductVariationOptionValueDtoList")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToProductVariationDto")
