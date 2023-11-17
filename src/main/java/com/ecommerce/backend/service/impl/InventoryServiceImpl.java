@@ -11,6 +11,7 @@ import com.ecommerce.backend.repository.InventoryRepository;
 import com.ecommerce.backend.repository.ProductVariationRepository;
 import com.ecommerce.backend.repository.UserRepository;
 import com.ecommerce.backend.service.InventoryService;
+import com.ecommerce.backend.service.OTPService;
 import com.ecommerce.backend.storage.criteria.InventoryCriteria;
 import com.ecommerce.backend.storage.entity.Inventory;
 import com.ecommerce.backend.storage.entity.Option;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,6 +39,9 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
     InventoryMapper inventoryMapper;
+
+    @Autowired
+    OTPService otpService;
 
     @Override
     public InventoryAdminDto getInventoryById(Long id) {
@@ -58,14 +63,32 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public void createInventory(CreateInventoryForm createInventoryForm) {
-        ProductVariation productVariation = productVariationRepository.findById(createInventoryForm.getProductVariationId())
-                .orElseThrow(() -> new NotFoundException("Not found product variation"));
         User user = userRepository.findById(createInventoryForm.getUserId())
                 .orElseThrow(() -> new NotFoundException("Not found user"));
-        Inventory inventory = inventoryMapper.fromCreateInventoryFormToEntity(createInventoryForm);
-        inventory.setProductVariation(productVariation);
-        inventory.setUser(user);
-        inventoryRepository.save(inventory);
+
+        for(int i = 0; i < createInventoryForm.getProductVariationId().length; i++){
+            ProductVariation productVariation = productVariationRepository.findById(createInventoryForm.getProductVariationId()[i])
+                    .orElseThrow(() -> new NotFoundException("Not found product variation"));
+            Inventory inventory = new Inventory();
+            inventory.setOriginalPrice(createInventoryForm.getOriginalPrice()[i]);
+            inventory.setQuantity(createInventoryForm.getQuantity()[i]);
+            inventory.setSku(generateSku(createInventoryForm.getSku()[i]));
+            inventory.setImportTime(new Date());
+            inventory.setProductVariation(productVariation);
+            inventory.setUser(user);
+            inventoryRepository.save(inventory);
+        }
+    }
+
+    private String generateSku(String sku){
+        String generateSku, newSku;
+        Inventory inventory;
+        do{
+            generateSku = otpService.generate(8);
+            newSku = sku + generateSku;
+            inventory = inventoryRepository.findBySku(newSku).orElse(null);
+        } while (inventory != null);
+        return newSku;
     }
 
     @Override
