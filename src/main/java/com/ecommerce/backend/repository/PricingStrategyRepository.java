@@ -15,6 +15,13 @@ public interface PricingStrategyRepository extends JpaRepository<PricingStrategy
     @Query("select ps from PricingStrategy ps " +
             "where ps.productVariation.id = :productVariationId " +
             "and ps.startDate <= :nowDate " +
+            "and ps.endDate >= :nowDate ")
+    Optional<PricingStrategy> findPriceByEndDate(@Param("productVariationId") Long  productVariationId,
+                                                 @Param("nowDate") Date nowDate);
+
+    @Query("select ps from PricingStrategy ps " +
+            "where ps.productVariation.id = :productVariationId " +
+            "and ps.startDate <= :nowDate " +
             "and ps.endDate >= :nowDate " +
             "and ps.state = :state")
     Optional<PricingStrategy> findPriceByStartDateAndEndDateAndState(@Param("productVariationId") Long  productVariationId,
