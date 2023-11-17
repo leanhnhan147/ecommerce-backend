@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class OptionValueFormat {
-    private Long id;
+    private String id;
     private String displayName;
     private Long imageId;
-    private Long optionId;
+    private String optionId;
 }
