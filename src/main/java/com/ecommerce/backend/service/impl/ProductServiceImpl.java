@@ -1,5 +1,6 @@
 package com.ecommerce.backend.service.impl;
 
+import com.ecommerce.backend.constant.Constant;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.category.CategoryDto;
 import com.ecommerce.backend.dto.format.option.OptionFormat;
@@ -47,6 +48,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductImageRepository productImageRepository;
+
+    @Autowired
+    ProductVariationRepository productVariationRepository;
+
+    @Autowired
+    PricingStrategyRepository pricingStrategyRepository;
 
     @Autowired
     MediaResourceService mediaResourceService;
@@ -153,8 +160,19 @@ public class ProductServiceImpl implements ProductService {
         for(int i = 0; i < productDto.getProductVariations().size(); i++){
             ProductVariationDto productVariationDto = productDto.getProductVariations().get(i);
             ProductVariationFormat productVariationFormat = new ProductVariationFormat();
-            productVariationFormat.setPrice(productVariationDto.getPrice());
-            productVariationFormat.setStock(productVariationDto.getStock());
+            productVariationFormat.setStock(productVariationRepository.countStockByProductVariationId(productVariationDto.getId()));
+
+            PricingStrategy pricingStrategy = pricingStrategyRepository.findPriceByStartDateAndEndDateAndState(productVariationDto.getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
+            if(pricingStrategy != null){
+                productVariationFormat.setPrice(pricingStrategy.getPrice());
+                productVariationFormat.setDiscountedPrice(pricingStrategy.getDiscountedPrice());
+            }else {
+                PricingStrategy pricingStrategy1 = pricingStrategyRepository.findPriceByEndDateAndState(productVariationDto.getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
+                if(pricingStrategy1 != null){
+                    productVariationFormat.setPrice(pricingStrategy1.getPrice());
+                    productVariationFormat.setDiscountedPrice(pricingStrategy1.getDiscountedPrice());
+                }
+            }
 
             List<String> optionValueIds = new ArrayList<>();
             for(int j = 0; j < productVariationDto.getProductVariationOptionValues().size(); j++){

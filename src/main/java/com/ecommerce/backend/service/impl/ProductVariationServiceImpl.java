@@ -1,5 +1,6 @@
 package com.ecommerce.backend.service.impl;
 
+import com.ecommerce.backend.constant.Constant;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.productVariation.ProductVariationAdminDto;
 import com.ecommerce.backend.exception.NotFoundException;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -40,13 +42,30 @@ public class ProductVariationServiceImpl implements ProductVariationService {
     OptionValueImageRepository optionValueImageRepository;
 
     @Autowired
+    PricingStrategyRepository pricingStrategyRepository;
+
+    @Autowired
     ProductVariationMapper productVariationMapper;
 
     @Override
     public ProductVariationAdminDto getProductVariationById(Long id) {
         ProductVariation productVariation = productVariationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found product variation"));
-        return productVariationMapper.fromEntityToProductVariationAdminDto(productVariation);
+        ProductVariationAdminDto productVariationAdminDto = productVariationMapper.fromEntityToProductVariationAdminDto(productVariation);
+        productVariationAdminDto.setStock(productVariationRepository.countStockByProductVariationId(productVariation.getId()));
+
+        PricingStrategy pricingStrategy = pricingStrategyRepository.findPriceByStartDateAndEndDateAndState(productVariation.getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
+        if(pricingStrategy != null){
+            productVariationAdminDto.setPrice(pricingStrategy.getPrice());
+            productVariationAdminDto.setDiscountedPrice(pricingStrategy.getDiscountedPrice());
+        }else {
+            PricingStrategy pricingStrategy1 = pricingStrategyRepository.findPriceByEndDateAndState(productVariation.getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
+            if(pricingStrategy1 != null){
+                productVariationAdminDto.setPrice(pricingStrategy1.getPrice());
+                productVariationAdminDto.setDiscountedPrice(pricingStrategy1.getDiscountedPrice());
+            }
+        }
+        return productVariationAdminDto;
     }
 
     @Override
@@ -70,8 +89,6 @@ public class ProductVariationServiceImpl implements ProductVariationService {
 
         for(int i = 0; i < createProductVariationForm.getOptionValues().length; i++){
             ProductVariation productVariation = new ProductVariation();
-            productVariation.setPrice(createProductVariationForm.getPrice()[i]);
-            productVariation.setStock(createProductVariationForm.getStock()[i]);
             productVariation.setProduct(product);
             productVariation.setState(createProductVariationForm.getState());
             productVariationRepository.save(productVariation);
