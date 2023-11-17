@@ -20,11 +20,7 @@ public class ProductVariation extends Auditable<String> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double price;
-    private Double discountedPrice;
-    private Integer discount;
     private Integer soldCount;
-    private Integer stock;
     private Integer state;  // 1: available  2: sold out    3: lock
 
     @ManyToOne

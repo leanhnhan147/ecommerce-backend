@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="LENOVO (generated)" id="1700242082959-1">
+        <dropColumn columnName="discount" tableName="product_variation"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700242082959-2">
+        <dropColumn columnName="discounted_price" tableName="product_variation"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700242082959-3">
+        <dropColumn columnName="price" tableName="product_variation"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700242082959-4">
+        <dropColumn columnName="stock" tableName="product_variation"/>
+    </changeSet>
+</databaseChangeLog>
