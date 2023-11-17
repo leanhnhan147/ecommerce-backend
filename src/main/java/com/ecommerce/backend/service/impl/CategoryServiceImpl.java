@@ -15,7 +15,6 @@ import com.ecommerce.backend.repository.ProductRepository;
 import com.ecommerce.backend.service.CategoryService;
 import com.ecommerce.backend.storage.criteria.CategoryCriteria;
 import com.ecommerce.backend.storage.entity.Category;
-import com.ecommerce.backend.storage.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

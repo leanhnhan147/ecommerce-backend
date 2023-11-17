@@ -3,6 +3,7 @@ package com.ecommerce.backend.controller;
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.groupPermission.GroupPermissionAdminDto;
+import com.ecommerce.backend.dto.groupPermission.GroupPermissionDto;
 import com.ecommerce.backend.form.groupPermission.CreateGroupPermissionForm;
 import com.ecommerce.backend.form.groupPermission.UpdateGroupPermissionForm;
 import com.ecommerce.backend.service.GroupPermissionService;
@@ -40,6 +41,14 @@ public class GroupPermissionController {
         responseListDtoApiMessageDto.setData(groupPermissionService.getGroupPermissionList(groupPermissionCriteria, pageable));
         responseListDtoApiMessageDto.setMessage("Get list group permission success");
         return responseListDtoApiMessageDto;
+    }
+
+    @GetMapping(value = "/auto-complete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<List<GroupPermissionDto>> getListAutoComplete(GroupPermissionCriteria groupPermissionCriteria) {
+        ApiMessageDto<List<GroupPermissionDto>> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(groupPermissionService.getGroupPermissionListAutoComplete(groupPermissionCriteria));
+        apiMessageDto.setMessage("Get list auto complete success");
+        return apiMessageDto;
     }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)

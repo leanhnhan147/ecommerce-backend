@@ -10,7 +10,8 @@ import java.util.Date;
 @Data
 public class InventoryAdminDto extends BasicAdminDto {
     private Double originalPrice;
-    private Integer quantity;
+    private String quantity;
+    private String sku;
     private Date importTime;
     private ProductVariationDto productVariation;
     private UserDto user;

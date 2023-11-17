@@ -43,6 +43,14 @@ public class OptionValueController {
         return responseListDtoApiMessageDto;
     }
 
+    @GetMapping(value = "/auto-complete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<List<OptionValueDto>> getListAutoComplete(OptionValueCriteria optionValueCriteria) {
+        ApiMessageDto<List<OptionValueDto>> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(optionValueService.getOptionValueListAutoComplete(optionValueCriteria));
+        apiMessageDto.setMessage("Get list auto complete success");
+        return apiMessageDto;
+    }
+
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiMessageDto<OptionValueDto> create(@Valid @RequestBody CreateOptionValueForm createOptionValueForm, BindingResult bindingResult) {
         ApiMessageDto<OptionValueDto> apiMessageDto = new ApiMessageDto<>();

@@ -18,16 +18,14 @@ import java.util.List;
         uses = {ProductVariationMapper.class, UserMapper.class})
 public interface InventoryMapper {
 
-    @Mapping(source = "originalPrice", target = "originalPrice")
-    @Mapping(source = "quantity", target = "quantity")
-    @Mapping(source = "importTime", target = "importTime")
-    @BeanMapping(ignoreByDefault = true)
-    @Named("adminCreateMapping")
-    Inventory fromCreateInventoryFormToEntity(CreateInventoryForm createInventoryForm);
+//    @Mapping(source = "originalPrice", target = "originalPrice")
+//    @Mapping(source = "quantity", target = "quantity")
+//    @BeanMapping(ignoreByDefault = true)
+//    @Named("adminCreateMapping")
+//    Inventory fromCreateInventoryFormToEntity(CreateInventoryForm createInventoryForm);
 
     @Mapping(source = "originalPrice", target = "originalPrice")
     @Mapping(source = "quantity", target = "quantity")
-    @Mapping(source = "importTime", target = "importTime")
     @BeanMapping(ignoreByDefault = true)
     @Named("adminUpdateMapping")
     void fromUpdateInventoryFormToEntity(UpdateInventoryForm updateInventoryForm, @MappingTarget Inventory inventory);
@@ -35,6 +33,7 @@ public interface InventoryMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "originalPrice", target = "originalPrice")
     @Mapping(source = "quantity", target = "quantity")
+    @Mapping(source = "sku", target = "sku")
     @Mapping(source = "importTime", target = "importTime")
     @Mapping(source = "productVariation", target = "productVariation", qualifiedByName = "fromEntityToProductVariationDto")
     @Mapping(source = "user", target = "user", qualifiedByName = "fromEntityToUserDto")

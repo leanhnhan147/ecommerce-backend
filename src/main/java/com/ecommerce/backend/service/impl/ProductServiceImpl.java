@@ -146,9 +146,9 @@ public class ProductServiceImpl implements ProductService {
         List<ProductVariationFormat> productVariationFormats = new ArrayList<>();
 
         List<OptionFormat> optionFormats = new ArrayList<>();
-        List<Long> optionFormatIds = new ArrayList<>();
+        List<String> optionFormatIds = new ArrayList<>();
         List<OptionValueFormat> optionValueFormats = new ArrayList<>();
-        List<Long> optionValueFormatIds = new ArrayList<>();
+        List<String> optionValueFormatIds = new ArrayList<>();
 
         for(int i = 0; i < productDto.getProductVariations().size(); i++){
             ProductVariationDto productVariationDto = productDto.getProductVariations().get(i);
@@ -156,29 +156,29 @@ public class ProductServiceImpl implements ProductService {
             productVariationFormat.setPrice(productVariationDto.getPrice());
             productVariationFormat.setStock(productVariationDto.getStock());
 
-            List<Long> optionValueIds = new ArrayList<>();
+            List<String> optionValueIds = new ArrayList<>();
             for(int j = 0; j < productVariationDto.getProductVariationOptionValues().size(); j++){
                 OptionValueDto optionValueDto = productVariationDto.getProductVariationOptionValues().get(j).getOptionValue();
-                optionValueIds.add(optionValueDto.getId());
+                optionValueIds.add(optionValueDto.getCode());
 
                 // Check OptionValueFormat
-                if(!optionValueFormatIds.contains(optionValueDto.getId())){
-                    optionValueFormatIds.add(optionValueDto.getId());
+                if(!optionValueFormatIds.contains(optionValueDto.getCode())){
+                    optionValueFormatIds.add(optionValueDto.getCode());
 
                     OptionValueFormat optionValueFormat = new OptionValueFormat();
-                    optionValueFormat.setId(optionValueDto.getId());
+                    optionValueFormat.setId(optionValueDto.getCode());
                     optionValueFormat.setDisplayName(optionValueDto.getDisplayName());
-                    optionValueFormat.setOptionId(optionValueDto.getOption().getId());
+                    optionValueFormat.setOptionId(optionValueDto.getOption().getCode());
                     optionValueFormats.add(optionValueFormat);
                 }
 
                 // Check OptionFormat
                 OptionDto optionDto = optionValueDto.getOption();
-                if(!optionFormatIds.contains(optionDto.getId())){
-                    optionFormatIds.add(optionDto.getId());
+                if(!optionFormatIds.contains(optionDto.getCode())){
+                    optionFormatIds.add(optionDto.getCode());
 
                     OptionFormat optionFormat = new OptionFormat();
-                    optionFormat.setId(optionDto.getId());
+                    optionFormat.setId(optionDto.getCode());
                     optionFormat.setDisplayName(optionDto.getDisplayName());
                     optionFormats.add(optionFormat);
                 }
@@ -196,7 +196,7 @@ public class ProductServiceImpl implements ProductService {
 
             if(productImageDto.getOptionValueImage() != null){
                 for(int j = 0; j < optionValueFormats.size(); j++){
-                    if(optionValueFormats.get(j).getId().equals(productImageDto.getOptionValueImage().getOptionValue().getId())){
+                    if(optionValueFormats.get(j).getId().equals(productImageDto.getOptionValueImage().getOptionValue().getCode())){
                         optionValueFormats.get(j).setImageId(productImageDto.getMediaResource().getId());
                     }
                 }

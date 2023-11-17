@@ -8,5 +8,5 @@ import java.util.List;
 public class ProductVariationFormat {
     private Double price;
     private Integer stock;
-    private List<Long> optionValues;
+    private List<String> optionValues;
 }

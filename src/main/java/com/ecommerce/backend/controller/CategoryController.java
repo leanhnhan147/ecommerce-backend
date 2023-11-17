@@ -45,6 +45,14 @@ public class CategoryController {
         return responseListDtoApiMessageDto;
     }
 
+    @GetMapping(value = "/auto-complete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<List<CategoryDto>> getListAutoComplete(CategoryCriteria categoryCriteria) {
+        ApiMessageDto<List<CategoryDto>> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(categoryService.getCategoryListAutoComplete(categoryCriteria));
+        apiMessageDto.setMessage("Get list auto complete success");
+        return apiMessageDto;
+    }
+
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiMessageDto<String> create(@Valid @RequestBody CreateCategoryForm createCategoryForm, BindingResult bindingResult) {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
@@ -58,14 +66,6 @@ public class CategoryController {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         categoryService.updateCategory(updateCategoryForm);
         apiMessageDto.setMessage("Update category success");
-        return apiMessageDto;
-    }
-
-    @GetMapping(value = "/auto-complete", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<List<CategoryDto>> getListAutoComplete(CategoryCriteria categoryCriteria) {
-        ApiMessageDto<List<CategoryDto>> apiMessageDto = new ApiMessageDto<>();
-        apiMessageDto.setData(categoryService.getCategoryListAutoComplete(categoryCriteria));
-        apiMessageDto.setMessage("Get list auto complete success");
         return apiMessageDto;
     }
 

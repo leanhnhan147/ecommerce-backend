@@ -53,6 +53,18 @@ public interface PermissionMapper {
     @Mapping(source = "action", target = "action")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "code", target = "code")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToPermissionDtoComplete")
+    PermissionDto fromEntityToPermissionDtoComplete(Permission permission);
+
+    @IterableMapping(elementTargetType = PermissionDto.class, qualifiedByName = "fromEntityToPermissionDtoComplete")
+    List<PermissionDto> fromEntityListToPermissionDtoAutoCompleteList(List<Permission> permissions);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "action", target = "action")
+    @Mapping(source = "description", target = "description")
+    @Mapping(source = "code", target = "code")
     @Mapping(source = "groupPermission", target = "groupPermission", qualifiedByName = "fromEntityToGroupPermissionDto")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToPermissionDto")

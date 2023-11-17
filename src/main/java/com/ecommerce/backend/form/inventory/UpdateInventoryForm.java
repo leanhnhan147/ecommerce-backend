@@ -19,8 +19,4 @@ public class UpdateInventoryForm {
     @NotNull(message = "quantity can not null")
     @ApiModelProperty(name = "quantity", required = true)
     private Integer quantity;
-
-    @NotNull(message = "importTime can not null")
-    @ApiModelProperty(name = "importTime", required = true)
-    private Date importTime;
 }
