@@ -22,6 +22,8 @@ public class Inventory extends Auditable<String> {
 
     private Double originalPrice;
     private Integer quantity;
+    @Column(unique = true)
+    private String sku;
     private Date importTime;
 
     @ManyToOne
