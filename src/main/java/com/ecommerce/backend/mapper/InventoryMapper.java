@@ -1,13 +1,16 @@
 package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.inventory.InventoryAdminDto;
+import com.ecommerce.backend.dto.inventory.InventoryDto;
 import com.ecommerce.backend.dto.optionValue.OptionValueAdminDto;
+import com.ecommerce.backend.dto.pricingStrategy.PricingStrategyDto;
 import com.ecommerce.backend.form.inventory.CreateInventoryForm;
 import com.ecommerce.backend.form.inventory.UpdateInventoryForm;
 import com.ecommerce.backend.form.optionValue.CreateOptionValueForm;
 import com.ecommerce.backend.form.optionValue.UpdateOptionValueForm;
 import com.ecommerce.backend.storage.entity.Inventory;
 import com.ecommerce.backend.storage.entity.OptionValue;
+import com.ecommerce.backend.storage.entity.PricingStrategy;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -45,4 +48,18 @@ public interface InventoryMapper {
 
     @IterableMapping(elementTargetType = InventoryAdminDto.class, qualifiedByName = "adminGetMapping")
     List<InventoryAdminDto> fromEntityListToInventoryAdminDtoList(List<Inventory> inventories);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "originalPrice", target = "originalPrice")
+    @Mapping(source = "quantity", target = "quantity")
+    @Mapping(source = "sku", target = "sku")
+    @Mapping(source = "importTime", target = "importTime")
+    @Mapping(source = "productVariation", target = "productVariation", qualifiedByName = "fromEntityToProductVariationDto")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToInventoryAutoCompleteDto")
+    InventoryDto fromEntityToInventoryAutoCompleteDto(Inventory inventory);
+
+    @IterableMapping(elementTargetType = InventoryDto.class, qualifiedByName = "fromEntityToInventoryAutoCompleteDto")
+    List<InventoryDto> fromEntityListToInventoryAutoCompleteDtoList(List<Inventory> inventories);
+
 }

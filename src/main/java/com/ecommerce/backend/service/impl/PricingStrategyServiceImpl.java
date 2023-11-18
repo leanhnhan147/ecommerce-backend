@@ -1,6 +1,5 @@
 package com.ecommerce.backend.service.impl;
 
-import com.ecommerce.backend.constant.Constant;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.pricingStrategy.PricingStrategyAdminDto;
 import com.ecommerce.backend.dto.pricingStrategy.PricingStrategyDto;
@@ -14,7 +13,6 @@ import com.ecommerce.backend.repository.ProductVariationRepository;
 import com.ecommerce.backend.repository.UserRepository;
 import com.ecommerce.backend.service.PricingStrategyService;
 import com.ecommerce.backend.storage.criteria.PricingStrategyCriteria;
-import com.ecommerce.backend.storage.entity.Category;
 import com.ecommerce.backend.storage.entity.PricingStrategy;
 import com.ecommerce.backend.storage.entity.ProductVariation;
 import com.ecommerce.backend.storage.entity.User;
@@ -63,7 +61,6 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
     public List<PricingStrategyDto> getPricingStrategyListAutoComplete(PricingStrategyCriteria pricingStrategyCriteria) {
         List<PricingStrategy> pricingStrategies = pricingStrategyRepository.findAll(pricingStrategyCriteria.getCriteria());
         return pricingStrategyMapper.fromEntityListToPricingStrategyAutoCompleteDtoList(pricingStrategies);
-
     }
 
     @Override
@@ -102,7 +99,6 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
                 throw new RequestException("End date is invalid");
             }
         }
-
         pricingStrategyMapper.fromUpdatePricingStrategyFormToEntity(updatePricingStrategyForm, pricingStrategy);
         pricingStrategyRepository.save(pricingStrategy);
     }
