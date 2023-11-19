@@ -1,7 +1,6 @@
 package com.ecommerce.backend.repository;
 
 import com.ecommerce.backend.storage.entity.PricingStrategy;
-import io.swagger.models.auth.In;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -16,8 +15,17 @@ public interface PricingStrategyRepository extends JpaRepository<PricingStrategy
             "where ps.productVariation.id = :productVariationId " +
             "and ps.startDate <= :nowDate " +
             "and ps.endDate >= :nowDate ")
-    Optional<PricingStrategy> findPriceByEndDate(@Param("productVariationId") Long  productVariationId,
-                                                 @Param("nowDate") Date nowDate);
+    Optional<PricingStrategy> findByStartDateAndEndDate(@Param("productVariationId") Long  productVariationId,
+                                                        @Param("nowDate") Date nowDate);
+
+    @Query("select ps from PricingStrategy ps " +
+            "where ps.id <> :pricingStrategyId " +
+            "and ps.productVariation.id = :productVariationId " +
+            "and ps.startDate <= :nowDate " +
+            "and ps.endDate >= :nowDate ")
+    Optional<PricingStrategy> findByPricingStrategyIdAndStartDateAndEndDate(@Param("pricingStrategyId") Long  pricingStrategyId,
+                                                                            @Param("productVariationId") Long  productVariationId,
+                                                                            @Param("nowDate") Date nowDate);
 
     @Query("select ps from PricingStrategy ps " +
             "where ps.productVariation.id = :productVariationId " +

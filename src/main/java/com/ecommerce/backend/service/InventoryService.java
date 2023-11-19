@@ -2,6 +2,7 @@ package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.inventory.InventoryAdminDto;
+import com.ecommerce.backend.dto.inventory.InventoryDto;
 import com.ecommerce.backend.form.inventory.CreateInventoryForm;
 import com.ecommerce.backend.form.inventory.UpdateInventoryForm;
 import com.ecommerce.backend.storage.criteria.InventoryCriteria;
@@ -15,7 +16,11 @@ public interface InventoryService {
 
     ResponseListDto<List<InventoryAdminDto>> getInventoryList(InventoryCriteria inventoryCriteria, Pageable pageable);
 
+    List<InventoryDto> getInventoryListAutoComplete(InventoryCriteria inventoryCriteria);
+
     void createInventory(CreateInventoryForm createInventoryForm);
 
     void updateInventory(UpdateInventoryForm updateInventoryForm);
+
+    void deleteInventory(Long id);
 }

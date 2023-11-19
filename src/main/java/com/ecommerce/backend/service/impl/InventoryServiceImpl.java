@@ -2,6 +2,7 @@ package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.inventory.InventoryAdminDto;
+import com.ecommerce.backend.dto.inventory.InventoryDto;
 import com.ecommerce.backend.dto.option.OptionAdminDto;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.inventory.CreateInventoryForm;
@@ -13,10 +14,7 @@ import com.ecommerce.backend.repository.UserRepository;
 import com.ecommerce.backend.service.InventoryService;
 import com.ecommerce.backend.service.OTPService;
 import com.ecommerce.backend.storage.criteria.InventoryCriteria;
-import com.ecommerce.backend.storage.entity.Inventory;
-import com.ecommerce.backend.storage.entity.Option;
-import com.ecommerce.backend.storage.entity.ProductVariation;
-import com.ecommerce.backend.storage.entity.User;
+import com.ecommerce.backend.storage.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,6 +60,12 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
+    public List<InventoryDto> getInventoryListAutoComplete(InventoryCriteria inventoryCriteria) {
+        List<Inventory> inventories = inventoryRepository.findAll(inventoryCriteria.getCriteria());
+        return inventoryMapper.fromEntityListToInventoryAutoCompleteDtoList(inventories);
+    }
+
+    @Override
     public void createInventory(CreateInventoryForm createInventoryForm) {
         User user = userRepository.findById(createInventoryForm.getUserId())
                 .orElseThrow(() -> new NotFoundException("Not found user"));
@@ -91,11 +95,19 @@ public class InventoryServiceImpl implements InventoryService {
         return newSku;
     }
 
+    // Not completed, update later
     @Override
     public void updateInventory(UpdateInventoryForm updateInventoryForm) {
         Inventory inventory = inventoryRepository.findById(updateInventoryForm.getId())
                 .orElseThrow(() -> new NotFoundException("Not found inventory"));
         inventoryMapper.fromUpdateInventoryFormToEntity(updateInventoryForm, inventory);
         inventoryRepository.save(inventory);
+    }
+
+    @Override
+    public void deleteInventory(Long id) {
+        Inventory inventory = inventoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found inventory"));
+        inventoryRepository.deleteById(id);
     }
 }
