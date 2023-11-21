@@ -5,6 +5,12 @@ public class Constant {
     public static final String DATE_FORMAT = "dd/MM/yyyy";
     public static final String DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
 
+    public static final Integer STATUS_ACTIVE = 1;
+    public static final Integer STATUS_PENDING = 0;
+    public static final Integer STATUS_LOCK = -1;
+    public static final Integer STATUS_DELETE = -2;
+
+
     public static final String MEDIA_RESOURCE_TYPE_IMAGE = "image";
 
     public static final Integer MEDIA_RESOURCE_KIND_IMAGE = 1;
@@ -15,4 +21,8 @@ public class Constant {
 
     public static final Integer PRICING_STRATEGY_STATE_NOT_APPLY = 0;
     public static final Integer PRICING_STRATEGY_STATE_APPLY = 1;
+
+    public static final Integer NATION_KIND_PROVINCE = 1;
+    public static final Integer NATION_KIND_DISTRICT = 2;
+    public static final Integer NATION_KIND_WARD = 3;
 }
