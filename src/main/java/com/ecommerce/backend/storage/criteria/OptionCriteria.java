@@ -29,7 +29,7 @@ public class OptionCriteria {
                 }
 
                 if(!StringUtils.isEmpty(getDisplayName())){
-                    predicates.add(cb.like(cb.lower(root.get("displayName")),"%" + getDisplayName() + "%"));
+                    predicates.add(cb.like(cb.lower(root.get("displayName")),"%" + getDisplayName().toLowerCase() + "%"));
                 }
 
                 if(getStatus() != null){

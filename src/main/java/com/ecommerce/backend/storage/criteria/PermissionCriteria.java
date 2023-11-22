@@ -30,7 +30,7 @@ public class PermissionCriteria {
                 }
 
                 if(!StringUtils.isEmpty(getName())){
-                    predicates.add(cb.like(cb.lower(root.get("name")),"%" + getName() + "%"));
+                    predicates.add(cb.like(cb.lower(root.get("name")),"%" + getName().toLowerCase() + "%"));
                 }
 
                 if(getStatus() != null){

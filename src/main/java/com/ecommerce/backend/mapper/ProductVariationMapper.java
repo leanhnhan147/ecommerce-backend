@@ -27,6 +27,7 @@ public interface ProductVariationMapper {
     void fromUpdateProductVariationFormToEntity(UpdateProductVariationForm updateProductVariationForm, @MappingTarget ProductVariation productVariation);
 
     @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
     @Mapping(source = "state", target = "state")
     @Mapping(source = "product", target = "product", qualifiedByName = "fromEntityToProductDtoForProductVariation")
     @Mapping(source = "productVariationOptionValues", target = "productVariationOptionValues", qualifiedByName = "fromEntityListToProductVariationOptionValueDtoList")
@@ -40,6 +41,7 @@ public interface ProductVariationMapper {
     List<ProductVariationAdminDto> fromEntityListToProductVariationAdminDtoList(List<ProductVariation> productVariations);
 
     @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
     @Mapping(source = "state", target = "state")
     @Mapping(source = "productVariationOptionValues", target = "productVariationOptionValues", qualifiedByName = "fromEntityListToProductVariationOptionValueDtoList")
     @BeanMapping(ignoreByDefault = true)

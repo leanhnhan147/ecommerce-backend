@@ -31,7 +31,7 @@ public class UserCriteria {
                 }
 
                 if(!StringUtils.isEmpty(getFullName())){
-                    predicates.add(cb.like(cb.lower(root.get("fullName")),"%" + getFullName() + "%"));
+                    predicates.add(cb.like(cb.lower(root.get("fullName")),"%" + getFullName().toLowerCase() + "%"));
                 }
 
                 if(getStatus() != null){
