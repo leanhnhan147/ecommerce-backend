@@ -7,27 +7,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "product_variation")
-public class ProductVariation extends Auditable<String> {
+@Table(name = "nation")
+public class Nation extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private Integer soldCount;
-    private Integer state;  // 1: available  2: sold out    3: lock
+    @Column(unique = true)
+    private String postCode;
+    private Integer kind;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @OneToMany(mappedBy = "productVariation")
-    private List<ProductVariationOptionValue> productVariationOptionValues;
+    @JoinColumn(name = "parent_id")
+    private Nation parent;
 }

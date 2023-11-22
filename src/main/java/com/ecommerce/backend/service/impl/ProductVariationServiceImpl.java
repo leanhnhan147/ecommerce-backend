@@ -93,14 +93,18 @@ public class ProductVariationServiceImpl implements ProductVariationService {
             productVariation.setState(createProductVariationForm.getState());
             productVariationRepository.save(productVariation);
 
+            String productVariationName = product.getName();
             Long[] optionValues = createProductVariationForm.getOptionValues()[i];
             for(int j = 0; j < optionValues.length; j++){
                 OptionValue optionValue = optionValueRepository.findById(optionValues[j])
                         .orElseThrow(() -> new NotFoundException("Not found option value"));
+                productVariationName += " " + optionValue.getDisplayName();
                 ProductVariationOptionValue productVariationOptionValue =
                         new ProductVariationOptionValue(productVariation, optionValue);
                 productVariationOptionValueRepository.save(productVariationOptionValue);
             }
+            productVariation.setName(productVariationName);
+            productVariationRepository.save(productVariation);
         }
 
         for (int i = 0; i < createProductVariationForm.getImageIds().length; i++){
