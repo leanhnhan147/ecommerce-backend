@@ -41,7 +41,7 @@ public class OptionValueServiceImpl implements OptionValueService {
             throw new BadRequestException("Request not valid");
         }
         OptionValue optionValue = new OptionValue();
-        if(id != null && !StringUtils.isNoneBlank(code)){
+        if(id != null && code == null){
             optionValue = optionValueRepository.findById(id).orElse(null);
         }else if(id == null && StringUtils.isNoneBlank(code)){
             optionValue = optionValueRepository.findByCode(code);

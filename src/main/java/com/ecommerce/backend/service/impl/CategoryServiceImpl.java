@@ -42,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw new BadRequestException("Request not valid");
         }
         Category category = new Category();
-        if(id != null && !StringUtils.isNoneBlank(code)){
+        if(id != null && code == null){
             category = categoryRepository.findById(id).orElse(null);
         }else if(id == null && StringUtils.isNoneBlank(code)){
             category = categoryRepository.findByCode(code);

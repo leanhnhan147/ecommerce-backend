@@ -43,7 +43,7 @@ public class OptionServiceImpl implements OptionService {
             throw new BadRequestException("Request not valid");
         }
         Option option = new Option();
-        if(id != null && !StringUtils.isNoneBlank(code)){
+        if(id != null && code == null){
             option = optionRepository.findById(id).orElse(null);
         }else if(id == null && StringUtils.isNoneBlank(code)){
             option = optionRepository.findByCode(code);
