@@ -4,7 +4,7 @@ import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.pricingStrategy.PricingStrategyAdminDto;
 import com.ecommerce.backend.dto.pricingStrategy.PricingStrategyDto;
 import com.ecommerce.backend.exception.NotFoundException;
-import com.ecommerce.backend.exception.RequestException;
+import com.ecommerce.backend.exception.BadRequestException;
 import com.ecommerce.backend.form.pricingStrategy.CreatePricingStrategyForm;
 import com.ecommerce.backend.form.pricingStrategy.UpdatePricingStrategyForm;
 import com.ecommerce.backend.mapper.PricingStrategyMapper;
@@ -21,7 +21,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -71,10 +70,10 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
                 .orElseThrow(() -> new NotFoundException("Not found user"));
         PricingStrategy existPricingStrategy = pricingStrategyRepository.findByStartDateAndEndDate(productVariation.getId(), createPricingStrategyForm.getStartDate()).orElse(null);
         if(existPricingStrategy != null) {
-            throw new RequestException("Start date is invalid");
+            throw new BadRequestException("Start date is invalid");
         } else {
             if(createPricingStrategyForm.getStartDate().compareTo(createPricingStrategyForm.getEndDate()) >= 0) {
-                throw new RequestException("End date is invalid");
+                throw new BadRequestException("End date is invalid");
             }
         }
         PricingStrategy pricingStrategy = pricingStrategyMapper.fromCreatePricingStrategyFormToEntity(createPricingStrategyForm);
@@ -90,13 +89,13 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
         if(!updatePricingStrategyForm.getStartDate().equals(pricingStrategy.getStartDate())){
             PricingStrategy existPricingStrategy = pricingStrategyRepository.findByPricingStrategyIdAndStartDateAndEndDate(pricingStrategy.getId(), pricingStrategy.getProductVariation().getId(), updatePricingStrategyForm.getStartDate()).orElse(null);
             if(existPricingStrategy != null){
-                throw new RequestException("Start date is invalid");
+                throw new BadRequestException("Start date is invalid");
             }
         }
         if(!updatePricingStrategyForm.getEndDate().equals(pricingStrategy.getEndDate())){
             PricingStrategy existPricingStrategy = pricingStrategyRepository.findByPricingStrategyIdAndStartDateAndEndDate(pricingStrategy.getId(), pricingStrategy.getProductVariation().getId(), updatePricingStrategyForm.getEndDate()).orElse(null);
             if(existPricingStrategy != null || updatePricingStrategyForm.getStartDate().compareTo(updatePricingStrategyForm.getEndDate()) >= 0){
-                throw new RequestException("End date is invalid");
+                throw new BadRequestException("End date is invalid");
             }
         }
         pricingStrategyMapper.fromUpdatePricingStrategyFormToEntity(updatePricingStrategyForm, pricingStrategy);

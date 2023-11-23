@@ -29,10 +29,11 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<CategoryAdminDto> get(@PathVariable("id") Long id) {
+    @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<CategoryAdminDto> get(@RequestParam(value = "id", required = false) Long id,
+                                               @RequestParam(value = "code", required = false) String code) {
         ApiMessageDto<CategoryAdminDto> apiMessageDto = new ApiMessageDto<>();
-        apiMessageDto.setData(categoryService.getCategoryById(id));
+        apiMessageDto.setData(categoryService.getCategoryByIdOrCode(id, code));
         apiMessageDto.setMessage("Get category success");
         return apiMessageDto;
     }

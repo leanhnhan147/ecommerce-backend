@@ -12,6 +12,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSp
     Category findByNameAndLevel(String name, Integer level);
     Category findByNameAndLevelAndParentId(String name, Integer level, Long parentId);
     Category findByCode(String code);
+    Category findByIdAndCode(Long id, String code);
 
     @Query("SELECT c.id FROM Category c WHERE c.parent.id = :parentId")
     List<Long> getAllCategoryIdByParentId(@Param("parentId") Long parentId);

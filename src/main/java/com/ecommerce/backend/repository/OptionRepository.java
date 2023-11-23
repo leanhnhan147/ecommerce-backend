@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface OptionRepository extends JpaRepository<Option, Long>, JpaSpecificationExecutor<Option> {
     Option findByCode(String code);
     Option findByDisplayName(String displayName);
+    Option findByIdAndCode(Long id, String code);
 }

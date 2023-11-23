@@ -4,6 +4,7 @@ import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.option.OptionAdminDto;
 import com.ecommerce.backend.dto.option.OptionDto;
 import com.ecommerce.backend.exception.AlreadyExistsException;
+import com.ecommerce.backend.exception.BadRequestException;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.option.CreateOptionForm;
 import com.ecommerce.backend.form.option.UpdateOptionForm;
@@ -14,6 +15,7 @@ import com.ecommerce.backend.service.OptionService;
 import com.ecommerce.backend.storage.criteria.OptionCriteria;
 import com.ecommerce.backend.storage.entity.Category;
 import com.ecommerce.backend.storage.entity.Option;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,9 +38,21 @@ public class OptionServiceImpl implements OptionService {
     OptionMapper optionMapper;
 
     @Override
-    public OptionAdminDto getOptionById(Long id) {
-        Option option = optionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Not found option"));
+    public OptionAdminDto getOptionByIdOrCode(Long id, String code) {
+        if(id == null && code == null){
+            throw new BadRequestException("Request not valid");
+        }
+        Option option = new Option();
+        if(id != null && !StringUtils.isNoneBlank(code)){
+            option = optionRepository.findById(id).orElse(null);
+        }else if(id == null && StringUtils.isNoneBlank(code)){
+            option = optionRepository.findByCode(code);
+        }else {
+            option = optionRepository.findByIdAndCode(id, code);
+        }
+        if(option == null){
+            throw new NotFoundException("Not found option");
+        }
         return optionMapper.fromEntityToOptionAdminDto(option);
     }
 
