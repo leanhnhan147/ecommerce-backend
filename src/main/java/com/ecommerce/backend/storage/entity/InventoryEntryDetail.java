@@ -7,26 +7,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "pricing_strategy")
-public class PricingStrategy extends Auditable<String> {
+@Table(name = "inventory_entry_detail")
+public class InventoryEntryDetail extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double price;
-    private Double discountedPrice;
-    @Column(unique = true)
-    private String sku;
-    private Date startDate;
-    private Date endDate;
-    private Integer state;
+    private Double originalPrice;
+    private Integer quantity;
 
     @ManyToOne
     @JoinColumn(name = "product_variation_id")
@@ -35,8 +29,4 @@ public class PricingStrategy extends Auditable<String> {
     @ManyToOne
     @JoinColumn(name = "inventory_entry_id")
     private InventoryEntry inventoryEntry;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }
