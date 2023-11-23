@@ -56,4 +56,11 @@ public interface ProviderMapper {
 
     @IterableMapping(elementTargetType = ProviderDto.class, qualifiedByName = "fromEntityToProviderDtoAutoComplete")
     List<ProviderDto> fromEntityListToProviderDtoAutoCompleteList(List<Provider> providers);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "phone", target = "phone")
+    @Mapping(source = "address", target = "address")
+    @Named("fromEntityToProviderDto")
+    ProviderDto fromEntityToProviderDto(Provider provider);
 }

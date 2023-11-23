@@ -1,6 +1,5 @@
 package com.ecommerce.backend.storage.criteria;
 
-import com.ecommerce.backend.storage.entity.Inventory;
 import com.ecommerce.backend.storage.entity.PricingStrategy;
 import com.ecommerce.backend.storage.entity.ProductVariation;
 import com.ecommerce.backend.storage.entity.User;

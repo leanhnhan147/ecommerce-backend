@@ -10,33 +10,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class InventoryCriteria {
+public class InventoryEntryCriteria {
     private Long id;
+    private String invoiceCode;
     private Integer status;
-    private Long productVariationId;
+    private Long providerId;
     private Long userId;
 
-    public Specification<Inventory> getCriteria() {
-        return new Specification<Inventory>() {
+    public Specification<InventoryEntry> getCriteria() {
+        return new Specification<InventoryEntry>() {
             private static final long serialVersionUID = 1L;
             @Override
-            public Predicate toPredicate(Root<Inventory> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<InventoryEntry> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicates = new ArrayList<>();
                 if(getId() != null){
                     predicates.add(cb.equal(root.get("id"), getId()));
+                }
+
+                if(!StringUtils.isEmpty(getInvoiceCode())){
+                    predicates.add(cb.like(cb.lower(root.get("invoiceCode")),"%" + getInvoiceCode().toLowerCase() + "%"));
                 }
 
                 if(getStatus() != null){
                     predicates.add(cb.equal(root.get("status"), getStatus()));
                 }
 
-                if(getProductVariationId() != null){
-                    Join<Inventory, ProductVariation> joinProductVariation = root.join("productVariation", JoinType.INNER);
-                    predicates.add((cb.equal((joinProductVariation.get("id")), getProductVariationId())));
+                if(getProviderId() != null){
+                    Join<InventoryEntry, Provider> joinProductVariation = root.join("provider", JoinType.INNER);
+                    predicates.add((cb.equal((joinProductVariation.get("id")), getProviderId())));
                 }
 
                 if(getUserId() != null){
-                    Join<Inventory, User> joinUser = root.join("user", JoinType.INNER);
+                    Join<InventoryEntry, User> joinUser = root.join("user", JoinType.INNER);
                     predicates.add((cb.equal((joinUser.get("id")), getUserId())));
                 }
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));

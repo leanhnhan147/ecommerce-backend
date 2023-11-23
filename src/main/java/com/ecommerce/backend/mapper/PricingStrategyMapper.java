@@ -15,7 +15,7 @@ import java.util.List;
         uses = {ProductVariationMapper.class, UserMapper.class})
 public interface PricingStrategyMapper {
 
-    @Mapping(source = "originalPrice", target = "originalPrice")
+//    @Mapping(source = "originalPrice", target = "originalPrice")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "discountedPrice", target = "discountedPrice")
     @Mapping(source = "startDate", target = "startDate")
@@ -25,7 +25,7 @@ public interface PricingStrategyMapper {
     @Named("adminCreateMapping")
     PricingStrategy fromCreatePricingStrategyFormToEntity(CreatePricingStrategyForm createPricingStrategyForm);
 
-    @Mapping(source = "originalPrice", target = "originalPrice")
+//    @Mapping(source = "originalPrice", target = "originalPrice")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "discountedPrice", target = "discountedPrice")
     @Mapping(source = "startDate", target = "startDate")
@@ -36,7 +36,7 @@ public interface PricingStrategyMapper {
     void fromUpdatePricingStrategyFormToEntity(UpdatePricingStrategyForm updatePricingStrategyForm, @MappingTarget PricingStrategy pricingStrategy);
 
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "originalPrice", target = "originalPrice")
+//    @Mapping(source = "originalPrice", target = "originalPrice")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "discountedPrice", target = "discountedPrice")
     @Mapping(source = "startDate", target = "startDate")
@@ -54,7 +54,7 @@ public interface PricingStrategyMapper {
     List<PricingStrategyAdminDto> fromEntityListToPricingStrategyAdminDtoList(List<PricingStrategy> pricingStrategies);
 
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "originalPrice", target = "originalPrice")
+//    @Mapping(source = "originalPrice", target = "originalPrice")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "discountedPrice", target = "discountedPrice")
     @Mapping(source = "startDate", target = "startDate")

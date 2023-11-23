@@ -52,7 +52,7 @@ public class ProductVariationServiceImpl implements ProductVariationService {
         ProductVariation productVariation = productVariationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found product variation"));
         ProductVariationAdminDto productVariationAdminDto = productVariationMapper.fromEntityToProductVariationAdminDto(productVariation);
-        productVariationAdminDto.setStock(productVariationRepository.countStockByProductVariationId(productVariation.getId()));
+//        productVariationAdminDto.setStock(productVariationRepository.countStockByProductVariationId(productVariation.getId()));
 
         PricingStrategy pricingStrategy = pricingStrategyRepository.findPriceByStartDateAndEndDateAndState(productVariation.getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
         if(pricingStrategy != null){
