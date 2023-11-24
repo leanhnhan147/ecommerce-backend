@@ -36,8 +36,8 @@ public class InventoryEntryCriteria {
                 }
 
                 if(getProviderId() != null){
-                    Join<InventoryEntry, Provider> joinProductVariation = root.join("provider", JoinType.INNER);
-                    predicates.add((cb.equal((joinProductVariation.get("id")), getProviderId())));
+                    Join<InventoryEntry, Provider> joinProvider = root.join("provider", JoinType.INNER);
+                    predicates.add((cb.equal((joinProvider.get("id")), getProviderId())));
                 }
 
                 if(getUserId() != null){
