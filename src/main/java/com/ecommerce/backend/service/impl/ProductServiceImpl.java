@@ -161,7 +161,7 @@ public class ProductServiceImpl implements ProductService {
         for(int i = 0; i < productDto.getProductVariations().size(); i++){
             ProductVariationDto productVariationDto = productDto.getProductVariations().get(i);
             ProductVariationFormat productVariationFormat = new ProductVariationFormat();
-//            productVariationFormat.setStock(productVariationRepository.countStockByProductVariationId(productVariationDto.getId()));
+            productVariationFormat.setStock(productVariationRepository.countStockByProductVariationId(productVariationDto.getId()));
 
             PricingStrategy pricingStrategy = pricingStrategyRepository.findPriceByStartDateAndEndDateAndState(productVariationDto.getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
             if(pricingStrategy != null){
