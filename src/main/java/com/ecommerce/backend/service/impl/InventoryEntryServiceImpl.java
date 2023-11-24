@@ -81,17 +81,6 @@ public class InventoryEntryServiceImpl implements InventoryEntryService {
         inventoryEntryRepository.save(inventoryEntry);
     }
 
-//    private String generateSku(String sku){
-//        String generateSku, newSku;
-//        InventoryEntry inventoryEntry;
-//        do{
-//            generateSku = otpService.generate(8);
-//            newSku = sku + generateSku;
-//            inventoryEntry = inventoryRepository.findBySku(newSku).orElse(null);
-//        } while (inventoryEntry != null);
-//        return newSku;
-//    }
-
     // Not completed, update later
     @Override
     public void updateInventoryEntry(UpdateInventoryEntryForm updateInventoryEntryForm) {

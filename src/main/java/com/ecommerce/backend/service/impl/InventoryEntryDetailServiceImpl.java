@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -62,6 +63,7 @@ public class InventoryEntryDetailServiceImpl implements InventoryEntryDetailServ
         return inventoryEntryDetailMapper.fromEntityListToInventoryEntryDetailDtoAutoCompleteList(inventoryEntries);
     }
 
+    @Transactional
     @Override
     public void createInventoryEntryDetail(CreateInventoryEntryDetailForm createInventoryEntryDetailForm) {
         for (int i = 0; i < createInventoryEntryDetailForm.getInventoryEntryId().length; i++){
@@ -78,6 +80,7 @@ public class InventoryEntryDetailServiceImpl implements InventoryEntryDetailServ
         }
     }
 
+    @Transactional
     @Override
     public void updateInventoryEntryDetail(UpdateInventoryEntryDetailForm updateInventoryEntryDetailForm) {
         for (int i = 0; i < updateInventoryEntryDetailForm.getOriginalPrice().length; i++){
