@@ -4,6 +4,7 @@ import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.optionValue.OptionValueAdminDto;
 import com.ecommerce.backend.dto.optionValue.OptionValueDto;
 import com.ecommerce.backend.exception.AlreadyExistsException;
+import com.ecommerce.backend.exception.BadRequestException;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.optionValue.CreateOptionValueForm;
 import com.ecommerce.backend.form.optionValue.UpdateOptionValueForm;
@@ -14,6 +15,7 @@ import com.ecommerce.backend.service.OptionValueService;
 import com.ecommerce.backend.storage.criteria.OptionValueCriteria;
 import com.ecommerce.backend.storage.entity.Option;
 import com.ecommerce.backend.storage.entity.OptionValue;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,9 +36,21 @@ public class OptionValueServiceImpl implements OptionValueService {
     OptionValueMapper optionValueMapper;
 
     @Override
-    public OptionValueAdminDto getOptionValueById(Long id) {
-        OptionValue optionValue = optionValueRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Not found option value"));
+    public OptionValueAdminDto getOptionValueByIdOrCode(Long id, String code) {
+        if(id == null && code == null){
+            throw new BadRequestException("Request not valid");
+        }
+        OptionValue optionValue = new OptionValue();
+        if(id != null && code == null){
+            optionValue = optionValueRepository.findById(id).orElse(null);
+        }else if(id == null && StringUtils.isNoneBlank(code)){
+            optionValue = optionValueRepository.findByCode(code);
+        }else {
+            optionValue = optionValueRepository.findByIdAndCode(id, code);
+        }
+        if(optionValue == null){
+            throw new NotFoundException("Not found option value");
+        }
         return optionValueMapper.fromEntityToOptionValueAdminDto(optionValue);
     }
 

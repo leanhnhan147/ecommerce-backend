@@ -6,7 +6,7 @@ import com.ecommerce.backend.dto.nation.NationAdminDto;
 import com.ecommerce.backend.dto.nation.NationDto;
 import com.ecommerce.backend.exception.AlreadyExistsException;
 import com.ecommerce.backend.exception.NotFoundException;
-import com.ecommerce.backend.exception.RequestException;
+import com.ecommerce.backend.exception.BadRequestException;
 import com.ecommerce.backend.form.nation.CreateNationForm;
 import com.ecommerce.backend.form.nation.UpdateNationForm;
 import com.ecommerce.backend.mapper.NationMapper;
@@ -88,14 +88,14 @@ public class NationServiceImpl implements NationService {
 
     private Nation parentNation(Integer nationKind, Long parentId){
         if(Objects.equals(nationKind, Constant.NATION_KIND_PROVINCE)){
-            throw new RequestException("Parent not allow with Province");
+            throw new BadRequestException("Parent not allow with Province");
         }
         Nation parentNation = nationRepository.findById(parentId).orElse(null);
         if(parentNation == null) {
-            throw new RequestException("Not found parent nation");
+            throw new BadRequestException("Not found parent nation");
         }
         if (nationKind.intValue() - parentNation.getKind().intValue() != 1){
-            throw new RequestException("Parent nation not valid");
+            throw new BadRequestException("Parent nation not valid");
         }
         return parentNation;
     }

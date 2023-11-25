@@ -2,17 +2,11 @@ package com.ecommerce.backend.controller;
 
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.category.CategoryDto;
-import com.ecommerce.backend.dto.inventory.InventoryAdminDto;
 import com.ecommerce.backend.dto.pricingStrategy.PricingStrategyAdminDto;
 import com.ecommerce.backend.dto.pricingStrategy.PricingStrategyDto;
-import com.ecommerce.backend.form.category.CreateCategoryForm;
-import com.ecommerce.backend.form.category.UpdateCategoryForm;
 import com.ecommerce.backend.form.pricingStrategy.CreatePricingStrategyForm;
 import com.ecommerce.backend.form.pricingStrategy.UpdatePricingStrategyForm;
 import com.ecommerce.backend.service.PricingStrategyService;
-import com.ecommerce.backend.storage.criteria.CategoryCriteria;
-import com.ecommerce.backend.storage.criteria.InventoryCriteria;
 import com.ecommerce.backend.storage.criteria.PricingStrategyCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

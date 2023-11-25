@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProductVariationRepository extends JpaRepository<ProductVariation, Long>, JpaSpecificationExecutor<ProductVariation> {
 
-    @Query("select sum(i.quantity) from Inventory i where i.productVariation.id = :productVariationId")
+    @Query("select sum(ied.quantity) from InventoryEntryDetail ied where ied.productVariation.id = :productVariationId")
     Integer countStockByProductVariationId(@Param("productVariationId") Long productVariationId);
 }

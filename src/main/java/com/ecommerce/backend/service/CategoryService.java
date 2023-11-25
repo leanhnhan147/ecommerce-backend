@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface CategoryService {
 
-    CategoryAdminDto getCategoryById(Long id);
+    CategoryAdminDto getCategoryByIdOrCode(Long id, String code);
 
     ResponseListDto<List<CategoryAdminDto>> getCategoryList(CategoryCriteria categoryCriteria, Pageable pageable);
 

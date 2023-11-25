@@ -1,0 +1,98 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="LENOVO (generated)" id="1700745896796-1">
+        <createTable tableName="inventory_entry">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="inventory_entryPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT"/>
+            <column name="description" type="TEXT"/>
+            <column name="invoice_code" type="VARCHAR(255)"/>
+            <column name="total_price" type="DOUBLE PRECISION"/>
+            <column name="provider_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-2">
+        <createTable tableName="inventory_entry_detail">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="inventory_entry_detailPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT"/>
+            <column name="original_price" type="DOUBLE PRECISION"/>
+            <column name="quantity" type="INT"/>
+            <column name="inventory_entry_id" type="BIGINT"/>
+            <column name="product_variation_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-3">
+        <addColumn tableName="pricing_strategy">
+            <column name="inventory_entry_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-4">
+        <addColumn tableName="pricing_strategy">
+            <column name="sku" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-5">
+        <addUniqueConstraint columnNames="invoice_code" constraintName="UC_INVENTORY_ENTRYINVOICE_CODE_COL" tableName="inventory_entry"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-6">
+        <addUniqueConstraint columnNames="sku" constraintName="UC_PRICING_STRATEGYSKU_COL" tableName="pricing_strategy"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-7">
+        <addForeignKeyConstraint baseColumnNames="inventory_entry_id" baseTableName="pricing_strategy" constraintName="FK5hva4mwx9cb7ky39ptl2qt0k0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inventory_entry" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-8">
+        <addForeignKeyConstraint baseColumnNames="inventory_entry_id" baseTableName="inventory_entry_detail" constraintName="FK97h5lw14ulhuj8ttqm7bxj2w1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="inventory_entry" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-9">
+        <addForeignKeyConstraint baseColumnNames="provider_id" baseTableName="inventory_entry" constraintName="FKjg57qi2io9qx76i13isoiu2wu" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="provider" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-10">
+        <addForeignKeyConstraint baseColumnNames="product_variation_id" baseTableName="inventory_entry_detail" constraintName="FKo26opnduwbiciuhp7xxtlgf5b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_variation" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-11">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="inventory_entry" constraintName="FKqjdkgr138mosucfr85bewx5ir" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-12">
+        <dropForeignKeyConstraint baseTableName="inventory" constraintName="FK40wcb1cudx0ncpd75ghuciknc"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-13">
+        <dropForeignKeyConstraint baseTableName="inventory" constraintName="FK6s70ikopm646wy54vwowsnp6d"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-14">
+        <dropUniqueConstraint constraintName="UC_INVENTORYSKU_COL" tableName="inventory"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-15">
+        <dropTable tableName="inventory"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1700745896796-16">
+        <dropColumn columnName="original_price" tableName="pricing_strategy"/>
+    </changeSet>
+</databaseChangeLog>

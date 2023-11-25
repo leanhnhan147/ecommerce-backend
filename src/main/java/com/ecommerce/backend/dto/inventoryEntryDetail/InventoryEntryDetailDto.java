@@ -1,16 +1,14 @@
-package com.ecommerce.backend.dto.inventory;
+package com.ecommerce.backend.dto.inventoryEntryDetail;
 
+import com.ecommerce.backend.dto.inventoryEntry.InventoryEntryDto;
 import com.ecommerce.backend.dto.productVariation.ProductVariationDto;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class InventoryDto {
+public class InventoryEntryDetailDto {
     private Long id;
     private Double originalPrice;
     private Integer quantity;
-    private String sku;
-    private Date importTime;
     private ProductVariationDto productVariation;
+    private InventoryEntryDto inventoryEntry;
 }

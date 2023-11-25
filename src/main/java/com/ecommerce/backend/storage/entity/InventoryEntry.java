@@ -14,21 +14,23 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "inventory")
-public class Inventory extends Auditable<String> {
+@Table(name = "inventory_entry")
+public class InventoryEntry extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double originalPrice;
-    private Integer quantity;
+    private Double totalPrice;
+
     @Column(unique = true)
-    private String sku;
-    private Date importTime;
+    private String invoiceCode;
+
+    @Column(columnDefinition = "text")
+    private String description;
 
     @ManyToOne
-    @JoinColumn(name = "product_variation_id")
-    private ProductVariation productVariation;
+    @JoinColumn(name = "provider_id")
+    private Provider provider;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface OptionValueRepository extends JpaRepository<OptionValue, Long>, JpaSpecificationExecutor<OptionValue> {
     OptionValue findByCode(String code);
     OptionValue findByDisplayName(String displayName);
+    OptionValue findByIdAndCode(Long id, String code);
 }

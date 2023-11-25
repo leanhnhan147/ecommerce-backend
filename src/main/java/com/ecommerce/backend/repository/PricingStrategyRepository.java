@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public interface PricingStrategyRepository extends JpaRepository<PricingStrategy, Long>, JpaSpecificationExecutor<PricingStrategy> {
 
+    Optional<PricingStrategy> findBySku(String sku);
+
     @Query("select ps from PricingStrategy ps " +
             "where ps.productVariation.id = :productVariationId " +
             "and ps.startDate <= :nowDate " +

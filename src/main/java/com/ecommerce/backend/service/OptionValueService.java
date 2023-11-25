@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface OptionValueService {
 
-    OptionValueAdminDto getOptionValueById(Long id);
+    OptionValueAdminDto getOptionValueByIdOrCode(Long id, String code);
 
     ResponseListDto<List<OptionValueAdminDto>> getOptionValueList(OptionValueCriteria optionValueCriteria, Pageable pageable);
 

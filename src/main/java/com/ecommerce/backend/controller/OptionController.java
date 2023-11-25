@@ -27,10 +27,11 @@ public class OptionController {
     @Autowired
     OptionService optionService;
 
-    @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<OptionAdminDto> get(@PathVariable("id") Long id) {
+    @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<OptionAdminDto> get(@RequestParam(value = "id", required = false) Long id,
+                                             @RequestParam(value = "code", required = false) String code) {
         ApiMessageDto<OptionAdminDto> apiMessageDto = new ApiMessageDto<>();
-        apiMessageDto.setData(optionService.getOptionById(id));
+        apiMessageDto.setData(optionService.getOptionByIdOrCode(id, code));
         apiMessageDto.setMessage("Get option success");
         return apiMessageDto;
     }

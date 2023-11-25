@@ -6,7 +6,7 @@ import com.ecommerce.backend.dto.category.CategoryAdminDto;
 import com.ecommerce.backend.dto.category.CategoryDto;
 import com.ecommerce.backend.exception.AlreadyExistsException;
 import com.ecommerce.backend.exception.NotFoundException;
-import com.ecommerce.backend.exception.RequestException;
+import com.ecommerce.backend.exception.BadRequestException;
 import com.ecommerce.backend.form.category.CreateCategoryForm;
 import com.ecommerce.backend.form.category.UpdateCategoryForm;
 import com.ecommerce.backend.mapper.CategoryMapper;
@@ -15,12 +15,12 @@ import com.ecommerce.backend.repository.ProductRepository;
 import com.ecommerce.backend.service.CategoryService;
 import com.ecommerce.backend.storage.criteria.CategoryCriteria;
 import com.ecommerce.backend.storage.entity.Category;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,9 +37,21 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryMapper categoryMapper;
 
     @Override
-    public CategoryAdminDto getCategoryById(Long id) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Not found category"));
+    public CategoryAdminDto getCategoryByIdOrCode(Long id, String code) {
+        if(id == null && code == null){
+            throw new BadRequestException("Request not valid");
+        }
+        Category category = new Category();
+        if(id != null && code == null){
+            category = categoryRepository.findById(id).orElse(null);
+        }else if(id == null && StringUtils.isNoneBlank(code)){
+            category = categoryRepository.findByCode(code);
+        }else {
+            category = categoryRepository.findByIdAndCode(id, code);
+        }
+        if(category == null){
+            throw new NotFoundException("Not found category");
+        }
         return categoryMapper.fromEntityToCategoryAdminDto(category);
     }
 
@@ -80,14 +92,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     private Category parentCategory(Integer level, Long parentId){
         if(Objects.equals(level, Constant.CATEGORY_LEVEL_1)){
-            throw new RequestException("Category level 1 cannot have a parent");
+            throw new BadRequestException("Category level 1 cannot have a parent");
         }
         Category parentCategory = categoryRepository.findById(parentId).orElse(null);
         if(parentCategory == null ) {
             throw new NotFoundException("Not found parent category");
         }
         if(level.intValue() - parentCategory.getLevel().intValue() != 1){
-            throw new RequestException("Parent category not valid");
+            throw new BadRequestException("Parent category not valid");
         }
         if (!parentCategory.getHasChildren()){
             parentCategory.setHasChildren(true);
