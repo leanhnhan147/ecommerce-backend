@@ -3,7 +3,6 @@ package com.ecommerce.backend.controller;
 import com.ecommerce.backend.config.security.CustomUserDetails;
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.login.LoginDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.form.login.LoginForm;
@@ -65,8 +64,8 @@ public class UserController {
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<LoginDto> login(@Valid @RequestBody LoginForm loginForm, BindingResult bindingResult) {
-        ApiMessageDto<LoginDto> apiMessageDto = new ApiMessageDto<>();
+    public ApiMessageDto<UserDto> login(@Valid @RequestBody LoginForm loginForm, BindingResult bindingResult) {
+        ApiMessageDto<UserDto> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(userService.login(loginForm));
         apiMessageDto.setMessage("Login success");
         return apiMessageDto;
