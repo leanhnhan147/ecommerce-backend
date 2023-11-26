@@ -1,7 +1,6 @@
 package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.login.LoginDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.exception.AlreadyExistsException;
@@ -119,7 +118,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginDto login(LoginForm loginForm) {
+    public UserDto login(LoginForm loginForm) {
         Optional<User> user = userRepository.findByUsername(loginForm.getUsername());
         if(user.isEmpty() || !passwordEncoder.matches((loginForm.getPassword()), user.get().getPassword())){
             throw new BadRequestException("Username or password is invalid");
@@ -129,10 +128,9 @@ public class UserServiceImpl implements UserService {
                 .authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
 
         String token = JwtUtils.generateToken(loginForm.getUsername());
-        LoginDto loginDto = new LoginDto();
-        loginDto.setAccessToken(token);
-
-        return loginDto;
+        UserDto userDto = userMapper.fromEntityToLoginDto(user.get());
+        userDto.setAccessToken(token);
+        return userDto;
     }
 
     @Override

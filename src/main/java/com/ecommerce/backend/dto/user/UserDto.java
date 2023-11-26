@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Data
 public class UserDto {
+    private String accessToken;
     private Long id;
     private String fullName;
     private String avatar;

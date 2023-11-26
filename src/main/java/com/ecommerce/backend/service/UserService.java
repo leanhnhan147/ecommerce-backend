@@ -1,7 +1,6 @@
 package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.login.LoginDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.form.login.LoginForm;
@@ -23,7 +22,7 @@ public interface UserService {
 
     void updateUser(UpdateUserForm updateUserForm);
 
-    LoginDto login(LoginForm loginForm);
+    UserDto login(LoginForm loginForm);
 
     UserDto getProfile(Long id);
 
