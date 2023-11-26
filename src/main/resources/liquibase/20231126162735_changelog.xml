@@ -1,0 +1,30 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="LENOVO (generated)" id="1701016062487-1">
+        <createTable tableName="customer">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="customerPK"/>
+            </column>
+            <column name="attempt_code" type="INT"/>
+            <column name="avatar" type="VARCHAR(255)"/>
+            <column name="birhday" type="datetime"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="full_name" type="VARCHAR(255)"/>
+            <column name="gender" type="INT"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="phone" type="VARCHAR(255)"/>
+            <column name="reset_pwd_code" type="VARCHAR(255)"/>
+            <column name="reset_pwd_time" type="datetime"/>
+            <column name="username" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1701016062487-2">
+        <addUniqueConstraint columnNames="email" constraintName="UC_CUSTOMEREMAIL_COL" tableName="customer"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1701016062487-3">
+        <addUniqueConstraint columnNames="phone" constraintName="UC_CUSTOMERPHONE_COL" tableName="customer"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1701016062487-4">
+        <addUniqueConstraint columnNames="username" constraintName="UC_CUSTOMERUSERNAME_COL" tableName="customer"/>
+    </changeSet>
+</databaseChangeLog>
