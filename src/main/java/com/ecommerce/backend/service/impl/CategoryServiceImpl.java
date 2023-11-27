@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void createCategory(CreateCategoryForm createCategoryForm) {
+    public CategoryDto createCategory(CreateCategoryForm createCategoryForm) {
         if(createCategoryForm.getLevel().equals(Constant.CATEGORY_LEVEL_1)){
             Category categoryByName = categoryRepository.findByNameAndLevel(createCategoryForm.getName(), createCategoryForm.getLevel());
             if(categoryByName != null){
@@ -88,6 +88,10 @@ public class CategoryServiceImpl implements CategoryService {
             category.setParent(parentCategory(createCategoryForm.getLevel(), createCategoryForm.getParentId()));
         }
         categoryRepository.save(category);
+
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setId(category.getId());
+        return categoryDto;
     }
 
     private Category parentCategory(Integer level, Long parentId){

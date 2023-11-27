@@ -154,9 +154,9 @@ public class ProductServiceImpl implements ProductService {
         List<ProductVariationFormat> productVariationFormats = new ArrayList<>();
 
         List<OptionFormat> optionFormats = new ArrayList<>();
-        List<String> optionFormatIds = new ArrayList<>();
+        List<String> optionFormatCodes = new ArrayList<>();
         List<OptionValueFormat> optionValueFormats = new ArrayList<>();
-        List<String> optionValueFormatIds = new ArrayList<>();
+        List<String> optionValueFormatCodes = new ArrayList<>();
 
         for(int i = 0; i < productDto.getProductVariations().size(); i++){
             ProductVariationDto productVariationDto = productDto.getProductVariations().get(i);
@@ -181,11 +181,11 @@ public class ProductServiceImpl implements ProductService {
                 optionValueIds.add(optionValueDto.getCode());
 
                 // Check OptionValueFormat
-                if(!optionValueFormatIds.contains(optionValueDto.getCode())){
-                    optionValueFormatIds.add(optionValueDto.getCode());
+                if(!optionValueFormatCodes.contains(optionValueDto.getCode())){
+                    optionValueFormatCodes.add(optionValueDto.getCode());
 
                     OptionValueFormat optionValueFormat = new OptionValueFormat();
-                    optionValueFormat.setId(optionValueDto.getCode());
+                    optionValueFormat.setCode(optionValueDto.getCode());
                     optionValueFormat.setDisplayName(optionValueDto.getDisplayName());
                     optionValueFormat.setOptionId(optionValueDto.getOption().getCode());
                     optionValueFormats.add(optionValueFormat);
@@ -193,11 +193,11 @@ public class ProductServiceImpl implements ProductService {
 
                 // Check OptionFormat
                 OptionDto optionDto = optionValueDto.getOption();
-                if(!optionFormatIds.contains(optionDto.getCode())){
-                    optionFormatIds.add(optionDto.getCode());
+                if(!optionFormatCodes.contains(optionDto.getCode())){
+                    optionFormatCodes.add(optionDto.getCode());
 
                     OptionFormat optionFormat = new OptionFormat();
-                    optionFormat.setId(optionDto.getCode());
+                    optionFormat.setCode(optionDto.getCode());
                     optionFormat.setDisplayName(optionDto.getDisplayName());
                     optionFormats.add(optionFormat);
                 }
@@ -215,7 +215,7 @@ public class ProductServiceImpl implements ProductService {
 
             if(productImageDto.getOptionValueImage() != null){
                 for(int j = 0; j < optionValueFormats.size(); j++){
-                    if(optionValueFormats.get(j).getId().equals(productImageDto.getOptionValueImage().getOptionValue().getCode())){
+                    if(optionValueFormats.get(j).getCode().equals(productImageDto.getOptionValueImage().getOptionValue().getCode())){
                         optionValueFormats.get(j).setImageId(productImageDto.getMediaResource().getId());
                     }
                 }
@@ -236,7 +236,7 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(group -> group.stream()
                         .sorted(Comparator.comparing(optionValueFormat -> {
-                            int index = optionFormatIds.indexOf(optionValueFormat.getOptionId());
+                            int index = optionFormatCodes.indexOf(optionValueFormat.getOptionId());
                             return index != -1 ? index : Integer.MAX_VALUE;
                         }))
                         .collect(Collectors.toList()))
@@ -252,7 +252,7 @@ public class ProductServiceImpl implements ProductService {
         productFormat.setCategories(categories);
 
         productFormat.setId(productDto.getId());
-        productFormat.setTitle(productDto.getName());
+        productFormat.setName(productDto.getName());
         productFormat.setAvgRating(productDto.getAverageRating());
         productFormat.setRatingCount(productDto.getRatingCount());
         productFormat.setSoldCount(productDto.getSoldCount());

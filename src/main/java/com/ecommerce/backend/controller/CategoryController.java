@@ -55,9 +55,9 @@ public class CategoryController {
     }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<String> create(@Valid @RequestBody CreateCategoryForm createCategoryForm, BindingResult bindingResult) {
-        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        categoryService.createCategory(createCategoryForm);
+    public ApiMessageDto<CategoryDto> create(@Valid @RequestBody CreateCategoryForm createCategoryForm, BindingResult bindingResult) {
+        ApiMessageDto<CategoryDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(categoryService.createCategory(createCategoryForm));
         apiMessageDto.setMessage("Create category success");
         return apiMessageDto;
     }
