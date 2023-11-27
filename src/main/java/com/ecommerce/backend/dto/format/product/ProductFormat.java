@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class ProductFormat {
     private Long id;
-    private String title;
+    private String name;
     private Double avgRating;
     private Integer ratingCount;
     private Integer soldCount;
