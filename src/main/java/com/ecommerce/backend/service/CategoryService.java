@@ -16,11 +16,11 @@ public interface CategoryService {
 
     ResponseListDto<List<CategoryAdminDto>> getCategoryList(CategoryCriteria categoryCriteria, Pageable pageable);
 
-    void createCategory(CreateCategoryForm createCategoryForm);
+    List<CategoryDto> getCategoryListAutoComplete(CategoryCriteria categoryCriteria);
+
+    CategoryDto createCategory(CreateCategoryForm createCategoryForm);
 
     void updateCategory(UpdateCategoryForm updateCategoryForm);
-
-    List<CategoryDto> getCategoryListAutoComplete(CategoryCriteria categoryCriteria);
 
     void deleteCategory(Long id);
 
