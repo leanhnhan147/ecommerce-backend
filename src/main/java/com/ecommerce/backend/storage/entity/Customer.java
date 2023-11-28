@@ -1,5 +1,6 @@
 package com.ecommerce.backend.storage.entity;
 
+import com.ecommerce.backend.storage.base.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
