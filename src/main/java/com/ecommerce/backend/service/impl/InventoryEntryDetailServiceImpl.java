@@ -4,6 +4,7 @@ import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.inventoryEntry.InventoryEntryAdminDto;
 import com.ecommerce.backend.dto.inventoryEntryDetail.InventoryEntryDetailAdminDto;
 import com.ecommerce.backend.dto.inventoryEntryDetail.InventoryEntryDetailDto;
+import com.ecommerce.backend.exception.AlreadyExistsException;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.inventoryEntryDetail.CreateInventoryEntryDetailForm;
 import com.ecommerce.backend.form.inventoryEntryDetail.UpdateInventoryEntryDetailForm;
@@ -67,6 +68,11 @@ public class InventoryEntryDetailServiceImpl implements InventoryEntryDetailServ
     @Override
     public void createInventoryEntryDetail(CreateInventoryEntryDetailForm createInventoryEntryDetailForm) {
         for (int i = 0; i < createInventoryEntryDetailForm.getInventoryEntryId().length; i++){
+            InventoryEntryDetail existInventoryEntryDetail =
+                    inventoryEntryDetailRepository.findByProductVariationIdAndInventoryEntryId(createInventoryEntryDetailForm.getProductVariationId()[i], createInventoryEntryDetailForm.getInventoryEntryId()[i]);
+            if(existInventoryEntryDetail != null){
+                throw new AlreadyExistsException("Inventory Entry Detail already exist product variation");
+            }
             ProductVariation productVariation = productVariationRepository.findById(createInventoryEntryDetailForm.getProductVariationId()[i])
                     .orElseThrow(() -> new NotFoundException("Not found product variation"));
             InventoryEntry inventoryEntry = inventoryEntryRepository.findById(createInventoryEntryDetailForm.getInventoryEntryId()[i])
