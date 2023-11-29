@@ -1,93 +1,112 @@
 package com.ecommerce.backend.utils;
 
-import com.ecommerce.backend.config.security.CustomUserDetails;
-import com.ecommerce.backend.constant.SecurityConstants;
-import com.ecommerce.backend.storage.entity.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.StringUtils;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
+import java.io.Serializable;
 
-public class JwtUtils {
+@Data
+@Slf4j
+public class JwtUtils implements Serializable {
 
-    public static User getPrincipal() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = null;
-        if (authentication != null) {
-            principal = authentication.getPrincipal();
+    public static final String DELIM = "\\|";
+    public static final String EMPTY_STRING = "<>";
+    private Long tokenId;
+
+    private Long accountId = -1L;
+    private Long storeId = -1L;
+    private String kind = EMPTY_STRING;//token kind
+    private String pemission = EMPTY_STRING;
+    private Long deviceId = -1L;// id cua thiet bi, lưu ở table device để get firebase url..
+    private Integer userKind = -1; //loại user là admin hay là gì
+    private String username = EMPTY_STRING;// username hoac order code
+    private Integer tabletKind = -1;
+    private Long orderId = -1L;
+    private Boolean isSuperAdmin = false;
+    private String tenantId = EMPTY_STRING;
+
+    public String toClaim(){
+        if(deviceId == null){
+            deviceId = -1L;
         }
-        if(!principal.equals("anonymousUser")){
-            CustomUserDetails userDetails = (CustomUserDetails) principal;
-            return userDetails.getUser();
+        if(userKind == null){
+            userKind = -1;
+        }
+        if(username == null){
+            username = EMPTY_STRING;
+        }
+        if(tabletKind==null){
+            tabletKind = -1;
+        }
+        if(orderId == null){
+            orderId = -1L;
+        }
+        return ZipUtils.zipString(accountId+DELIM+storeId+DELIM+kind+DELIM+pemission+DELIM+deviceId+DELIM+userKind+DELIM+username+DELIM+tabletKind+DELIM+orderId+DELIM+isSuperAdmin+DELIM+tenantId) ;
+    }
+
+    public static JwtUtils decode(String input){
+        JwtUtils result = null;
+        try {
+            String[] items = ZipUtils.unzipString(input).split(DELIM,11);
+            if(items.length >= 10){
+                result = new JwtUtils();
+                result.setAccountId(parserLong(items[0]));
+                result.setStoreId(parserLong(items[1]));
+                result.setKind(checkString(items[2]));
+                result.setPemission(checkString(items[3]));
+                result.setDeviceId(parserLong(items[4]));
+                result.setUserKind(parserInt(items[5]));
+                result.setUsername(checkString(items[6]));
+                result.setTabletKind(parserInt(items[7]));
+                result.setOrderId(parserLong(items[8]));
+                result.setIsSuperAdmin(checkBoolean(items[9]));
+                if(items.length > 10){
+                    result.setTenantId(checkString(items[10]));
+                }
+            }
+        }catch (Exception e){
+            log.error(e.getMessage(),e);
+        }
+        return  result;
+    }
+
+    private static Long parserLong(String input){
+        try{
+            Long out = Long.parseLong(input);
+            if(out > 0){
+                return  out;
+            }
+        }catch (Exception e){
+            log.error(e.getMessage(),e);
         }
         return null;
     }
 
-    public static String getJwtFromRequest(HttpServletRequest request) {
-        String headerAuth = request.getHeader(SecurityConstants.HEADER_STRING);
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(SecurityConstants.TOKEN_PREFIX)) {
-            return headerAuth.substring(7);
+    private static Integer parserInt(String input){
+        try{
+            Integer out = Integer.parseInt(input);
+            if(out > 0){
+                return  out;
+            }
+        }catch (Exception e){
+            log.error(e.getMessage(),e);
         }
         return null;
     }
 
-    public static String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+    private static String checkString(String input){
+        if(!input.equals(EMPTY_STRING)){
+            return  input;
+        }
+        return  null;
     }
 
-    private static Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    public static Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    public static Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-            return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
-    }
-
-    public static String generateToken(String userName) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userName);
-    }
-
-    private static String createToken(Map<String, Object> claims, String userName) {
-        long currentTime = System.currentTimeMillis();
-        long expiredTimeInMillis = 5 * 24 * 60 * 60 * 1_000L; // 5 ngay
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userName)
-                .setIssuedAt(new Date(currentTime))
-                .setExpiration(new Date(currentTime + expiredTimeInMillis))
-                .signWith(getSignKey(), SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-    private static Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SecurityConstants.SECRET_KEY);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    private static <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    private static Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
+    private static Boolean checkBoolean(String input){
+        try{
+            return Boolean.parseBoolean(input);
+        }catch (Exception e){
+            log.error(e.getMessage(),e);
+            return false;
+        }
     }
 }

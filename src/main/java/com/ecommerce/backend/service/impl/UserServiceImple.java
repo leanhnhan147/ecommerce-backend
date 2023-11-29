@@ -1,6 +1,7 @@
 package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
+import com.ecommerce.backend.dto.account.LoginAuthDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.exception.AlreadyExistsException;
@@ -14,24 +15,26 @@ import com.ecommerce.backend.mapper.UserMapper;
 import com.ecommerce.backend.repository.RoleRepository;
 import com.ecommerce.backend.repository.UserRepository;
 import com.ecommerce.backend.service.UserService;
+import com.ecommerce.backend.service.feign.FeignAccountAuthService;
+import com.ecommerce.backend.service.feign.FeignConst;
 import com.ecommerce.backend.storage.criteria.UserCriteria;
 import com.ecommerce.backend.storage.entity.Role;
 import com.ecommerce.backend.storage.entity.User;
-import com.ecommerce.backend.utils.JwtUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImple implements UserService {
 
     @Autowired
     UserRepository userRepository;
@@ -43,10 +46,16 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    FeignAccountAuthService accountAuthService;
+
+    @Value("${auth.admin.username}")
+    private String username;
+
+    @Value("${auth.admin.password}")
+    private String password;
 
     @Override
     public UserAdminDto getUserById(Long id) {
@@ -73,8 +82,8 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException("Not found role");
         }
 
-        Optional<User> userByUsername = userRepository.findByUsername(createUserForm.getUsername());
-        if(userByUsername.isPresent()){
+        User userByUsername = userRepository.findByUsername(createUserForm.getUsername());
+        if(userByUsername != null){
             throw new AlreadyExistsException("Username already exist");
         }
         User userByPhone = userRepository.findByPhone(createUserForm.getPhone());
@@ -88,7 +97,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userMapper.fromCreateUserFormToEntity(createUserForm);
         user.setRole(role);
-        user.setPassword(passwordEncoder.encode(createUserForm.getPassword()));
+//        user.setPassword(passwordEncoder.encode(createUserForm.getPassword()));
         userRepository.save(user);
     }
 
@@ -111,26 +120,29 @@ public class UserServiceImpl implements UserService {
             }
         }
         if (StringUtils.isNoneBlank(updateUserForm.getPassword())) {
-            user.setPassword(passwordEncoder.encode(updateUserForm.getPassword()));
+//            user.setPassword(passwordEncoder.encode(updateUserForm.getPassword()));
         }
         userMapper.fromUpdateUserFormToEntity(updateUserForm, user);
         userRepository.save(user);
     }
 
     @Override
-    public UserDto login(LoginForm loginForm) {
-        Optional<User> user = userRepository.findByUsername(loginForm.getUsername());
-        if(user.isEmpty() || !passwordEncoder.matches((loginForm.getPassword()), user.get().getPassword())){
+    public LoginAuthDto login(LoginForm loginForm) {
+        User user = userRepository.findByUsername(loginForm.getUsername());
+        if(user == null  || !passwordEncoder.matches((loginForm.getPassword()), user.getPassword())){
             throw new BadRequestException("Username or password is invalid");
         }
 
-        authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword()));
-
-        String token = JwtUtils.generateToken(loginForm.getUsername());
-        UserDto userDto = userMapper.fromEntityToLoginDto(user.get());
-        userDto.setAccessToken(token);
-        return userDto;
+        MultiValueMap<String,String> request = new LinkedMultiValueMap<>();
+        request.add("grant_type","driver");
+        request.add("username", username);
+        request.add("password", password);
+        request.add("userId", String.valueOf(user.getId()));
+        LoginAuthDto result = accountAuthService.authLogin(FeignConst.LOGIN_TYPE_INTERNAL,request);
+        if(result == null || result.getAccessToken() == null){
+            throw new BadRequestException("Login failed");
+        }
+        return result;
     }
 
     @Override
