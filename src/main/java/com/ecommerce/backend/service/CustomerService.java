@@ -1,8 +1,10 @@
 package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.ResponseListDto;
+import com.ecommerce.backend.dto.account.LoginAuthDto;
 import com.ecommerce.backend.dto.customer.CustomerAdminDto;
 import com.ecommerce.backend.dto.customer.CustomerDto;
+import com.ecommerce.backend.form.customer.LoginCustomerForm;
 import com.ecommerce.backend.form.customer.RegisterCustomerForm;
 import com.ecommerce.backend.form.customer.UpdateCustomerForm;
 import com.ecommerce.backend.storage.criteria.CustomerCriteria;
@@ -23,4 +25,8 @@ public interface CustomerService {
     void deleteCustomer(Long id);
 
     void registerCustomer(RegisterCustomerForm registerCustomerForm);
+
+    LoginAuthDto loginCustomer(LoginCustomerForm loginCustomerForm);
+
+    CustomerDto profileCustomer(Long id);
 }

@@ -2,10 +2,12 @@ package com.ecommerce.backend.controller;
 
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
+import com.ecommerce.backend.dto.account.LoginAuthDto;
 import com.ecommerce.backend.dto.customer.CustomerAdminDto;
 import com.ecommerce.backend.dto.customer.CustomerDto;
 import com.ecommerce.backend.dto.option.OptionDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
+import com.ecommerce.backend.form.customer.LoginCustomerForm;
 import com.ecommerce.backend.form.customer.RegisterCustomerForm;
 import com.ecommerce.backend.form.customer.UpdateCustomerForm;
 import com.ecommerce.backend.form.inventoryEntryDetail.CreateInventoryEntryDetailForm;
@@ -28,7 +30,7 @@ import java.util.List;
 @RequestMapping("/v1/customer")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
-public class CustomerController {
+public class CustomerController extends BasicController{
 
     @Autowired
     CustomerService customerService;
@@ -78,6 +80,22 @@ public class CustomerController {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
         customerService.registerCustomer(registerCustomerForm);
         apiMessageDto.setMessage("Register customer success");
+        return apiMessageDto;
+    }
+
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<LoginAuthDto> login(@Valid @RequestBody LoginCustomerForm loginCustomerForm, BindingResult bindingResult) {
+        ApiMessageDto<LoginAuthDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(customerService.loginCustomer(loginCustomerForm));
+        apiMessageDto.setMessage("Login success");
+        return apiMessageDto;
+    }
+
+    @GetMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<CustomerDto> profile() {
+        ApiMessageDto<CustomerDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(customerService.profileCustomer(getCurrentUser()));
+        apiMessageDto.setMessage("Get profile success");
         return apiMessageDto;
     }
 }
