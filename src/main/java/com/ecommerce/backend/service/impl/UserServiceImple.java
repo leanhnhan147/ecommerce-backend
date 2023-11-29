@@ -134,7 +134,7 @@ public class UserServiceImple implements UserService {
         }
 
         MultiValueMap<String,String> request = new LinkedMultiValueMap<>();
-        request.add("grant_type","driver");
+        request.add("grant_type","admin");
         request.add("username", username);
         request.add("password", password);
         request.add("userId", String.valueOf(user.getId()));
