@@ -8,4 +8,6 @@ public class ApiMessageDto<T> {
     private String code = null;
     private T data = null;
     private String message = null;
+    private String firebaseUrl;
+    private String urlBase;
 }

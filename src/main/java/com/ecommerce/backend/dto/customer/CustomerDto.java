@@ -3,6 +3,8 @@ package com.ecommerce.backend.dto.customer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class CustomerDto {
     @ApiModelProperty(name = "id")
@@ -13,6 +15,8 @@ public class CustomerDto {
     private String avatar;
     @ApiModelProperty(name = "gender")
     private Integer gender;
+    @ApiModelProperty(name = "birhday")
+    private Date birhday;
     @ApiModelProperty(name = "phone")
     private String phone;
     @ApiModelProperty(name = "email")

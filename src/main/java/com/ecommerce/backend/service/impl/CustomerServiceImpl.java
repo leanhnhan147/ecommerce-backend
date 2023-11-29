@@ -1,25 +1,33 @@
 package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
+import com.ecommerce.backend.dto.account.LoginAuthDto;
 import com.ecommerce.backend.dto.customer.CustomerAdminDto;
 import com.ecommerce.backend.dto.customer.CustomerDto;
 import com.ecommerce.backend.dto.pricingStrategy.PricingStrategyAdminDto;
 import com.ecommerce.backend.exception.AlreadyExistsException;
+import com.ecommerce.backend.exception.BadRequestException;
 import com.ecommerce.backend.exception.NotFoundException;
+import com.ecommerce.backend.form.customer.LoginCustomerForm;
 import com.ecommerce.backend.form.customer.RegisterCustomerForm;
 import com.ecommerce.backend.form.customer.UpdateCustomerForm;
 import com.ecommerce.backend.mapper.CustomerMapper;
 import com.ecommerce.backend.repository.CustomerRepository;
 import com.ecommerce.backend.service.CustomerService;
+import com.ecommerce.backend.service.feign.FeignAccountAuthService;
+import com.ecommerce.backend.service.feign.FeignConst;
 import com.ecommerce.backend.storage.criteria.CustomerCriteria;
 import com.ecommerce.backend.storage.entity.Customer;
 import com.ecommerce.backend.storage.entity.PricingStrategy;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.List;
 
@@ -34,6 +42,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    FeignAccountAuthService accountAuthService;
+
+    @Value("${auth.customer.username}")
+    private String username;
+
+    @Value("${auth.customer.password}")
+    private String password;
 
     @Override
     public CustomerAdminDto getCustomerById(Long id) {
@@ -108,5 +125,31 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerMapper.fromRegisterCustomerFormToEntity(registerCustomerForm);
         customer.setPassword(passwordEncoder.encode(registerCustomerForm.getPassword()));
         customerRepository.save(customer);
+    }
+
+    @Override
+    public LoginAuthDto loginCustomer(LoginCustomerForm loginCustomerForm) {
+        Customer customer = customerRepository.findByUsername(loginCustomerForm.getUsername());
+        if(customer == null || !passwordEncoder.matches((loginCustomerForm.getPassword()), customer.getPassword()))
+        {
+            throw new BadRequestException("Username or password is incorrect");
+        }
+        MultiValueMap<String,String> request = new LinkedMultiValueMap<>();
+        request.add("grant_type","customer");
+        request.add("username", username);
+        request.add("password", password);
+        request.add("userId", String.valueOf(customer.getId()));
+        LoginAuthDto result = accountAuthService.authLogin(FeignConst.LOGIN_TYPE_INTERNAL,request);
+        if(result == null || result.getAccessToken() == null){
+            throw new BadRequestException("Login failed");
+        }
+        return result;
+    }
+
+    @Override
+    public CustomerDto profileCustomer(Long id) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found customer"));
+        return customerMapper.fromEntityToProfileCustomerDto(customer);
     }
 }

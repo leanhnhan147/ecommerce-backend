@@ -1,8 +1,8 @@
 package com.ecommerce.backend.controller;
 
-import com.ecommerce.backend.config.security.CustomUserDetails;
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
+import com.ecommerce.backend.dto.account.LoginAuthDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.form.login.LoginForm;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/v1/user")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
-public class UserController {
+public class UserController extends BasicController{
 
     @Autowired
     UserService userService;
@@ -64,28 +64,28 @@ public class UserController {
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<UserDto> login(@Valid @RequestBody LoginForm loginForm, BindingResult bindingResult) {
-        ApiMessageDto<UserDto> apiMessageDto = new ApiMessageDto<>();
+    public ApiMessageDto<LoginAuthDto> login(@Valid @RequestBody LoginForm loginForm, BindingResult bindingResult) {
+        ApiMessageDto<LoginAuthDto> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(userService.login(loginForm));
         apiMessageDto.setMessage("Login success");
         return apiMessageDto;
     }
 
     @GetMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<UserDto> get(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ApiMessageDto<UserDto> get() {
         ApiMessageDto<UserDto> apiMessageDto = new ApiMessageDto<>();
-        apiMessageDto.setData(userService.getProfile(userDetails.getUser().getId()));
+        apiMessageDto.setData(userService.getProfile(getCurrentUser()));
         apiMessageDto.setMessage("Get profile success");
         return apiMessageDto;
     }
 
-    @PutMapping(value = "/update-profile", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<String> updateProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                               @Valid @RequestBody UpdateProfileUserForm updateProfileUserForm,
-                                               BindingResult bindingResult) {
-        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        userService.updateProfile(userDetails.getUser().getId(), updateProfileUserForm);
-        apiMessageDto.setMessage("Update profile success");
-        return apiMessageDto;
-    }
+//    @PutMapping(value = "/update-profile", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ApiMessageDto<String> updateProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
+//                                               @Valid @RequestBody UpdateProfileUserForm updateProfileUserForm,
+//                                               BindingResult bindingResult) {
+//        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+//        userService.updateProfile(userDetails.getUser().getId(), updateProfileUserForm);
+//        apiMessageDto.setMessage("Update profile success");
+//        return apiMessageDto;
+//    }
 }
