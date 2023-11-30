@@ -61,8 +61,8 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductMapper productMapper;
 
-    @Value("${file.path.product-images}")
-    private String path;
+    @Value("${file.path.images}")
+    private String pathImage;
 
     @Override
     public ProductFormat getProductById(Long id) {
@@ -97,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<Long> imageIds = new ArrayList<>();
         if(createProductForm.getImages() != null){
-            MediaResource mediaResource = mediaResourceService.createMediaResource(path, createProductForm.getImages()[0]);
+            MediaResource mediaResource = mediaResourceService.createMediaResource(pathImage, createProductForm.getImages()[0]);
             if(mediaResource == null){
                 throw new NotFoundException("Not found media resource");
             }
@@ -109,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         for(int i = 1; i < createProductForm.getImages().length; i++){
-            MediaResource mediaResource = mediaResourceService.createMediaResource(path, createProductForm.getImages()[i]);
+            MediaResource mediaResource = mediaResourceService.createMediaResource(pathImage, createProductForm.getImages()[i]);
             if(mediaResource == null){
                 throw new NotFoundException("Not found media resource");
             }

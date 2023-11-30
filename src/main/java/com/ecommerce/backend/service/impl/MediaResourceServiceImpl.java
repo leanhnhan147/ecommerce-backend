@@ -2,7 +2,9 @@ package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.constant.Constant;
 import com.ecommerce.backend.controller.MediaResourceController;
+import com.ecommerce.backend.dto.mediaResource.MediaResourceDto;
 import com.ecommerce.backend.exception.NotFoundException;
+import com.ecommerce.backend.mapper.MediaResourceMapper;
 import com.ecommerce.backend.repository.MediaResourceRepository;
 import com.ecommerce.backend.repository.ProductImageRepository;
 import com.ecommerce.backend.service.CloudinaryService;
@@ -25,6 +27,8 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.*;
 import java.util.UUID;
@@ -44,6 +48,8 @@ public class MediaResourceServiceImpl implements MediaResourceService {
     @Autowired
     private CloudinaryService cloudinaryService;
 
+    @Autowired
+    private MediaResourceMapper mediaResourceMapper;
 //    @Override
 //    public MediaResource createMediaResource(MultipartFile image) {
 //        MediaResource mediaResource = new MediaResource();
@@ -67,6 +73,20 @@ public class MediaResourceServiceImpl implements MediaResourceService {
             e.printStackTrace();
             throw new RuntimeException("Error: " + e.getMessage());
         }
+    }
+
+    @Override
+    public List<MediaResourceDto> uploadFiles(String path, MultipartFile[] files) {
+        List<MediaResource> mediaResources = new ArrayList<>();
+        for (int i = 0; i < files.length; i++){
+            try {
+                mediaResources.add(uploadImage(path, files[i]));
+            }catch (IOException e){
+                e.printStackTrace();
+                throw new RuntimeException("Error: " + e.getMessage());
+            }
+        }
+        return mediaResourceMapper.fromEntityListToMediaResourceDtoAutoCompleteList(mediaResources);
     }
 
     public MediaResource uploadImage(String path, MultipartFile file) throws IOException {

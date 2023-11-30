@@ -1,8 +1,12 @@
 package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.mediaResource.MediaResourceDto;
+import com.ecommerce.backend.dto.option.OptionDto;
 import com.ecommerce.backend.storage.entity.MediaResource;
+import com.ecommerce.backend.storage.entity.Option;
 import org.mapstruct.*;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
@@ -15,4 +19,7 @@ public interface MediaResourceMapper {
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToMediaResourceDto")
     MediaResourceDto fromEntityToMediaResourceDto(MediaResource mediaResource);
+
+    @IterableMapping(elementTargetType = MediaResourceDto.class, qualifiedByName = "fromEntityToMediaResourceDto")
+    List<MediaResourceDto> fromEntityListToMediaResourceDtoAutoCompleteList(List<MediaResource> mediaResources);
 }
