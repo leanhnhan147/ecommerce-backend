@@ -64,8 +64,8 @@ public class UserController extends BasicController{
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<LoginAuthDto> login(@Valid @RequestBody LoginForm loginForm, BindingResult bindingResult) {
-        ApiMessageDto<LoginAuthDto> apiMessageDto = new ApiMessageDto<>();
+    public ApiMessageDto<UserDto> login(@Valid @RequestBody LoginForm loginForm, BindingResult bindingResult) {
+        ApiMessageDto<UserDto> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(userService.login(loginForm));
         apiMessageDto.setMessage("Login success");
         return apiMessageDto;

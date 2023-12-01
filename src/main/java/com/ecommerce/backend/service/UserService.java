@@ -23,7 +23,7 @@ public interface UserService {
 
     void updateUser(UpdateUserForm updateUserForm);
 
-    LoginAuthDto login(LoginForm loginForm);
+    UserDto login(LoginForm loginForm);
 
     UserDto getProfile(Long id);
 

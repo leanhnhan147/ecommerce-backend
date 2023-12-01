@@ -127,12 +127,11 @@ public class UserServiceImple implements UserService {
     }
 
     @Override
-    public LoginAuthDto login(LoginForm loginForm) {
+    public UserDto login(LoginForm loginForm) {
         User user = userRepository.findByUsername(loginForm.getUsername());
         if(user == null  || !passwordEncoder.matches((loginForm.getPassword()), user.getPassword())){
             throw new BadRequestException("Username or password is invalid");
         }
-
         MultiValueMap<String,String> request = new LinkedMultiValueMap<>();
         request.add("grant_type","admin");
         request.add("username", username);
@@ -142,7 +141,9 @@ public class UserServiceImple implements UserService {
         if(result == null || result.getAccessToken() == null){
             throw new BadRequestException("Login failed");
         }
-        return result;
+        UserDto userDto = userMapper.fromEntityToLoginDto(user);
+        userDto.setAccessToken(result.getAccessToken());
+        return userDto;
     }
 
     @Override
