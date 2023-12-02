@@ -10,6 +10,7 @@ import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.form.customer.LoginCustomerForm;
 import com.ecommerce.backend.form.customer.RegisterCustomerForm;
 import com.ecommerce.backend.form.customer.UpdateCustomerForm;
+import com.ecommerce.backend.form.customer.UpdateProfileCustomerForm;
 import com.ecommerce.backend.form.inventoryEntryDetail.CreateInventoryEntryDetailForm;
 import com.ecommerce.backend.form.option.UpdateOptionForm;
 import com.ecommerce.backend.service.CustomerService;
@@ -84,8 +85,8 @@ public class CustomerController extends BasicController{
     }
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<LoginAuthDto> login(@Valid @RequestBody LoginCustomerForm loginCustomerForm, BindingResult bindingResult) {
-        ApiMessageDto<LoginAuthDto> apiMessageDto = new ApiMessageDto<>();
+    public ApiMessageDto<CustomerDto> login(@Valid @RequestBody LoginCustomerForm loginCustomerForm, BindingResult bindingResult) {
+        ApiMessageDto<CustomerDto> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(customerService.loginCustomer(loginCustomerForm));
         apiMessageDto.setMessage("Login success");
         return apiMessageDto;
@@ -96,6 +97,14 @@ public class CustomerController extends BasicController{
         ApiMessageDto<CustomerDto> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(customerService.profileCustomer(getCurrentUser()));
         apiMessageDto.setMessage("Get profile success");
+        return apiMessageDto;
+    }
+
+    @PutMapping(value = "/update-profile", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<String> updateProfile(@Valid @RequestBody UpdateProfileCustomerForm updateProfileCustomerForm, BindingResult bindingResult) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        customerService.updateProfileCustomer(getCurrentUser(), updateProfileCustomerForm);
+        apiMessageDto.setMessage("Update profile success");
         return apiMessageDto;
     }
 }

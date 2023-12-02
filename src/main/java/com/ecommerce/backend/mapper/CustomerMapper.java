@@ -5,6 +5,8 @@ import com.ecommerce.backend.dto.customer.CustomerDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.form.customer.RegisterCustomerForm;
 import com.ecommerce.backend.form.customer.UpdateCustomerForm;
+import com.ecommerce.backend.form.customer.UpdateProfileCustomerForm;
+import com.ecommerce.backend.form.user.UpdateProfileUserForm;
 import com.ecommerce.backend.storage.entity.Customer;
 import com.ecommerce.backend.storage.entity.User;
 import org.mapstruct.*;
@@ -70,7 +72,28 @@ public interface CustomerMapper {
     @Mapping(source = "birhday", target = "birhday")
     @Mapping(source = "phone", target = "phone")
     @Mapping(source = "email", target = "email")
+    @Mapping(source = "username", target = "username")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToLoginCustomerDto")
+    CustomerDto fromEntityToLoginCustomerDto(Customer customer);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "fullName", target = "fullName")
+    @Mapping(source = "avatar", target = "avatar")
+    @Mapping(source = "gender", target = "gender")
+    @Mapping(source = "birhday", target = "birhday")
+    @Mapping(source = "phone", target = "phone")
+    @Mapping(source = "email", target = "email")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToProfileCustomerDto")
     CustomerDto fromEntityToProfileCustomerDto(Customer customer);
+
+    @Mapping(source = "fullName", target = "fullName")
+    @Mapping(source = "avatar", target = "avatar")
+    @Mapping(source = "gender", target = "gender")
+    @Mapping(source = "birhday", target = "birhday")
+    @Mapping(source = "phone", target = "phone")
+    @Mapping(source = "email", target = "email")
+    @Named("fromUpdateProfileCustomerFormToEntity")
+    void fromUpdateProfileCustomerFormToEntity(UpdateProfileCustomerForm updateProfileCustomerForm, @MappingTarget Customer customer);
 }
