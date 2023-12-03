@@ -42,8 +42,4 @@ public class CreatePricingStrategyForm {
     @NotNull(message = "inventoryEntryId can not null")
     @ApiModelProperty(name = "inventoryEntryId", required = true)
     private Long[] inventoryEntryId;
-
-    @NotNull(message = "userId can not null")
-    @ApiModelProperty(name = "userId", required = true)
-    private Long userId;
 }

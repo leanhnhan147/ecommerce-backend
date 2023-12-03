@@ -76,8 +76,8 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
 
     @Transactional
     @Override
-    public void createPricingStrategy(CreatePricingStrategyForm createPricingStrategyForm) {
-        User user = userRepository.findById(createPricingStrategyForm.getUserId())
+    public void createPricingStrategy(CreatePricingStrategyForm createPricingStrategyForm, Long userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Not found user"));
         for(int i = 0; i < createPricingStrategyForm.getProductVariationId().length; i++){
             ProductVariation productVariation = productVariationRepository.findById(createPricingStrategyForm.getProductVariationId()[i])
@@ -134,7 +134,6 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
                     throw new BadRequestException("End date is invalid");
                 }
             }
-
             pricingStrategy.setPrice(updatePricingStrategyForm.getPrice()[i]);
             pricingStrategy.setDiscountedPrice(updatePricingStrategyForm.getDiscountedPrice()[i]);
             pricingStrategy.setStartDate(updatePricingStrategyForm.getStartDate()[i]);

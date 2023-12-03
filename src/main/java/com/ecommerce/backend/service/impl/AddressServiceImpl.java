@@ -43,9 +43,7 @@ public class AddressServiceImpl implements AddressService {
     public AddressDto getAddressById(Long id) {
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found address"));
-        AddressDto addressDto = addressMapper.fromEntityToAddressDto(address);
-        addressDto.setAddressDetail(getAddressDefault(address));
-        return addressDto;
+        return addressMapper.fromEntityToAddressDto(address);
     }
 
     @Override
@@ -122,6 +120,7 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.save(address);
     }
 
+    @Transactional
     @Override
     public void deleteAddress(Long id, Long customerId) {
         Address address = addressRepository.findById(id)
@@ -132,5 +131,23 @@ public class AddressServiceImpl implements AddressService {
             throw new BadRequestException("Customer not has this address");
         }
         addressRepository.deleteById(id);
+    }
+
+    @Override
+    public void updateDefailt(Long id, Long customerId) {
+        Address address = addressRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found address"));
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new NotFoundException("Not found customer"));
+        if(!address.getCustomer().getId().equals(customer.getId())){
+            throw new BadRequestException("Customer not has this address");
+        }
+        Address addressIsDefault = addressRepository.findFirstByCustomerIdAndIsDefault(customer.getId(), Constant.ADDRESS_DEFAULT);
+        if(addressIsDefault != null){
+            addressIsDefault.setIsDefault(Constant.ADDRESS_NOT_DEFAULT);
+            addressRepository.save(addressIsDefault);
+        }
+        address.setIsDefault(Constant.ADDRESS_DEFAULT);
+        addressRepository.save(address);
     }
 }

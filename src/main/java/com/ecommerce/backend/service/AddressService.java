@@ -21,5 +21,5 @@ public interface AddressService {
 
     void deleteAddress(Long id, Long customerId);
 
-//    void updateDefailt()
+    void updateDefailt(Long id, Long customerId);
 }

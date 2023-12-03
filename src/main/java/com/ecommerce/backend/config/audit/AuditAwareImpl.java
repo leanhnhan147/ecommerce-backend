@@ -1,8 +1,9 @@
 package com.ecommerce.backend.config.audit;
 
-import com.ecommerce.backend.storage.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
@@ -10,6 +11,10 @@ import java.util.Optional;
 public class AuditAwareImpl implements AuditorAware<String> {
     @Override
     public Optional<String> getCurrentAuditor() {
-        return Optional.of("anonymous user");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return Optional.of("anonymous user");
+        }
+        return Optional.of(authentication.getName());
     }
 }

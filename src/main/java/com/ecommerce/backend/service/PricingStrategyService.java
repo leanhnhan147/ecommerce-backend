@@ -18,7 +18,7 @@ public interface PricingStrategyService {
 
     List<PricingStrategyDto> getPricingStrategyListAutoComplete(PricingStrategyCriteria pricingStrategyCriteria);
 
-    void createPricingStrategy(CreatePricingStrategyForm createPricingStrategyForm);
+    void createPricingStrategy(CreatePricingStrategyForm createPricingStrategyForm, Long userId);
 
     void updatePricingStrategy(UpdatePricingStrategyForm updatePricingStrategyForm);
 

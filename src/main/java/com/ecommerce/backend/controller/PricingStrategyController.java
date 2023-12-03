@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/v1/pricing-strategy")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
-public class PricingStrategyController {
+public class PricingStrategyController extends BasicController {
 
     @Autowired
     PricingStrategyService pricingStrategyService;
@@ -54,7 +54,7 @@ public class PricingStrategyController {
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiMessageDto<String> create(@Valid @RequestBody CreatePricingStrategyForm pricingStrategyForm, BindingResult bindingResult) {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        pricingStrategyService.createPricingStrategy(pricingStrategyForm);
+        pricingStrategyService.createPricingStrategy(pricingStrategyForm, getCurrentUser());
         apiMessageDto.setMessage("Create pricing strategy success");
         return apiMessageDto;
     }

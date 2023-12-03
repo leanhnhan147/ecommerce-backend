@@ -65,4 +65,12 @@ public class AddressController extends BasicController{
         apiMessageDto.setMessage("Delete nation success");
         return apiMessageDto;
     }
+
+    @GetMapping(value = "/update-default", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<String> updateDefault(@RequestParam("id") Long id) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        addressService.updateDefailt(id, getCurrentUser());
+        apiMessageDto.setMessage("Update default address success");
+        return apiMessageDto;
+    }
 }
