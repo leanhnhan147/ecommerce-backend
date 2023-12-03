@@ -71,4 +71,11 @@ public interface ProductMapper {
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToProductDto")
     ProductDto fromEntityToProductDto(Product product);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "avatar", target = "avatar")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToProductDtoForProductVariationCartItem")
+    ProductDto fromEntityToProductDtoForProductVariationCartItem(Product product);
 }

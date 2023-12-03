@@ -1,6 +1,7 @@
 package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.productVariation.ProductVariationAdminDto;
+import com.ecommerce.backend.dto.productVariation.ProductVariationCartItemDto;
 import com.ecommerce.backend.dto.productVariation.ProductVariationDto;
 import com.ecommerce.backend.form.productVariation.CreateProductVariationForm;
 import com.ecommerce.backend.form.productVariation.UpdateProductVariationForm;
@@ -51,5 +52,11 @@ public interface ProductVariationMapper {
     @IterableMapping(elementTargetType = ProductVariationDto.class, qualifiedByName = "fromEntityToProductVariationDto")
     @Named("fromEntityListToProductVariationDtoList")
     List<ProductVariationDto> fromEntityListToProductVariationDtoList(List<ProductVariation> productVariations);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "product", target = "product", qualifiedByName = "fromEntityToProductDtoForProductVariationCartItem")
+    @Named("fromEntityToProductVariationDtoForCartItem")
+    ProductVariationCartItemDto fromEntityToProductVariationDtoForCartItem(ProductVariation productVariation);
 
 }
