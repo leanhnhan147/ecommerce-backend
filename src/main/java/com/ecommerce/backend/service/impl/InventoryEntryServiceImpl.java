@@ -65,10 +65,10 @@ public class InventoryEntryServiceImpl implements InventoryEntryService {
     }
 
     @Override
-    public void createInventoryEntry(CreateInventoryEntryForm createInventoryEntryForm) {
+    public void createInventoryEntry(CreateInventoryEntryForm createInventoryEntryForm, Long userId) {
         Provider provider = providerRepository.findById(createInventoryEntryForm.getProviderId())
                 .orElseThrow(() -> new NotFoundException("Not found provider"));
-        User user = userRepository.findById(createInventoryEntryForm.getUserId())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Not found user"));
 
         InventoryEntry inventoryEntryByInvoiceCode = inventoryEntryRepository.findByInvoiceCode(createInventoryEntryForm.getInvoiceCode());
@@ -81,7 +81,6 @@ public class InventoryEntryServiceImpl implements InventoryEntryService {
         inventoryEntryRepository.save(inventoryEntry);
     }
 
-    // Not completed, update later
     @Override
     public void updateInventoryEntry(UpdateInventoryEntryForm updateInventoryEntryForm) {
         InventoryEntry inventoryEntry = inventoryEntryRepository.findById(updateInventoryEntryForm.getId())

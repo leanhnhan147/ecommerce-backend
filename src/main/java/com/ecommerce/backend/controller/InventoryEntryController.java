@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/v1/inventory-entry")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
-public class InventoryEntryController {
+public class InventoryEntryController extends BasicController {
 
     @Autowired
     InventoryEntryService inventoryEntryService;
@@ -54,7 +54,7 @@ public class InventoryEntryController {
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiMessageDto<String> create(@Valid @RequestBody CreateInventoryEntryForm createInventoryEntryForm, BindingResult bindingResult) {
         ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        inventoryEntryService.createInventoryEntry(createInventoryEntryForm);
+        inventoryEntryService.createInventoryEntry(createInventoryEntryForm, getCurrentUser());
         apiMessageDto.setMessage("Create inventory entry success");
         return apiMessageDto;
     }

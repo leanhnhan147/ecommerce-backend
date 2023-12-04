@@ -1,0 +1,30 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="LENOVO (generated)" id="1701530934091-1">
+        <createTable tableName="address">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="addressPK"/>
+            </column>
+            <column name="address_detail" type="VARCHAR(255)"/>
+            <column name="is_default" type="INT"/>
+            <column name="receiver_name" type="VARCHAR(255)"/>
+            <column name="receiver_phone" type="VARCHAR(255)"/>
+            <column name="customer_id" type="BIGINT"/>
+            <column name="district_id" type="BIGINT"/>
+            <column name="province_id" type="BIGINT"/>
+            <column name="ward_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1701530934091-2">
+        <addForeignKeyConstraint baseColumnNames="province_id" baseTableName="address" constraintName="FK4phn0hhux80x2m7d7m2sa8fcn" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="nation" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1701530934091-3">
+        <addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="address" constraintName="FK93c3js0e22ll1xlu21nvrhqgg" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="customer" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1701530934091-4">
+        <addForeignKeyConstraint baseColumnNames="district_id" baseTableName="address" constraintName="FKo37i2r4f1cgbfdayvpw19683k" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="nation" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1701530934091-5">
+        <addForeignKeyConstraint baseColumnNames="ward_id" baseTableName="address" constraintName="FKqulp49m7n6tgo120ksbvs60ma" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="nation" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

@@ -18,7 +18,7 @@ public interface InventoryEntryService {
 
     List<InventoryEntryDto> getInventoryEntryListAutoComplete(InventoryEntryCriteria inventoryEntryCriteria);
 
-    void createInventoryEntry(CreateInventoryEntryForm createInventoryEntryForm);
+    void createInventoryEntry(CreateInventoryEntryForm createInventoryEntryForm, Long userId);
 
     void updateInventoryEntry(UpdateInventoryEntryForm updateInventoryEntryForm);
 

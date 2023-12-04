@@ -76,6 +76,12 @@ public class UserServiceImple implements UserService {
     }
 
     @Override
+    public List<UserDto> getUserListAutoComplete(UserCriteria userCriteria) {
+        List<User> users = userRepository.findAll(userCriteria.getCriteria());
+        return userMapper.fromEntityListToUserDtoAutoCompleteList(users);
+    }
+
+    @Override
     public void createUser(CreateUserForm createUserForm) {
         Role role = roleRepository.findById(createUserForm.getRoleId()).orElse(null);
         if(role == null){
@@ -97,7 +103,7 @@ public class UserServiceImple implements UserService {
 
         User user = userMapper.fromCreateUserFormToEntity(createUserForm);
         user.setRole(role);
-//        user.setPassword(passwordEncoder.encode(createUserForm.getPassword()));
+        user.setPassword(passwordEncoder.encode(createUserForm.getPassword()));
         userRepository.save(user);
     }
 
@@ -120,19 +126,25 @@ public class UserServiceImple implements UserService {
             }
         }
         if (StringUtils.isNoneBlank(updateUserForm.getPassword())) {
-//            user.setPassword(passwordEncoder.encode(updateUserForm.getPassword()));
+            user.setPassword(passwordEncoder.encode(updateUserForm.getPassword()));
         }
         userMapper.fromUpdateUserFormToEntity(updateUserForm, user);
         userRepository.save(user);
     }
 
     @Override
-    public LoginAuthDto login(LoginForm loginForm) {
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found user"));
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDto login(LoginForm loginForm) {
         User user = userRepository.findByUsername(loginForm.getUsername());
         if(user == null  || !passwordEncoder.matches((loginForm.getPassword()), user.getPassword())){
             throw new BadRequestException("Username or password is invalid");
         }
-
         MultiValueMap<String,String> request = new LinkedMultiValueMap<>();
         request.add("grant_type","admin");
         request.add("username", username);
@@ -142,7 +154,9 @@ public class UserServiceImple implements UserService {
         if(result == null || result.getAccessToken() == null){
             throw new BadRequestException("Login failed");
         }
-        return result;
+        UserDto userDto = userMapper.fromEntityToLoginDto(user);
+        userDto.setAccessToken(result.getAccessToken());
+        return userDto;
     }
 
     @Override
@@ -160,10 +174,25 @@ public class UserServiceImple implements UserService {
         if(user == null){
             throw new NotFoundException("Not found user");
         }
+        if(!user.getPhone().equals(updateProfileUserForm.getPhone())){
+            User userByPhone = userRepository.findByPhone(updateProfileUserForm.getPhone());
+            if(userByPhone != null){
+                throw new AlreadyExistsException("Phone already exist");
+            }
+        }
+        if(!user.getEmail().equals(updateProfileUserForm.getEmail())){
+            User userByEmail = userRepository.findByEmail(updateProfileUserForm.getEmail());
+            if(userByEmail != null){
+                throw new AlreadyExistsException("Email already exist");
+            }
+        }
         if(!passwordEncoder.matches(updateProfileUserForm.getOldPassword(), user.getPassword())){
             throw new BadRequestException("Old password is incorrect");
         }
         if (StringUtils.isNoneBlank(updateProfileUserForm.getNewPassword())) {
+            if(passwordEncoder.matches(updateProfileUserForm.getNewPassword(), user.getPassword())) {
+                throw new BadRequestException("New password must not be the same old password");
+            }
             if(!updateProfileUserForm.getNewPassword().equals(updateProfileUserForm.getConfirmNewPassword())){
                 throw new BadRequestException("Confirm new password mismatches");
             }

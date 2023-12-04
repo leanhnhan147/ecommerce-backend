@@ -11,6 +11,7 @@ import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.customer.LoginCustomerForm;
 import com.ecommerce.backend.form.customer.RegisterCustomerForm;
 import com.ecommerce.backend.form.customer.UpdateCustomerForm;
+import com.ecommerce.backend.form.customer.UpdateProfileCustomerForm;
 import com.ecommerce.backend.mapper.CustomerMapper;
 import com.ecommerce.backend.repository.CustomerRepository;
 import com.ecommerce.backend.service.CustomerService;
@@ -128,7 +129,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public LoginAuthDto loginCustomer(LoginCustomerForm loginCustomerForm) {
+    public CustomerDto loginCustomer(LoginCustomerForm loginCustomerForm) {
         Customer customer = customerRepository.findByUsername(loginCustomerForm.getUsername());
         if(customer == null || !passwordEncoder.matches((loginCustomerForm.getPassword()), customer.getPassword()))
         {
@@ -143,7 +144,9 @@ public class CustomerServiceImpl implements CustomerService {
         if(result == null || result.getAccessToken() == null){
             throw new BadRequestException("Login failed");
         }
-        return result;
+        CustomerDto customerDto = customerMapper.fromEntityToLoginCustomerDto(customer);
+        customerDto.setAccessToken(result.getAccessToken());
+        return customerDto;
     }
 
     @Override
@@ -151,5 +154,37 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found customer"));
         return customerMapper.fromEntityToProfileCustomerDto(customer);
+    }
+
+    @Override
+    public void updateProfileCustomer(Long id, UpdateProfileCustomerForm updateProfileCustomerForm) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found customer"));
+        if(!customer.getPhone().equals(updateProfileCustomerForm.getPhone())){
+            Customer customerByPhone = customerRepository.findByPhone(updateProfileCustomerForm.getPhone());
+            if(customerByPhone != null){
+                throw new AlreadyExistsException("Phone already exist");
+            }
+        }
+        if(!customer.getEmail().equals(updateProfileCustomerForm.getEmail())){
+            Customer customerByEmail = customerRepository.findByEmail(updateProfileCustomerForm.getEmail());
+            if(customerByEmail != null){
+                throw new AlreadyExistsException("Email already exist");
+            }
+        }
+        if(!passwordEncoder.matches(updateProfileCustomerForm.getOldPassword(), customer.getPassword())){
+            throw new BadRequestException("Old password is incorrect");
+        }
+        if (StringUtils.isNoneBlank(updateProfileCustomerForm.getNewPassword())) {
+            if(passwordEncoder.matches(updateProfileCustomerForm.getNewPassword(), customer.getPassword())){
+                throw new BadRequestException("New password must not be the same old password");
+            }
+            if(!updateProfileCustomerForm.getNewPassword().equals(updateProfileCustomerForm.getConfirmNewPassword())){
+                throw new BadRequestException("Confirm new password mismatches");
+            }
+            customer.setPassword(passwordEncoder.encode(updateProfileCustomerForm.getNewPassword()));
+        }
+        customerMapper.fromUpdateProfileCustomerFormToEntity(updateProfileCustomerForm, customer);
+        customerRepository.save(customer);
     }
 }

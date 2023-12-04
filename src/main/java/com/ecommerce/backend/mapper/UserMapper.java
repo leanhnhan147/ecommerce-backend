@@ -1,10 +1,12 @@
 package com.ecommerce.backend.mapper;
 
+import com.ecommerce.backend.dto.customer.CustomerDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.form.user.CreateUserForm;
 import com.ecommerce.backend.form.user.UpdateProfileUserForm;
 import com.ecommerce.backend.form.user.UpdateUserForm;
+import com.ecommerce.backend.storage.entity.Customer;
 import com.ecommerce.backend.storage.entity.User;
 import org.mapstruct.*;
 
@@ -54,6 +56,18 @@ public interface UserMapper {
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "fullName", target = "fullName")
+    @Mapping(source = "phone", target = "phone")
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "username", target = "username")
+    @BeanMapping(ignoreByDefault = true)
+    @Named("fromEntityToUserDtoAutoComplete")
+    UserDto fromEntityToUserDtoAutoComplete(User user);
+
+    @IterableMapping(elementTargetType = UserDto.class, qualifiedByName = "fromEntityToUserDtoAutoComplete")
+    List<UserDto> fromEntityListToUserDtoAutoCompleteList(List<User> users);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "fullName", target = "fullName")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromEntityToUserDto")
     UserDto fromEntityToUserDto(User user);
@@ -83,6 +97,8 @@ public interface UserMapper {
     @Mapping(source = "fullName", target = "fullName")
     @Mapping(source = "avatar", target = "avatar")
     @Mapping(source = "birhday", target = "birhday")
+    @Mapping(source = "phone", target = "phone")
+    @Mapping(source = "email", target = "email")
     @BeanMapping(ignoreByDefault = true)
     @Named("fromUpdateProfileUserFormToEntity")
     void fromUpdateProfileUserFormToEntity(UpdateProfileUserForm updateProfileUserForm, @MappingTarget User user);

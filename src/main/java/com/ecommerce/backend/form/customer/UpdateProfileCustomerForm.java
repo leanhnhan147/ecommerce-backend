@@ -1,4 +1,4 @@
-package com.ecommerce.backend.form.user;
+package com.ecommerce.backend.form.customer;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,13 +9,17 @@ import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Data
-public class UpdateProfileUserForm {
-    @NotEmpty(message = "fullName can not be null")
+public class UpdateProfileCustomerForm {
+    @NotEmpty(message = "fullName cannot be null")
     @ApiModelProperty(name = "fullName", required = true)
     private String fullName;
 
     @ApiModelProperty(name = "avatar")
     private String avatar;
+
+    @NotEmpty(message = "fullName cannot be null")
+    @ApiModelProperty(name = "avatar")
+    private String gender;
 
     @ApiModelProperty(name = "birthday", required = true)
     @Past(message = "date of birth must be in the past")

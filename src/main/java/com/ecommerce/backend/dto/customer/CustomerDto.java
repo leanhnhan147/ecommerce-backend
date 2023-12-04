@@ -7,6 +7,8 @@ import java.util.Date;
 
 @Data
 public class CustomerDto {
+    @ApiModelProperty(name = "accessToken")
+    private String accessToken;
     @ApiModelProperty(name = "id")
     private Long id;
     @ApiModelProperty(name = "fullName")

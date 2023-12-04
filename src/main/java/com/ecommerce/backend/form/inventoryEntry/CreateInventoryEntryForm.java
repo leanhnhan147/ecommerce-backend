@@ -23,8 +23,4 @@ public class CreateInventoryEntryForm {
     @NotNull(message = "providerId can not null")
     @ApiModelProperty(name = "providerId", required = true)
     private Long providerId;
-
-    @NotNull(message = "userId can not null")
-    @ApiModelProperty(name = "userId", required = true)
-    private Long userId;
 }

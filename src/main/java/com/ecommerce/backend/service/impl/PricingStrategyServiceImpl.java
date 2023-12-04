@@ -67,7 +67,6 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
         return responseListDto;
     }
 
-    @Transactional
     @Override
     public List<PricingStrategyDto> getPricingStrategyListAutoComplete(PricingStrategyCriteria pricingStrategyCriteria) {
         List<PricingStrategy> pricingStrategies = pricingStrategyRepository.findAll(pricingStrategyCriteria.getCriteria());
@@ -76,8 +75,8 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
 
     @Transactional
     @Override
-    public void createPricingStrategy(CreatePricingStrategyForm createPricingStrategyForm) {
-        User user = userRepository.findById(createPricingStrategyForm.getUserId())
+    public void createPricingStrategy(CreatePricingStrategyForm createPricingStrategyForm, Long userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Not found user"));
         for(int i = 0; i < createPricingStrategyForm.getProductVariationId().length; i++){
             ProductVariation productVariation = productVariationRepository.findById(createPricingStrategyForm.getProductVariationId()[i])
@@ -86,10 +85,10 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
                     .orElseThrow(() -> new NotFoundException("Not found inventory entry"));
             PricingStrategy existPricingStrategy = pricingStrategyRepository.findByStartDateAndEndDate(productVariation.getId(), createPricingStrategyForm.getStartDate()[i]).orElse(null);
             if(existPricingStrategy != null) {
-                throw new BadRequestException("Start date is invalid");
+                throw new BadRequestException(productVariation.getName() + " có ngày bắt đầu không hợp lệ");
             } else {
                 if(createPricingStrategyForm.getStartDate()[i].compareTo(createPricingStrategyForm.getEndDate()[i]) >= 0) {
-                    throw new BadRequestException("End date is invalid");
+                    throw new BadRequestException(productVariation.getName() + " có ngày kết thúc không hợp lệ");
                 }
             }
             PricingStrategy pricingStrategy = new PricingStrategy();
@@ -117,6 +116,7 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
         return newSku;
     }
 
+    @Transactional
     @Override
     public void updatePricingStrategy(UpdatePricingStrategyForm updatePricingStrategyForm) {
         for (int i = 0; i < updatePricingStrategyForm.getPrice().length; i++){
@@ -125,16 +125,15 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
             if(!updatePricingStrategyForm.getStartDate()[i].equals(pricingStrategy.getStartDate())){
                 PricingStrategy existPricingStrategy = pricingStrategyRepository.findByPricingStrategyIdAndStartDateAndEndDate(pricingStrategy.getId(), pricingStrategy.getProductVariation().getId(), updatePricingStrategyForm.getStartDate()[i]).orElse(null);
                 if(existPricingStrategy != null){
-                    throw new BadRequestException("Start date is invalid");
+                    throw new BadRequestException(existPricingStrategy.getProductVariation().getName() + " có ngày bắt đầu không hợp lệ");
                 }
             }
             if(!updatePricingStrategyForm.getEndDate()[i].equals(pricingStrategy.getEndDate())){
                 PricingStrategy existPricingStrategy = pricingStrategyRepository.findByPricingStrategyIdAndStartDateAndEndDate(pricingStrategy.getId(), pricingStrategy.getProductVariation().getId(), updatePricingStrategyForm.getEndDate()[i]).orElse(null);
                 if(existPricingStrategy != null || updatePricingStrategyForm.getStartDate()[i].compareTo(updatePricingStrategyForm.getEndDate()[i]) >= 0){
-                    throw new BadRequestException("End date is invalid");
+                    throw new BadRequestException(existPricingStrategy.getProductVariation().getName() + " có ngày kết thúc không hợp lệ");
                 }
             }
-
             pricingStrategy.setPrice(updatePricingStrategyForm.getPrice()[i]);
             pricingStrategy.setDiscountedPrice(updatePricingStrategyForm.getDiscountedPrice()[i]);
             pricingStrategy.setStartDate(updatePricingStrategyForm.getStartDate()[i]);

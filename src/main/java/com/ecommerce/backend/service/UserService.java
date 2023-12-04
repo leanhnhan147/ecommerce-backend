@@ -1,7 +1,6 @@
 package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.account.LoginAuthDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.form.login.LoginForm;
@@ -19,11 +18,15 @@ public interface UserService {
 
     ResponseListDto<List<UserAdminDto>> getUserList(UserCriteria userCriteria, Pageable pageable);
 
+    List<UserDto> getUserListAutoComplete(UserCriteria userCriteria);
+
     void createUser(CreateUserForm createUserForm);
 
     void updateUser(UpdateUserForm updateUserForm);
 
-    LoginAuthDto login(LoginForm loginForm);
+    void deleteUser(Long id);
+
+    UserDto login(LoginForm loginForm);
 
     UserDto getProfile(Long id);
 

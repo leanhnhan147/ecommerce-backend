@@ -1,0 +1,32 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="LENOVO (generated)" id="1701616723876-1">
+        <createTable tableName="cart_item">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="cart_itemPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT"/>
+            <column name="quantity" type="INT"/>
+            <column name="customer_id" type="BIGINT"/>
+            <column name="product_variation_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1701616723876-2">
+        <addForeignKeyConstraint baseColumnNames="product_variation_id" baseTableName="cart_item" constraintName="FK25hgesa3njq8jkoml0hwfebda" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_variation" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1701616723876-3">
+        <addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="cart_item" constraintName="FKfy7fubprxqguyp4km04eogy66" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="customer" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

@@ -4,7 +4,6 @@ import com.ecommerce.backend.constant.Constant;
 import com.ecommerce.backend.validation.PricingStrategyState;
 import org.apache.commons.lang3.ObjectUtils;
 
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

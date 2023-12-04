@@ -21,4 +21,5 @@ public interface NationRepository extends JpaRepository<Nation, Long>, JpaSpecif
     void deleteAllByParentIdInList(@Param("parentIds") List<Long> parentIds);
 
     Optional<Nation> findByPostCode(String postCode);
+    Optional<Nation> findByIdAndKind(Long id, Integer kind);
 }
