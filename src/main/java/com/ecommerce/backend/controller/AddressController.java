@@ -43,9 +43,9 @@ public class AddressController extends BasicController{
     }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<String> create(@Valid @RequestBody CreateAddressForm createAddressForm, BindingResult bindingResult) {
-        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        addressService.createAddress(getCurrentUser(), createAddressForm);
+    public ApiMessageDto<AddressDto> create(@Valid @RequestBody CreateAddressForm createAddressForm, BindingResult bindingResult) {
+        ApiMessageDto<AddressDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(addressService.createAddress(getCurrentUser(), createAddressForm));
         apiMessageDto.setMessage("Create address success");
         return apiMessageDto;
     }
