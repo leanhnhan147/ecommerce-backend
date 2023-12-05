@@ -167,12 +167,6 @@ public class ProductServiceImpl implements ProductService {
             if(pricingStrategy != null){
                 productVariationFormat.setPrice(pricingStrategy.getPrice());
                 productVariationFormat.setDiscountedPrice(pricingStrategy.getDiscountedPrice());
-            }else {
-                PricingStrategy pricingStrategy1 = pricingStrategyRepository.findPriceByEndDateAndState(productVariationDto.getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
-                if(pricingStrategy1 != null){
-                    productVariationFormat.setPrice(pricingStrategy1.getPrice());
-                    productVariationFormat.setDiscountedPrice(pricingStrategy1.getDiscountedPrice());
-                }
             }
 
             List<String> optionValueIds = new ArrayList<>();
