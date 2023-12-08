@@ -12,6 +12,7 @@ import com.ecommerce.backend.service.CartService;
 import com.ecommerce.backend.storage.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,32 +40,33 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private CartItemMapper cartItemMapper;
 
+    @Transactional
     @Override
     public List<CartItemDto> getCart(Long customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Not found customer"));
         List<CartItem> cartItems = cartItemRepository.findByCustomerId(customer.getId());
         List<CartItemDto> cartItemDtos = cartItemMapper.fromEntityListToCartItemDtoList(cartItems);
+        List<CartItemDto> cartItemDtos1 = new ArrayList<>();
         for (CartItemDto cartItemDto : cartItemDtos){
-            PricingStrategy pricingStrategy = pricingStrategyRepository.findPriceByStartDateAndEndDateAndState(cartItemDto.getProductVariation().getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
-            if(pricingStrategy != null){
-                cartItemDto.getProductVariation().setPrice(pricingStrategy.getPrice());
-                cartItemDto.getProductVariation().setDiscountedPrice(pricingStrategy.getDiscountedPrice());
-            }else {
-                pricingStrategy = pricingStrategyRepository.findPriceByEndDateAndState(cartItemDto.getProductVariation().getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
-                if(pricingStrategy != null){
-                    cartItemDto.getProductVariation().setPrice(pricingStrategy.getPrice());
-                    cartItemDto.getProductVariation().setDiscountedPrice(pricingStrategy.getDiscountedPrice());
-                }
-            }
             List<OptionValue> optionValues = optionValueRepository.findByProductVariationId(cartItemDto.getProductVariation().getId());
             List<String> optionValueNames = new ArrayList<>();
             for (OptionValue optionValue : optionValues){
                 optionValueNames.add(optionValue.getDisplayName());
             }
             cartItemDto.getProductVariation().setOptionValues(optionValueNames);
+
+            PricingStrategy pricingStrategy = pricingStrategyRepository.findPriceByStartDateAndEndDateAndState(cartItemDto.getProductVariation().getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
+            if(pricingStrategy != null){
+                cartItemDto.getProductVariation().setPrice(pricingStrategy.getPrice());
+                cartItemDto.getProductVariation().setDiscountedPrice(pricingStrategy.getDiscountedPrice());
+                cartItemDto.setTotalPrice(pricingStrategy.getDiscountedPrice()*cartItemDto.getQuantity());
+                cartItemDtos1.add(cartItemDto);
+            }else {
+                cartItemRepository.deleteById(cartItemDto.getId());
+            }
         }
-        return cartItemDtos;
+        return cartItemDtos1;
     }
 
     @Override

@@ -91,6 +91,13 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
                     throw new BadRequestException(productVariation.getName() + " có ngày kết thúc không hợp lệ");
                 }
             }
+            if(createPricingStrategyForm.getPrice()[i] < 0){
+                throw new BadRequestException(productVariation.getName() + " giá bán không hợp lệ");
+            }
+            if(createPricingStrategyForm.getDiscountedPrice()[i] < 0 ||
+                    createPricingStrategyForm.getDiscountedPrice()[i] > createPricingStrategyForm.getPrice()[i]){
+                throw new BadRequestException(productVariation.getName() + " giá giảm giá không hợp lệ");
+            }
             PricingStrategy pricingStrategy = new PricingStrategy();
             pricingStrategy.setPrice(createPricingStrategyForm.getPrice()[i]);
             pricingStrategy.setDiscountedPrice(createPricingStrategyForm.getDiscountedPrice()[i]);
@@ -132,6 +139,16 @@ public class PricingStrategyServiceImpl implements PricingStrategyService {
                 PricingStrategy existPricingStrategy = pricingStrategyRepository.findByPricingStrategyIdAndStartDateAndEndDate(pricingStrategy.getId(), pricingStrategy.getProductVariation().getId(), updatePricingStrategyForm.getEndDate()[i]).orElse(null);
                 if(existPricingStrategy != null || updatePricingStrategyForm.getStartDate()[i].compareTo(updatePricingStrategyForm.getEndDate()[i]) >= 0){
                     throw new BadRequestException(existPricingStrategy.getProductVariation().getName() + " có ngày kết thúc không hợp lệ");
+                }
+            }
+            ProductVariation productVariation = productVariationRepository.findById(pricingStrategy.getProductVariation().getId()).orElse(null);
+            if(productVariation != null){
+                if(updatePricingStrategyForm.getPrice()[i] < 0){
+                    throw new BadRequestException(productVariation.getName() + " giá bán không hợp lệ");
+                }
+                if(updatePricingStrategyForm.getDiscountedPrice()[i] < 0 ||
+                        updatePricingStrategyForm.getDiscountedPrice()[i] > updatePricingStrategyForm.getPrice()[i]){
+                    throw new BadRequestException(productVariation.getName() + " giá giảm giá không hợp lệ");
                 }
             }
             pricingStrategy.setPrice(updatePricingStrategyForm.getPrice()[i]);

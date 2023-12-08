@@ -67,7 +67,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Transactional
     @Override
-    public void createAddress(Long customerId, CreateAddressForm createAddressForm) {
+    public AddressDto createAddress(Long customerId, CreateAddressForm createAddressForm) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Not found customer"));
         Nation province = nationRepository.findByIdAndKind(createAddressForm.getProvinceId(), Constant.NATION_KIND_PROVINCE)
@@ -89,6 +89,9 @@ public class AddressServiceImpl implements AddressService {
         address.setWard(ward);
         address.setCustomer(customer);
         addressRepository.save(address);
+        AddressDto addressDto = new AddressDto();
+        addressDto.setId(address.getId());
+        return addressDto;
     }
 
     @Transactional

@@ -58,12 +58,6 @@ public class ProductVariationServiceImpl implements ProductVariationService {
         if(pricingStrategy != null){
             productVariationAdminDto.setPrice(pricingStrategy.getPrice());
             productVariationAdminDto.setDiscountedPrice(pricingStrategy.getDiscountedPrice());
-        }else {
-            PricingStrategy pricingStrategy1 = pricingStrategyRepository.findPriceByEndDateAndState(productVariation.getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
-            if(pricingStrategy1 != null){
-                productVariationAdminDto.setPrice(pricingStrategy1.getPrice());
-                productVariationAdminDto.setDiscountedPrice(pricingStrategy1.getDiscountedPrice());
-            }
         }
         return productVariationAdminDto;
     }

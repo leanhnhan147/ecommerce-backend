@@ -1,0 +1,91 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="LENOVO (generated)" id="1702026956539-1">
+        <createTable tableName="order_detail">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="order_detailPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT"/>
+            <column name="quantity" type="INT"/>
+            <column name="order_id" type="BIGINT"/>
+            <column name="pricing_strategy_id" type="BIGINT"/>
+            <column name="product_variation_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702026956539-2">
+        <createTable tableName="order_tracking">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="order_trackingPK"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="note" type="TEXT"/>
+            <column name="state" type="INT"/>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="customer_id" type="BIGINT"/>
+            <column name="order_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702026956539-3">
+        <createTable tableName="orders">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="ordersPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT"/>
+            <column name="payment_method" type="INT"/>
+            <column name="receiver_address" type="VARCHAR(255)"/>
+            <column name="receiver_name" type="VARCHAR(255)"/>
+            <column name="receiver_phone" type="VARCHAR(255)"/>
+            <column name="shipping_price" type="DOUBLE PRECISION"/>
+            <column name="state" type="INT"/>
+            <column name="customer_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702026956539-4">
+        <addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="orders" constraintName="FK624gtjin3po807j3vix093tlf" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="customer" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702026956539-5">
+        <addForeignKeyConstraint baseColumnNames="product_variation_id" baseTableName="order_detail" constraintName="FK7784p7cxsx9sqkwlk07ef9kgl" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_variation" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702026956539-6">
+        <addForeignKeyConstraint baseColumnNames="pricing_strategy_id" baseTableName="order_detail" constraintName="FK9pet2y9o1lc906t959t0h20i" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="pricing_strategy" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702026956539-7">
+        <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="order_tracking" constraintName="FKeu0lumcx8bcx6lk035xiklty0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="orders" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702026956539-8">
+        <addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="order_tracking" constraintName="FKfqsxfrie5t7norj2eq25gyuhb" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="customer" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702026956539-9">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="order_tracking" constraintName="FKqk4carrrd4dolsohqt042a92j" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702026956539-10">
+        <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="order_detail" constraintName="FKrws2q0si6oyd6il8gqe2aennc" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="orders" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

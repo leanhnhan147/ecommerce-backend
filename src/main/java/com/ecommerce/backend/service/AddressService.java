@@ -15,7 +15,7 @@ public interface AddressService {
 
     ResponseListDto<List<AddressDto>> getAddressList(Long customerId, AddressCriteria addressCriteria, Pageable pageable);
 
-    void createAddress(Long customerId, CreateAddressForm createAddressForm);
+    AddressDto createAddress(Long customerId, CreateAddressForm createAddressForm);
 
     void updateAddress(Long customerId, UpdateAddressForm updateAddressForm);
 
