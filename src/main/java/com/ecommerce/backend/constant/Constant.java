@@ -30,4 +30,10 @@ public class Constant {
 
     public static final Integer ADDRESS_NOT_DEFAULT = 0;
     public static final Integer ADDRESS_DEFAULT = 1;
+
+    public static final Integer ORDER_STATE_CANCEL = -100;
+    public static final Integer ORDER_STATE_WAIT_CONFIRM = 0;
+    public static final Integer ORDER_STATE_CONFIRMED = 100;
+    public static final Integer ORDER_STATE_DELIVERING = 200;
+    public static final Integer ORDER_STATE_DELIVERED = 300;
 }

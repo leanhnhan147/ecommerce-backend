@@ -47,6 +47,7 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new NotFoundException("Not found customer"));
         List<CartItem> cartItems = cartItemRepository.findByCustomerId(customer.getId());
         List<CartItemDto> cartItemDtos = cartItemMapper.fromEntityListToCartItemDtoList(cartItems);
+        List<CartItemDto> cartItemDtos1 = new ArrayList<>();
         for (CartItemDto cartItemDto : cartItemDtos){
             List<OptionValue> optionValues = optionValueRepository.findByProductVariationId(cartItemDto.getProductVariation().getId());
             List<String> optionValueNames = new ArrayList<>();
@@ -60,12 +61,12 @@ public class CartServiceImpl implements CartService {
                 cartItemDto.getProductVariation().setPrice(pricingStrategy.getPrice());
                 cartItemDto.getProductVariation().setDiscountedPrice(pricingStrategy.getDiscountedPrice());
                 cartItemDto.setTotalPrice(pricingStrategy.getDiscountedPrice()*cartItemDto.getQuantity());
+                cartItemDtos1.add(cartItemDto);
             }else {
-                cartItemDtos.remove(cartItemDto);
                 cartItemRepository.deleteById(cartItemDto.getId());
             }
         }
-        return cartItemDtos;
+        return cartItemDtos1;
     }
 
     @Override
