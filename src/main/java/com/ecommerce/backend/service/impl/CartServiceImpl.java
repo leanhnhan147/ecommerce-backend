@@ -59,6 +59,7 @@ public class CartServiceImpl implements CartService {
             if(pricingStrategy != null){
                 cartItemDto.getProductVariation().setPrice(pricingStrategy.getPrice());
                 cartItemDto.getProductVariation().setDiscountedPrice(pricingStrategy.getDiscountedPrice());
+                cartItemDto.setTotalPrice(pricingStrategy.getDiscountedPrice()*cartItemDto.getQuantity());
             }else {
                 cartItemDtos.remove(cartItemDto);
                 cartItemRepository.deleteById(cartItemDto.getId());

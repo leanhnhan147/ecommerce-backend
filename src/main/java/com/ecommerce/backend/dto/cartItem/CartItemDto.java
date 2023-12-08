@@ -7,5 +7,6 @@ import lombok.Data;
 public class CartItemDto {
     private Long id;
     private Integer quantity;
+    private Double totalPrice;
     private ProductVariationCartItemDto productVariation;
 }
