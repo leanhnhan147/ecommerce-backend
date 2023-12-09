@@ -7,8 +7,10 @@ import com.ecommerce.backend.dto.order.OrderDto;
 import com.ecommerce.backend.dto.orderDetail.OrderDetailDto;
 import com.ecommerce.backend.exception.BadRequestException;
 import com.ecommerce.backend.exception.NotFoundException;
+import com.ecommerce.backend.form.order.CancelOrderForm;
 import com.ecommerce.backend.form.order.CheckoutOrderForm;
 import com.ecommerce.backend.form.order.CreateOrderForm;
+import com.ecommerce.backend.form.order.UpdateStateOrderForm;
 import com.ecommerce.backend.mapper.*;
 import com.ecommerce.backend.repository.*;
 import com.ecommerce.backend.service.OrderService;
@@ -47,6 +49,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private OrderMapper orderMapper;
@@ -133,18 +138,65 @@ public class OrderServiceImpl implements OrderService {
             orderDetailRepository.save(orderDetail);
             cartItemRepository.deleteById(createOrderForm.getCartItemIds()[i]);
         }
-        OrderTracking orderTracking = new OrderTracking();
-        orderTracking.setTitle("Chờ xác nhận đơn hàng");
-        orderTracking.setCreatedDate(new Date());
-        orderTracking.setState(Constant.ORDER_STATE_WAIT_CONFIRM);
-        orderTracking.setOrder(order);
-        orderTracking.setCustomer(customer);
+        OrderTracking orderTracking = createOrderTracking("Chờ xác nhận đơn hàng", null,
+                Constant.ORDER_STATE_WAIT_CONFIRM, order, customer, null);
         orderTrackingRepository.save(orderTracking);
     }
 
     private String getAddressDefault(Address address){
         return ZipUtils.zipString(address.getAddressDetail() + ", " + address.getWard().getName() + ", " + address.getDistrict().getName() + ", " + address.getProvince().getName()
                 + "|" + address.getProvince().getId() + "|" + address.getDistrict().getId() + "|" + address.getWard().getId());
+    }
+
+    @Override
+    public void updateStateOrder(UpdateStateOrderForm updateStateOrderForm, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Not found user"));
+        Order order = orderRepository.findById(updateStateOrderForm.getId())
+                .orElseThrow(() -> new NotFoundException("Not found order"));
+        if(updateStateOrderForm.getState() - order.getState() != 100){
+            throw new BadRequestException("State must be updated sequentially");
+        }
+        order.setState(updateStateOrderForm.getState());
+        orderRepository.save(order);
+        OrderTracking orderTracking = createOrderTracking(updateStateOrderForm.getTitle(), updateStateOrderForm.getNote(),
+                updateStateOrderForm.getState(), order, null, user);
+        orderTrackingRepository.save(orderTracking);
+    }
+
+    @Override
+    public void cancelOrder(CancelOrderForm cancelOrderForm, Long customerId, Long userId) {
+        if(userId != null){
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new NotFoundException("Not found user"));
+            Order order = orderRepository.findByIdAndState(cancelOrderForm.getId(), Constant.ORDER_STATE_CONFIRMED)
+                    .orElseThrow(() -> new NotFoundException("Not found order has state confirmed"));
+            order.setState(Constant.ORDER_STATE_CANCEL);
+            orderRepository.save(order);
+            OrderTracking orderTracking = createOrderTracking("Hủy đơn hàng", cancelOrderForm.getNote(), Constant.ORDER_STATE_CANCEL, order, null, user);
+            orderTrackingRepository.save(orderTracking);
+        }else {
+            Customer customer = customerRepository.findById(customerId)
+                    .orElseThrow(() -> new NotFoundException("Not found customer"));
+            Order order = orderRepository.findByIdAndState(cancelOrderForm.getId(), Constant.ORDER_STATE_WAIT_CONFIRM)
+                    .orElseThrow(() -> new NotFoundException("Not found order has state pending"));
+            order.setState(Constant.ORDER_STATE_CANCEL);
+            orderRepository.save(order);
+            OrderTracking orderTracking = createOrderTracking("Hủy đơn hàng", cancelOrderForm.getNote(), Constant.ORDER_STATE_CANCEL, order, customer, null);
+            orderTrackingRepository.save(orderTracking);
+        }
+    }
+
+    private OrderTracking createOrderTracking(String title, String note, Integer state, Order order, Customer customer, User user){
+        OrderTracking orderTracking = new OrderTracking();
+        orderTracking.setTitle(title);
+        orderTracking.setNote(note);
+        orderTracking.setCreatedDate(new Date());
+        orderTracking.setState(state);
+        orderTracking.setOrder(order);
+        orderTracking.setCustomer(customer);
+        orderTracking.setUser(user);
+        return orderTracking;
     }
 
     @Override
@@ -187,7 +239,13 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDto> getOrderDetailList(Integer state, Long customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Not found customer"));
-        List<Order> orders = orderRepository.findByCustomerIdAndState(customer.getId(), state);
+        List<Order> orders = new ArrayList<>();
+        if(state == null){
+            orders = orderRepository.findByCustomerId(customer.getId());
+        }else {
+            orders = orderRepository.findByCustomerIdAndState(customer.getId(), state);
+        }
+
         List<OrderDto> orderDtos = orderMapper.fromEntityListToOrderDtoList(orders);
         for (OrderDto orderDto : orderDtos){
             List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(orderDto.getId());

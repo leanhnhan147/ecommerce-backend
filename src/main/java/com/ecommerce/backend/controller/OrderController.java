@@ -5,8 +5,10 @@ import com.ecommerce.backend.dto.order.CheckoutOrderDto;
 import com.ecommerce.backend.dto.order.OrderDto;
 import com.ecommerce.backend.dto.provider.ProviderAdminDto;
 import com.ecommerce.backend.dto.provider.ProviderDto;
+import com.ecommerce.backend.form.order.CancelOrderForm;
 import com.ecommerce.backend.form.order.CheckoutOrderForm;
 import com.ecommerce.backend.form.order.CreateOrderForm;
+import com.ecommerce.backend.form.order.UpdateStateOrderForm;
 import com.ecommerce.backend.form.provider.CreateProviderForm;
 import com.ecommerce.backend.service.OrderService;
 import com.ecommerce.backend.storage.criteria.ProviderCriteria;
@@ -44,6 +46,28 @@ public class OrderController extends BasicController{
         return apiMessageDto;
     }
 
+    @PutMapping(value = "/update-state", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<String> updateState(@Valid @RequestBody UpdateStateOrderForm updateStateOrderForm, BindingResult bindingResult) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        orderService.updateStateOrder(updateStateOrderForm, getCurrentUser());
+        apiMessageDto.setMessage("Update state order success");
+        return apiMessageDto;
+    }
+
+    @PutMapping(value = "/cancel", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<String> cancel(@Valid @RequestBody CancelOrderForm cancelOrderForm, BindingResult bindingResult) {
+        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
+        if(isAdmin()){
+            orderService.cancelOrder(cancelOrderForm, null, getCurrentUser());
+        }
+        if(isCustomer()){
+            orderService.cancelOrder(cancelOrderForm, getCurrentUser(), null);
+        }
+        apiMessageDto.setMessage("Cancel order success");
+        return apiMessageDto;
+    }
+
+
     @GetMapping(value = "/get-detail/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiMessageDto<OrderDto> getDetail(@PathVariable("id") Long id) {
         ApiMessageDto<OrderDto> apiMessageDto = new ApiMessageDto<>();
@@ -53,7 +77,7 @@ public class OrderController extends BasicController{
     }
 
     @GetMapping(value = "/list-order", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<List<OrderDto>> getListOrder(@RequestParam("state") Integer state) {
+    public ApiMessageDto<List<OrderDto>> getListOrder(@RequestParam(value = "state", required = false) Integer state) {
         ApiMessageDto<List<OrderDto>> apiMessageDto = new ApiMessageDto<>();
         apiMessageDto.setData(orderService.getOrderDetailList(state, getCurrentUser()));
         apiMessageDto.setMessage("Get list order success");

@@ -4,7 +4,6 @@ public class Constant {
 
     public static final Integer USER_KIND_ADMIN = 1;
     public static final Integer USER_KIND_MANAGER = 2;
-    public static final Integer USER_KIND_DRIVER = 4;
     public static final Integer USER_KIND_CUSTOMER = 5;
 
     public static final Integer STATUS_ACTIVE = 1;
