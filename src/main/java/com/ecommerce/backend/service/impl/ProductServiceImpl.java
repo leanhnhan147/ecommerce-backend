@@ -56,6 +56,9 @@ public class ProductServiceImpl implements ProductService {
     PricingStrategyRepository pricingStrategyRepository;
 
     @Autowired
+    private OrderDetailRepository orderDetailRepository;
+
+    @Autowired
     MediaResourceService mediaResourceService;
 
     @Autowired
@@ -84,6 +87,22 @@ public class ProductServiceImpl implements ProductService {
         return responseListDto;
     }
 
+    @Override
+    public ResponseListDto<List<ProductFormat>> getProductFormatList(ProductCriteria productCriteria, Pageable pageable) {
+        Page<Product> products = productRepository.findAll(productCriteria.getCriteria(), pageable);
+        ResponseListDto<List<ProductFormat>> responseListDto = new ResponseListDto<>();
+        List<ProductDto> productDtos = productMapper.fromEntityListToProductDtoList(products.getContent());
+        List<ProductFormat> productFormats = new ArrayList<>();
+        for (ProductDto productDto : productDtos){
+            productFormats.add(convertProduct(productDto));
+        }
+        responseListDto.setContent(productFormats);
+        responseListDto.setPage(pageable.getPageNumber());
+        responseListDto.setTotalPages(products.getTotalPages());
+        responseListDto.setTotalElements(products.getTotalElements());
+        return responseListDto;
+    }
+
     @Transactional
     @Override
     public ProductIdDto createProduct(CreateProductForm createProductForm) {
@@ -93,7 +112,6 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(category);
         product.setOptions(createProductOption(product, createProductForm.getOptionIds()));
         productRepository.save(product);
-
 
         List<Long> imageIds = new ArrayList<>();
         if(createProductForm.getImages() != null){
@@ -117,11 +135,9 @@ public class ProductServiceImpl implements ProductService {
             productImageRepository.save(productImage);
             imageIds.add(productImage.getId());
         }
-
         ProductIdDto productIdDto = new ProductIdDto();
         productIdDto.setProductId(product.getId());
         productIdDto.setImageIds(imageIds);
-
         return productIdDto;
     }
 
@@ -150,18 +166,28 @@ public class ProductServiceImpl implements ProductService {
         ProductFormat productFormat = new ProductFormat();
 
         List<ProductImageFormat> productImageFormats = new ArrayList<>();
-
         List<ProductVariationFormat> productVariationFormats = new ArrayList<>();
-
         List<OptionFormat> optionFormats = new ArrayList<>();
         List<String> optionFormatCodes = new ArrayList<>();
         List<OptionValueFormat> optionValueFormats = new ArrayList<>();
         List<String> optionValueFormatCodes = new ArrayList<>();
 
+        Integer soldCount = 0;
+        Integer stock = 0;
         for(int i = 0; i < productDto.getProductVariations().size(); i++){
             ProductVariationDto productVariationDto = productDto.getProductVariations().get(i);
             ProductVariationFormat productVariationFormat = new ProductVariationFormat();
-            productVariationFormat.setStock(productVariationRepository.countStockByProductVariationId(productVariationDto.getId()));
+            productVariationFormat.setId(productVariationDto.getId());
+            Integer productVariationStock = productVariationRepository.countStockByProductVariationId(productVariationDto.getId());
+            Integer productVariationSold = orderDetailRepository.countSoldByProductVariationId(productVariationDto.getId());
+            if(productVariationStock != null && productVariationSold != null){
+                soldCount += productVariationSold;
+                stock += productVariationStock - productVariationSold;
+                productVariationFormat.setStock(productVariationStock - productVariationSold);
+            } else if (productVariationStock != null && productVariationSold == null) {
+                stock += productVariationStock;
+                productVariationFormat.setStock(productVariationStock);
+            }
 
             PricingStrategy pricingStrategy = pricingStrategyRepository.findPriceByStartDateAndEndDateAndState(productVariationDto.getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
             if(pricingStrategy != null){
@@ -249,7 +275,8 @@ public class ProductServiceImpl implements ProductService {
         productFormat.setName(productDto.getName());
         productFormat.setAvgRating(productDto.getAverageRating());
         productFormat.setRatingCount(productDto.getRatingCount());
-        productFormat.setSoldCount(productDto.getSoldCount());
+        productFormat.setSoldCount(soldCount);
+        productFormat.setStock(stock);
         productFormat.setDescription(productDto.getDescription());
         return productFormat;
     }

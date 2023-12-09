@@ -15,6 +15,7 @@ public class ProductFormat {
     private Double avgRating;
     private Integer ratingCount;
     private Integer soldCount;
+    private Integer stock;
     private List<OptionFormat> options;
     private List<List<OptionValueFormat>> optionValueGroups;
     private List<ProductVariationFormat> variations;

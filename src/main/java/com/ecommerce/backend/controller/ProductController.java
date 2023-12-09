@@ -45,6 +45,14 @@ public class ProductController {
         return responseListDtoApiMessageDto;
     }
 
+    @GetMapping(value = "/list-product", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<ResponseListDto<List<ProductFormat>>> getListProduct(ProductCriteria productCriteria, Pageable pageable) {
+        ApiMessageDto<ResponseListDto<List<ProductFormat>>> responseListDtoApiMessageDto = new ApiMessageDto<>();
+        responseListDtoApiMessageDto.setData(productService.getProductFormatList(productCriteria, pageable));
+        responseListDtoApiMessageDto.setMessage("Get list product success");
+        return responseListDtoApiMessageDto;
+    }
+
     @PostMapping(value = "/create", produces = {MediaType.APPLICATION_JSON_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiMessageDto<ProductIdDto> create(@Valid CreateProductForm createProductForm, BindingResult bindingResult) {

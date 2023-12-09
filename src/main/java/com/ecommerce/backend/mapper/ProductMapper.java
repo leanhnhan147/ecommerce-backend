@@ -72,6 +72,9 @@ public interface ProductMapper {
     @Named("fromEntityToProductDto")
     ProductDto fromEntityToProductDto(Product product);
 
+    @IterableMapping(elementTargetType = ProductDto.class, qualifiedByName = "fromEntityToProductDto")
+    List<ProductDto> fromEntityListToProductDtoList(List<Product> products);
+
     @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "avatar", target = "avatar")

@@ -18,6 +18,8 @@ public interface ProductService {
 
     ResponseListDto<List<ProductAdminDto>> getProductList(ProductCriteria productCriteria, Pageable pageable);
 
+    ResponseListDto<List<ProductFormat>> getProductFormatList(ProductCriteria productCriteria, Pageable pageable);
+
     ProductIdDto createProduct(CreateProductForm createProductForm);
 
     void updateProduct(UpdateProductForm updateProductForm);
