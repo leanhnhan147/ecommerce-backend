@@ -50,9 +50,6 @@ public class AddressServiceImpl implements AddressService {
     public ResponseListDto<List<AddressDto>> getAddressList(Long customerId, AddressCriteria addressCriteria, Pageable pageable) {
         addressCriteria.setCustomerId(customerId);
         Page<Address> addresses = addressRepository.findAll(addressCriteria.getCriteria(), pageable);
-        for (Address address : addresses.getContent()){
-            address.setAddressDetail(getAddressDefault(address));
-        }
         ResponseListDto<List<AddressDto>> responseListDto = new ResponseListDto<>();
         responseListDto.setContent(addressMapper.fromEntityListToAddressDtoList(addresses.getContent()));
         responseListDto.setPage(pageable.getPageNumber());
