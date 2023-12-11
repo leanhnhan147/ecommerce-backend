@@ -3,6 +3,7 @@ package com.ecommerce.backend.mapper;
 import com.ecommerce.backend.dto.productVariation.ProductVariationAdminDto;
 import com.ecommerce.backend.dto.productVariation.ProductVariationCartItemDto;
 import com.ecommerce.backend.dto.productVariation.ProductVariationDto;
+import com.ecommerce.backend.dto.productVariation.ProductVariationReviewDto;
 import com.ecommerce.backend.form.productVariation.CreateProductVariationForm;
 import com.ecommerce.backend.form.productVariation.UpdateProductVariationForm;
 import com.ecommerce.backend.storage.entity.ProductVariation;
@@ -58,5 +59,11 @@ public interface ProductVariationMapper {
     @Mapping(source = "product", target = "product", qualifiedByName = "fromEntityToProductDtoForProductVariationCartItem")
     @Named("fromEntityToProductVariationDtoForCartItem")
     ProductVariationCartItemDto fromEntityToProductVariationDtoForCartItem(ProductVariation productVariation);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "product", target = "product", qualifiedByName = "fromEntityToProductDtoForProductVariationCartItem")
+    @Named("fromEntityToProductVariationDtoForReview")
+    ProductVariationReviewDto fromEntityToProductVariationDtoForReview(ProductVariation productVariation);
 
 }

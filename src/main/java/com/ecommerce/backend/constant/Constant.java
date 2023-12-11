@@ -35,4 +35,7 @@ public class Constant {
     public static final Integer ORDER_STATE_CONFIRMED = 100;
     public static final Integer ORDER_STATE_DELIVERING = 200;
     public static final Integer ORDER_STATE_DELIVERED = 300;
+
+    public static final Integer REVIEW_STATE_PENDING = 0;
+    public static final Integer REVIEW_STATE_ACTIVE = 1;
 }
