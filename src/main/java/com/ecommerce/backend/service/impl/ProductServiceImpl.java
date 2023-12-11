@@ -15,10 +15,12 @@ import com.ecommerce.backend.dto.product.ProductDto;
 import com.ecommerce.backend.dto.product.ProductIdDto;
 import com.ecommerce.backend.dto.productImage.ProductImageDto;
 import com.ecommerce.backend.dto.productVariation.ProductVariationDto;
+import com.ecommerce.backend.dto.review.ReviewDto;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.product.CreateProductForm;
 import com.ecommerce.backend.form.product.UpdateProductForm;
 import com.ecommerce.backend.mapper.ProductMapper;
+import com.ecommerce.backend.mapper.ReviewMapper;
 import com.ecommerce.backend.repository.*;
 import com.ecommerce.backend.service.MediaResourceService;
 import com.ecommerce.backend.service.ProductService;
@@ -59,10 +61,19 @@ public class ProductServiceImpl implements ProductService {
     private OrderDetailRepository orderDetailRepository;
 
     @Autowired
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ReviewImageRepository reviewImageRepository;
+
+    @Autowired
     MediaResourceService mediaResourceService;
 
     @Autowired
     ProductMapper productMapper;
+
+    @Autowired
+    private ReviewMapper reviewMapper;
 
     @Value("${file.path.images}")
     private String pathImage;
@@ -71,9 +82,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductFormat getProductById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found product"));
-//        ProductFormat productFormat = convertProduct(productMapper.fromEntityToProductDto(product));
-//        return productMapper.fromEntityToProductDto(product);
-        return convertProduct(productMapper.fromEntityToProductDto(product));
+        ProductFormat productFormat = convertProduct(productMapper.fromEntityToProductDto(product));
+        productFormat = getRating(productFormat);
+        return productFormat;
     }
 
     @Override
@@ -179,7 +190,7 @@ public class ProductServiceImpl implements ProductService {
             ProductVariationFormat productVariationFormat = new ProductVariationFormat();
             productVariationFormat.setId(productVariationDto.getId());
             Integer productVariationStock = productVariationRepository.countStockByProductVariationId(productVariationDto.getId());
-            Integer productVariationSold = orderDetailRepository.countSoldByProductVariationId(productVariationDto.getId());
+            Integer productVariationSold = orderDetailRepository.countSoldByProductVariationId(productVariationDto.getId(), Constant.ORDER_STATE_DELIVERED);
             if(productVariationStock != null && productVariationSold != null){
                 soldCount += productVariationSold;
                 stock += productVariationStock - productVariationSold;
@@ -273,11 +284,53 @@ public class ProductServiceImpl implements ProductService {
 
         productFormat.setId(productDto.getId());
         productFormat.setName(productDto.getName());
-        productFormat.setAvgRating(productDto.getAverageRating());
-        productFormat.setRatingCount(productDto.getRatingCount());
         productFormat.setSoldCount(soldCount);
         productFormat.setStock(stock);
         productFormat.setDescription(productDto.getDescription());
+        return productFormat;
+    }
+
+    private ProductFormat getRating(ProductFormat productFormat){
+        List<Review> reviews = reviewRepository.findByProductIdAndState(productFormat.getId(), Constant.REVIEW_STATE_ACTIVE);
+        Double totalRating = 0.0;
+        Integer rating1 = 0;
+        Integer rating2 = 0;
+        Integer rating3 = 0;
+        Integer rating4 = 0;
+        Integer rating5 = 0;
+        for (Review review : reviews){
+            Integer point = review.getPoint();
+            totalRating += point/2.0;
+            if(point.equals(1) || point.equals(2)){
+                rating1++;
+            } else if (point.equals(3) || point.equals(4)){
+                rating2++;
+            }else if (point.equals(5) || point.equals(6)){
+                rating3++;
+            }else if (point.equals(7) || point.equals(8)){
+                rating4++;
+            }else if (point.equals(9) || point.equals(10)){
+                rating5++;
+            }
+        }
+        productFormat.setRatingCount(reviews.size());
+        productFormat.setAvgRating(totalRating/reviews.size());
+        productFormat.setRating1(rating1);
+        productFormat.setRating2(rating2);
+        productFormat.setRating3(rating3);
+        productFormat.setRating4(rating4);
+        productFormat.setRating5(rating5);
+
+        List<ReviewDto> reviewDtos = reviewMapper.fromEntityListToReviewDtoList(reviews);
+        for (ReviewDto reviewDto : reviewDtos){
+            List<ReviewImage> reviewImages = reviewImageRepository.findByReviewId(reviewDto.getId());
+            List<String> images = new ArrayList<>();
+            for(ReviewImage reviewImage : reviewImages){
+                images.add(reviewImage.getMediaResource().getUrl());
+            }
+            reviewDto.setImages(images);
+        }
+        productFormat.setReviews(reviewDtos);
         return productFormat;
     }
 

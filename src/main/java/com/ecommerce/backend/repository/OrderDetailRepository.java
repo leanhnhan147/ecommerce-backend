@@ -10,8 +10,9 @@ import java.util.List;
 
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>, JpaSpecificationExecutor<OrderDetail> {
 
-    @Query("select sum(od.quantity) from OrderDetail od where od.productVariation.id = :productVariationId")
-    Integer countSoldByProductVariationId(@Param("productVariationId") Long productVariationId);
+    @Query("select sum(od.quantity) from OrderDetail od where od.productVariation.id = :productVariationId " +
+            "and od.order.id in (select o.id from Order o where o.state = :stateOrder)")
+    Integer countSoldByProductVariationId(@Param("productVariationId") Long productVariationId, @Param("stateOrder") Integer stateOrder);
 
     List<OrderDetail> findByOrderId(Long orderId);
 }
