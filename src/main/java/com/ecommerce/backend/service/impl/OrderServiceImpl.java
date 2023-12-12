@@ -106,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void createOrder(CreateOrderForm createOrderForm, Long customerId) {
+    public OrderDto createOrder(CreateOrderForm createOrderForm, Long customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Not found customer"));
         Address address = addressRepository.findById(createOrderForm.getAddressId())
@@ -141,6 +141,10 @@ public class OrderServiceImpl implements OrderService {
         OrderTracking orderTracking = createOrderTracking("Chờ xác nhận đơn hàng", null,
                 Constant.ORDER_STATE_WAIT_CONFIRM, order, customer, null);
         orderTrackingRepository.save(orderTracking);
+
+        OrderDto orderDto = new OrderDto();
+        orderDto.setId(order.getId());
+        return orderDto;
     }
 
     private String getAddressDefault(Address address){

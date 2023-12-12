@@ -13,7 +13,7 @@ public interface OrderService {
 
     CheckoutOrderDto checkoutOrder(CheckoutOrderForm checkoutOrderForm, Long customerId);
 
-    void createOrder(CreateOrderForm createOrderForm, Long customerId);
+    OrderDto createOrder(CreateOrderForm createOrderForm, Long customerId);
 
     void updateStateOrder(UpdateStateOrderForm updateStateOrderForm, Long userId);
 

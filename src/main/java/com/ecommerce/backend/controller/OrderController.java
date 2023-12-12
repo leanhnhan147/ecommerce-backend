@@ -39,9 +39,9 @@ public class OrderController extends BasicController{
     }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<String> create(@Valid @RequestBody CreateOrderForm createOrderForm, BindingResult bindingResult) {
-        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        orderService.createOrder(createOrderForm, getCurrentUser());
+    public ApiMessageDto<OrderDto> create(@Valid @RequestBody CreateOrderForm createOrderForm, BindingResult bindingResult) {
+        ApiMessageDto<OrderDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(orderService.createOrder(createOrderForm, getCurrentUser()));
         apiMessageDto.setMessage("Create order success");
         return apiMessageDto;
     }
