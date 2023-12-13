@@ -1,11 +1,15 @@
 package com.ecommerce.backend.service;
 
+import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.order.CheckoutOrderDto;
+import com.ecommerce.backend.dto.order.OrderAdminDto;
 import com.ecommerce.backend.dto.order.OrderDto;
 import com.ecommerce.backend.form.order.CancelOrderForm;
 import com.ecommerce.backend.form.order.CheckoutOrderForm;
 import com.ecommerce.backend.form.order.CreateOrderForm;
 import com.ecommerce.backend.form.order.UpdateStateOrderForm;
+import com.ecommerce.backend.storage.criteria.OrderCriteria;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -21,5 +25,7 @@ public interface OrderService {
 
     OrderDto getOrderDetail(Long id);
 
-    List<OrderDto> getOrderDetailList(Integer state, Long customerId);
+    ResponseListDto<List<OrderDto>> getListOrder(OrderCriteria orderCriteria, Pageable pageable, Long customerId);
+
+    ResponseListDto<List<OrderAdminDto>> getList(OrderCriteria orderCriteria, Pageable pageable);
 }

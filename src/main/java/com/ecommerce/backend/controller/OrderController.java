@@ -1,7 +1,10 @@
 package com.ecommerce.backend.controller;
 
 import com.ecommerce.backend.dto.ApiMessageDto;
+import com.ecommerce.backend.dto.ResponseListDto;
+import com.ecommerce.backend.dto.nation.NationAdminDto;
 import com.ecommerce.backend.dto.order.CheckoutOrderDto;
+import com.ecommerce.backend.dto.order.OrderAdminDto;
 import com.ecommerce.backend.dto.order.OrderDto;
 import com.ecommerce.backend.dto.provider.ProviderAdminDto;
 import com.ecommerce.backend.dto.provider.ProviderDto;
@@ -11,9 +14,12 @@ import com.ecommerce.backend.form.order.CreateOrderForm;
 import com.ecommerce.backend.form.order.UpdateStateOrderForm;
 import com.ecommerce.backend.form.provider.CreateProviderForm;
 import com.ecommerce.backend.service.OrderService;
+import com.ecommerce.backend.storage.criteria.NationCriteria;
+import com.ecommerce.backend.storage.criteria.OrderCriteria;
 import com.ecommerce.backend.storage.criteria.ProviderCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -77,10 +83,18 @@ public class OrderController extends BasicController{
     }
 
     @GetMapping(value = "/list-order", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<List<OrderDto>> getListOrder(@RequestParam(value = "state", required = false) Integer state) {
-        ApiMessageDto<List<OrderDto>> apiMessageDto = new ApiMessageDto<>();
-        apiMessageDto.setData(orderService.getOrderDetailList(state, getCurrentUser()));
-        apiMessageDto.setMessage("Get list order success");
-        return apiMessageDto;
+    public ApiMessageDto<ResponseListDto<List<OrderDto>>> getListOrder(OrderCriteria orderCriteria, Pageable pageable) {
+        ApiMessageDto<ResponseListDto<List<OrderDto>>> responseListDtoApiMessageDto = new ApiMessageDto<>();
+        responseListDtoApiMessageDto.setData(orderService.getListOrder(orderCriteria, pageable, getCurrentUser()));
+        responseListDtoApiMessageDto.setMessage("Get list order success");
+        return responseListDtoApiMessageDto;
+    }
+
+    @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<ResponseListDto<List<OrderAdminDto>>> getList(OrderCriteria orderCriteria, Pageable pageable) {
+        ApiMessageDto<ResponseListDto<List<OrderAdminDto>>> responseListDtoApiMessageDto = new ApiMessageDto<>();
+        responseListDtoApiMessageDto.setData(orderService.getList(orderCriteria, pageable));
+        responseListDtoApiMessageDto.setMessage("Get list order success");
+        return responseListDtoApiMessageDto;
     }
 }

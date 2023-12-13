@@ -1,8 +1,11 @@
 package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.constant.Constant;
+import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.cartItem.CartItemDto;
+import com.ecommerce.backend.dto.nation.NationAdminDto;
 import com.ecommerce.backend.dto.order.CheckoutOrderDto;
+import com.ecommerce.backend.dto.order.OrderAdminDto;
 import com.ecommerce.backend.dto.order.OrderDto;
 import com.ecommerce.backend.dto.orderDetail.OrderDetailDto;
 import com.ecommerce.backend.exception.BadRequestException;
@@ -14,9 +17,12 @@ import com.ecommerce.backend.form.order.UpdateStateOrderForm;
 import com.ecommerce.backend.mapper.*;
 import com.ecommerce.backend.repository.*;
 import com.ecommerce.backend.service.OrderService;
+import com.ecommerce.backend.storage.criteria.OrderCriteria;
 import com.ecommerce.backend.storage.entity.*;
 import com.ecommerce.backend.utils.ZipUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -254,17 +260,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> getOrderDetailList(Integer state, Long customerId) {
+    public ResponseListDto<List<OrderDto>> getListOrder(OrderCriteria orderCriteria, Pageable pageable, Long customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Not found customer"));
-        List<Order> orders = new ArrayList<>();
-        if(state == null){
-            orders = orderRepository.findByCustomerId(customer.getId());
-        }else {
-            orders = orderRepository.findByCustomerIdAndState(customer.getId(), state);
-        }
-
-        List<OrderDto> orderDtos = orderMapper.fromEntityListToOrderDtoList(orders);
+        orderCriteria.setCustomerId(customer.getId());
+        Page<Order> orders = orderRepository.findAll(orderCriteria.getCriteria(), pageable);
+        List<OrderDto> orderDtos = orderMapper.fromEntityListToOrderDtoList(orders.getContent());
         for (OrderDto orderDto : orderDtos){
             List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(orderDto.getId());
             List<OrderDetailDto> orderDetailDtos = orderDetailMapper.fromEntityListToOrderDetailDtoList(orderDetails);
@@ -287,6 +288,45 @@ public class OrderServiceImpl implements OrderService {
             orderDto.setTotalPrice(orderDto.getShippingPrice() + totalProductPrice);
             orderDto.setOrderDetails(orderDetailDtos);
         }
-        return orderDtos;
+        ResponseListDto<List<OrderDto>> responseListDto = new ResponseListDto<>();
+        responseListDto.setContent(orderDtos);
+        responseListDto.setPage(pageable.getPageNumber());
+        responseListDto.setTotalPages(orders.getTotalPages());
+        responseListDto.setTotalElements(orders.getTotalElements());
+        return responseListDto;
+    }
+
+    @Override
+    public ResponseListDto<List<OrderAdminDto>> getList(OrderCriteria orderCriteria, Pageable pageable) {
+        Page<Order> orders = orderRepository.findAll(orderCriteria.getCriteria(), pageable);
+        List<OrderAdminDto> orderAdminDtos = orderMapper.fromEntityListToOrderAdminDtoList(orders.getContent());
+        for (OrderAdminDto orderAdminDto : orderAdminDtos){
+            List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(orderAdminDto.getId());
+            List<OrderDetailDto> orderDetailDtos = orderDetailMapper.fromEntityListToOrderDetailDtoList(orderDetails);
+            Double totalProductPrice = 0.0;
+            for (int i = 0; i < orderDetailDtos.size(); i++){
+                List<OptionValue> optionValues = optionValueRepository.findByProductVariationId(orderDetailDtos.get(i).getProductVariation().getId());
+                List<String> optionValueNames = new ArrayList<>();
+                for (OptionValue optionValue : optionValues){
+                    optionValueNames.add(optionValue.getDisplayName());
+                }
+                orderDetailDtos.get(i).getProductVariation().setOptionValues(optionValueNames);
+                PricingStrategy pricingStrategy = pricingStrategyRepository.findById(orderDetails.get(i).getPricingStrategy().getId()).orElse(null);
+                if(pricingStrategy != null){
+                    orderDetailDtos.get(i).getProductVariation().setPrice(pricingStrategy.getPrice());
+                    orderDetailDtos.get(i).getProductVariation().setDiscountedPrice(pricingStrategy.getDiscountedPrice());
+                    orderDetailDtos.get(i).setTotalPrice(pricingStrategy.getDiscountedPrice()*orderDetailDtos.get(i).getQuantity());
+                    totalProductPrice += pricingStrategy.getDiscountedPrice()*orderDetailDtos.get(i).getQuantity();
+                }
+            }
+            orderAdminDto.setTotalPrice(orderAdminDto.getShippingPrice() + totalProductPrice);
+            orderAdminDto.setOrderDetails(orderDetailDtos);
+        }
+        ResponseListDto<List<OrderAdminDto>> responseListDto = new ResponseListDto<>();
+        responseListDto.setContent(orderAdminDtos);
+        responseListDto.setPage(pageable.getPageNumber());
+        responseListDto.setTotalPages(orders.getTotalPages());
+        responseListDto.setTotalElements(orders.getTotalElements());
+        return responseListDto;
     }
 }
