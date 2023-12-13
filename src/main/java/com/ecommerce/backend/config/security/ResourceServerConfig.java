@@ -49,6 +49,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/v1/media-resource/**").permitAll()
                 .antMatchers("/v1/product/**").permitAll()
                 .antMatchers("/v1/category/**").permitAll()
+                .antMatchers("/v1/review/list-review**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
