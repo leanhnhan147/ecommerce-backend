@@ -14,6 +14,7 @@ public class ReviewCriteria {
     private Long id;
     private Integer point;
     private Integer state;
+    private Long productId;
     private Long productVariationId;
     private Long customerId;
     private Long orderId;
@@ -30,6 +31,10 @@ public class ReviewCriteria {
 
                 if(getState() != null){
                     predicates.add(cb.equal(root.get("state"), getState()));
+                }
+
+                if(getProductId() != null){
+                    predicates.add((cb.equal((root.get("productVariation").get("product").get("id")), getProductId())));
                 }
 
                 if(getProductVariationId() != null){
