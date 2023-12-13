@@ -29,7 +29,9 @@ import com.ecommerce.backend.storage.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,16 +102,36 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseListDto<List<ProductFormat>> getProductFormatList(ProductCriteria productCriteria, Pageable pageable) {
-        Page<Product> products = productRepository.findAll(productCriteria.getCriteria(), pageable);
+        Page<Product> products;
+        if(productCriteria.getCreatedDate() != null && productCriteria.getSoldCount() == null){
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdDate").descending());
+            products = productRepository.findAll(productCriteria.getCriteria(), pageable);
+        } else if (productCriteria.getCreatedDate() == null && productCriteria.getSoldCount() != null) {
+            Pageable pageableBySoldCount = PageRequest.of(0, Integer.MAX_VALUE);
+            products = productRepository.findAll(productCriteria.getCriteria(), pageableBySoldCount);
+        } else {
+            products = productRepository.findAll(productCriteria.getCriteria(), pageable);
+        }
         ResponseListDto<List<ProductFormat>> responseListDto = new ResponseListDto<>();
         List<ProductDto> productDtos = productMapper.fromEntityListToProductDtoList(products.getContent());
         List<ProductFormat> productFormats = new ArrayList<>();
         for (ProductDto productDto : productDtos){
             productFormats.add(convertProduct(productDto));
         }
-        responseListDto.setContent(productFormats);
+        if(productCriteria.getCreatedDate() == null && productCriteria.getSoldCount() != null){
+            Collections.sort(productFormats, Comparator.comparing(ProductFormat::getSoldCount).reversed());
+            List<ProductFormat> filteredProductFormats = productFormats.stream()
+                    .skip(pageable.getPageNumber() * pageable.getPageSize())
+                    .limit(pageable.getPageSize())
+                    .collect(Collectors.toList());
+            Double totalPages = 1.0*products.getTotalElements()/pageable.getPageSize();
+            responseListDto.setContent(filteredProductFormats);
+            responseListDto.setTotalPages((int)Math.ceil(totalPages));
+        }else {
+            responseListDto.setContent(productFormats);
+            responseListDto.setTotalPages(products.getTotalPages());
+        }
         responseListDto.setPage(pageable.getPageNumber());
-        responseListDto.setTotalPages(products.getTotalPages());
         responseListDto.setTotalElements(products.getTotalElements());
         return responseListDto;
     }
