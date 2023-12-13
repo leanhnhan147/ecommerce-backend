@@ -70,7 +70,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void createItem(CreateCartItemForm createCartItemForm, Long customerId) {
+    public CartItemDto createItem(CreateCartItemForm createCartItemForm, Long customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Not found customer"));
         ProductVariation productVariation = productVariationRepository.findById(createCartItemForm.getProductVariationId())
@@ -85,6 +85,11 @@ public class CartServiceImpl implements CartService {
             cartItem.setCustomer(customer);
         }
         cartItemRepository.save(cartItem);
+
+        CartItemDto cartItemDto = new CartItemDto();
+        cartItemDto.setId(cartItem.getId());
+
+        return cartItemDto;
     }
 
     @Override
