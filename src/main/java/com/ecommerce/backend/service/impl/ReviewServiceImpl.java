@@ -15,7 +15,9 @@ import com.ecommerce.backend.storage.criteria.ReviewCriteria;
 import com.ecommerce.backend.storage.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -66,7 +68,24 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ResponseListDto<List<ReviewDto>> getReviewList(ReviewCriteria reviewCriteria, Pageable pageable) {
+    public ResponseListDto<List<ReviewDto>> getList(ReviewCriteria reviewCriteria, Pageable pageable) {
+        Page<Review> reviews = reviewRepository.findAll(reviewCriteria.getCriteria(), pageable);
+        ResponseListDto<List<ReviewDto>> responseListDto = new ResponseListDto<>();
+        List<ReviewDto> reviewDtos = reviewMapper.fromEntityListToReviewDtoList(reviews.getContent());
+        for (ReviewDto reviewDto : reviewDtos){
+            List<ReviewImage> reviewImages = reviewImageRepository.findByReviewId(reviewDto.getId());
+            reviewDto.setImages(getImages(reviewImages));
+        }
+        responseListDto.setContent(reviewDtos);
+        responseListDto.setPage(pageable.getPageNumber());
+        responseListDto.setTotalPages(reviews.getTotalPages());
+        responseListDto.setTotalElements(reviews.getTotalElements());
+        return responseListDto;
+    }
+
+    @Override
+    public ResponseListDto<List<ReviewDto>> getListReview(ReviewCriteria reviewCriteria, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdDate").descending());
         Page<Review> reviews = reviewRepository.findAll(reviewCriteria.getCriteria(), pageable);
         ResponseListDto<List<ReviewDto>> responseListDto = new ResponseListDto<>();
         List<ReviewDto> reviewDtos = reviewMapper.fromEntityListToReviewDtoList(reviews.getContent());

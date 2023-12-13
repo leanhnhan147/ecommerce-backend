@@ -13,7 +13,9 @@ public interface ReviewService {
 
     ReviewDto getReviewById(Long id);
 
-    ResponseListDto<List<ReviewDto>> getReviewList(ReviewCriteria reviewCriteria, Pageable pageable);
+    ResponseListDto<List<ReviewDto>> getList(ReviewCriteria reviewCriteria, Pageable pageable);
+
+    ResponseListDto<List<ReviewDto>> getListReview(ReviewCriteria reviewCriteria, Pageable pageable);
 
     void createReview(CreateReviewForm createReviewForm, Long customerId);
 

@@ -41,7 +41,15 @@ public class ReviewController extends BasicController{
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiMessageDto<ResponseListDto<List<ReviewDto>>> getList(ReviewCriteria reviewCriteria, Pageable pageable) {
         ApiMessageDto<ResponseListDto<List<ReviewDto>>> responseListDtoApiMessageDto = new ApiMessageDto<>();
-        responseListDtoApiMessageDto.setData(reviewService.getReviewList(reviewCriteria, pageable));
+        responseListDtoApiMessageDto.setData(reviewService.getList(reviewCriteria, pageable));
+        responseListDtoApiMessageDto.setMessage("Get list review success");
+        return responseListDtoApiMessageDto;
+    }
+
+    @GetMapping(value = "/list-review", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<ResponseListDto<List<ReviewDto>>> getListReview(ReviewCriteria reviewCriteria, Pageable pageable) {
+        ApiMessageDto<ResponseListDto<List<ReviewDto>>> responseListDtoApiMessageDto = new ApiMessageDto<>();
+        responseListDtoApiMessageDto.setData(reviewService.getListReview(reviewCriteria, pageable));
         responseListDtoApiMessageDto.setMessage("Get list review success");
         return responseListDtoApiMessageDto;
     }
