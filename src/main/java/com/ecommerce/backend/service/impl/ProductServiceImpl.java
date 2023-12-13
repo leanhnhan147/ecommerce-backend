@@ -213,13 +213,22 @@ public class ProductServiceImpl implements ProductService {
             productVariationFormat.setId(productVariationDto.getId());
             Integer productVariationStock = productVariationRepository.countStockByProductVariationId(productVariationDto.getId());
             Integer productVariationSold = orderDetailRepository.countSoldByProductVariationId(productVariationDto.getId(), Constant.ORDER_STATE_DELIVERED);
+            Integer templateProductVariationSell = orderDetailRepository.countTemplateSellByProductVariationId(productVariationDto.getId(), Constant.ORDER_STATE_WAIT_CONFIRM, Constant.ORDER_STATE_DELIVERING);
             if(productVariationStock != null && productVariationSold != null){
                 soldCount += productVariationSold;
                 stock += productVariationStock - productVariationSold;
                 productVariationFormat.setStock(productVariationStock - productVariationSold);
+                if(templateProductVariationSell != null){
+                    stock = stock - templateProductVariationSell;
+                    productVariationFormat.setStock(productVariationStock - productVariationSold - templateProductVariationSell);
+                }
             } else if (productVariationStock != null && productVariationSold == null) {
                 stock += productVariationStock;
                 productVariationFormat.setStock(productVariationStock);
+                if(templateProductVariationSell != null){
+                    stock = stock - templateProductVariationSell;
+                    productVariationFormat.setStock(productVariationStock - templateProductVariationSell);
+                }
             }
 
             PricingStrategy pricingStrategy = pricingStrategyRepository.findPriceByStartDateAndEndDateAndState(productVariationDto.getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);

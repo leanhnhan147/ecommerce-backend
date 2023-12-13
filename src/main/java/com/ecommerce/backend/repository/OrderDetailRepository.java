@@ -14,5 +14,11 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long>,
             "and od.order.id in (select o.id from Order o where o.state = :stateOrder)")
     Integer countSoldByProductVariationId(@Param("productVariationId") Long productVariationId, @Param("stateOrder") Integer stateOrder);
 
+    @Query("select sum(od.quantity) from OrderDetail od where od.productVariation.id = :productVariationId " +
+            "and od.order.id in (select o.id from Order o where o.state >= :startStateOrder and o.state <= :endStateOrder)")
+    Integer countTemplateSellByProductVariationId(@Param("productVariationId") Long productVariationId,
+                                                  @Param("startStateOrder") Integer startStateOrder,
+                                                  @Param("endStateOrder") Integer endStateOrder);
+
     List<OrderDetail> findByOrderId(Long orderId);
 }

@@ -35,6 +35,9 @@ public class CartServiceImpl implements CartService {
     private PricingStrategyRepository pricingStrategyRepository;
 
     @Autowired
+    private OrderDetailRepository orderDetailRepository;
+
+    @Autowired
     private OptionValueRepository optionValueRepository;
 
     @Autowired
@@ -57,14 +60,26 @@ public class CartServiceImpl implements CartService {
             cartItemDto.getProductVariation().setOptionValues(optionValueNames);
 
             PricingStrategy pricingStrategy = pricingStrategyRepository.findPriceByStartDateAndEndDateAndState(cartItemDto.getProductVariation().getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
-            if(pricingStrategy != null){
-                cartItemDto.getProductVariation().setPrice(pricingStrategy.getPrice());
-                cartItemDto.getProductVariation().setDiscountedPrice(pricingStrategy.getDiscountedPrice());
-                cartItemDto.setTotalPrice(pricingStrategy.getDiscountedPrice()*cartItemDto.getQuantity());
-                cartItemDtos1.add(cartItemDto);
-            }else {
-                cartItemRepository.deleteById(cartItemDto.getId());
+            Integer productVariationStock = productVariationRepository.countStockByProductVariationId(cartItemDto.getProductVariation().getId());
+            Integer templateProductVariationSell = orderDetailRepository.countTemplateSellByProductVariationId(cartItemDto.getProductVariation().getId(), Constant.ORDER_STATE_WAIT_CONFIRM, Constant.ORDER_STATE_DELIVERED);
+            if(productVariationStock != null){
+                if(templateProductVariationSell != null){
+                    Integer stock = productVariationStock - templateProductVariationSell;
+                    if((stock <= 0 && cartItemDto.getQuantity() != null) || (stock > 0 && (stock - cartItemDto.getQuantity()) < 0)){
+                        cartItemRepository.deleteById(cartItemDto.getId());
+                        continue;
+                    }
+                }
+                if(pricingStrategy != null){
+                    cartItemDto.getProductVariation().setPrice(pricingStrategy.getPrice());
+                    cartItemDto.getProductVariation().setDiscountedPrice(pricingStrategy.getDiscountedPrice());
+                    cartItemDto.setTotalPrice(pricingStrategy.getDiscountedPrice()*cartItemDto.getQuantity());
+                    cartItemDtos1.add(cartItemDto);
+                } else {
+                    cartItemRepository.deleteById(cartItemDto.getId());
+                }
             }
+
         }
         return cartItemDtos1;
     }
@@ -75,6 +90,14 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new NotFoundException("Not found customer"));
         ProductVariation productVariation = productVariationRepository.findById(createCartItemForm.getProductVariationId())
                 .orElseThrow(() -> new NotFoundException("Not found product variation"));
+        Integer productVariationStock = productVariationRepository.countStockByProductVariationId(productVariation.getId());
+        Integer templateProductVariationSell = orderDetailRepository.countTemplateSellByProductVariationId(productVariation.getId(), Constant.ORDER_STATE_WAIT_CONFIRM, Constant.ORDER_STATE_DELIVERED);
+        if(productVariationStock != null && templateProductVariationSell != null){
+            Integer stock = productVariationStock - templateProductVariationSell;
+            if((stock <= 0 && createCartItemForm.getQuantity() != null) || (stock > 0 && (stock - createCartItemForm.getQuantity()) < 0)){
+                throw new BadRequestException(productVariation.getName() + " đã hết hàng");
+            }
+        }
         CartItem cartItem = cartItemRepository.findFirstByProductVariationIdAndCustomerId(productVariation.getId(), customer.getId());
         if(cartItem != null){
             cartItem.setQuantity(cartItem.getQuantity() + createCartItemForm.getQuantity());

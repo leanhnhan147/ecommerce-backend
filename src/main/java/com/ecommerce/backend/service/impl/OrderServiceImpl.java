@@ -18,6 +18,7 @@ import com.ecommerce.backend.storage.entity.*;
 import com.ecommerce.backend.utils.ZipUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,6 +53,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ProductVariationRepository productVariationRepository;
 
     @Autowired
     private OrderMapper orderMapper;
@@ -105,6 +109,7 @@ public class OrderServiceImpl implements OrderService {
         return checkoutOrder;
     }
 
+    @Transactional
     @Override
     public OrderDto createOrder(CreateOrderForm createOrderForm, Long customerId) {
         Customer customer = customerRepository.findById(customerId)
@@ -129,6 +134,15 @@ public class OrderServiceImpl implements OrderService {
             if(cartItem == null){
                 throw new NotFoundException("Not found cart item " + createOrderForm.getCartItemIds()[i]);
             }
+            Integer productVariationStock = productVariationRepository.countStockByProductVariationId(cartItem.getProductVariation().getId());
+            Integer templateProductVariationSell = orderDetailRepository.countTemplateSellByProductVariationId(cartItem.getProductVariation().getId(), Constant.ORDER_STATE_WAIT_CONFIRM, Constant.ORDER_STATE_DELIVERED);
+            if(productVariationStock != null && templateProductVariationSell != null){
+                Integer stock = productVariationStock - templateProductVariationSell;
+                if((stock <= 0 && cartItem.getQuantity() != null) || (stock > 0 && (stock - cartItem.getQuantity()) < 0)){
+                    throw new BadRequestException(cartItem.getProductVariation().getName() + " đã hết hàng");
+                }
+            }
+
             PricingStrategy pricingStrategy = pricingStrategyRepository.findPriceByStartDateAndEndDateAndState(cartItem.getProductVariation().getId(), new Date(), Constant.PRICING_STRATEGY_STATE_APPLY).orElse(null);
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setQuantity(cartItem.getQuantity());
