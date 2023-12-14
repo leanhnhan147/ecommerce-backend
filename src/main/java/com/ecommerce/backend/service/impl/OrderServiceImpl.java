@@ -22,7 +22,9 @@ import com.ecommerce.backend.storage.entity.*;
 import com.ecommerce.backend.utils.ZipUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -264,6 +266,7 @@ public class OrderServiceImpl implements OrderService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Not found customer"));
         orderCriteria.setCustomerId(customer.getId());
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdDate").descending());
         Page<Order> orders = orderRepository.findAll(orderCriteria.getCriteria(), pageable);
         List<OrderDto> orderDtos = orderMapper.fromEntityListToOrderDtoList(orders.getContent());
         for (OrderDto orderDto : orderDtos){
