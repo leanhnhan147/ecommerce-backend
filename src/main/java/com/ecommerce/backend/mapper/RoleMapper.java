@@ -2,13 +2,8 @@ package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.Role.RoleAdminDto;
 import com.ecommerce.backend.dto.Role.RoleDto;
-import com.ecommerce.backend.dto.option.OptionAdminDto;
-import com.ecommerce.backend.dto.option.OptionDto;
-import com.ecommerce.backend.form.option.CreateOptionForm;
-import com.ecommerce.backend.form.option.UpdateOptionForm;
 import com.ecommerce.backend.form.role.CreateRoleForm;
 import com.ecommerce.backend.form.role.UpdateRoleForm;
-import com.ecommerce.backend.storage.entity.Option;
 import com.ecommerce.backend.storage.entity.Role;
 import org.mapstruct.*;
 

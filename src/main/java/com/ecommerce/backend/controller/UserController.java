@@ -2,8 +2,6 @@ package com.ecommerce.backend.controller;
 
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.account.LoginAuthDto;
-import com.ecommerce.backend.dto.customer.CustomerDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.form.login.LoginForm;
@@ -11,13 +9,11 @@ import com.ecommerce.backend.form.user.CreateUserForm;
 import com.ecommerce.backend.form.user.UpdateProfileUserForm;
 import com.ecommerce.backend.form.user.UpdateUserForm;
 import com.ecommerce.backend.service.UserService;
-import com.ecommerce.backend.storage.criteria.CustomerCriteria;
 import com.ecommerce.backend.storage.criteria.UserCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 

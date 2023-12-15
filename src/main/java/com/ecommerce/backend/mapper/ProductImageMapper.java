@@ -1,9 +1,7 @@
 package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.productImage.ProductImageDto;
-import com.ecommerce.backend.dto.productVariationOptionValue.ProductVariationOptionValueDto;
 import com.ecommerce.backend.storage.entity.ProductImage;
-import com.ecommerce.backend.storage.entity.ProductVariationOptionValue;
 import org.mapstruct.*;
 
 import java.util.List;

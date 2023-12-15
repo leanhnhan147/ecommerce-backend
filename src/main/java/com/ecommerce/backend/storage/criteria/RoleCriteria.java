@@ -1,7 +1,5 @@
 package com.ecommerce.backend.storage.criteria;
 
-import com.ecommerce.backend.storage.entity.Category;
-import com.ecommerce.backend.storage.entity.Option;
 import com.ecommerce.backend.storage.entity.Permission;
 import com.ecommerce.backend.storage.entity.Role;
 import lombok.Data;

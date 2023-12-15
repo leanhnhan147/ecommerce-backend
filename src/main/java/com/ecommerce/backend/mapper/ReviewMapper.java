@@ -1,12 +1,7 @@
 package com.ecommerce.backend.mapper;
 
-import com.ecommerce.backend.dto.nation.NationDto;
-import com.ecommerce.backend.dto.order.OrderDto;
 import com.ecommerce.backend.dto.review.ReviewDto;
-import com.ecommerce.backend.form.nation.CreateNationForm;
 import com.ecommerce.backend.form.review.CreateReviewForm;
-import com.ecommerce.backend.storage.entity.Nation;
-import com.ecommerce.backend.storage.entity.Order;
 import com.ecommerce.backend.storage.entity.Review;
 import org.mapstruct.*;
 

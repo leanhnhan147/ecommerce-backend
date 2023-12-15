@@ -1,6 +1,5 @@
 package com.ecommerce.backend.storage.criteria;
 
-import com.ecommerce.backend.storage.entity.Category;
 import com.ecommerce.backend.storage.entity.GroupPermission;
 import lombok.Data;
 import org.springframework.data.jpa.domain.Specification;

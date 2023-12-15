@@ -4,7 +4,6 @@ import com.ecommerce.backend.dto.productVariation.ProductVariationAdminDto;
 import com.ecommerce.backend.dto.productVariation.ProductVariationCartItemDto;
 import com.ecommerce.backend.dto.productVariation.ProductVariationDto;
 import com.ecommerce.backend.dto.productVariation.ProductVariationReviewDto;
-import com.ecommerce.backend.form.productVariation.CreateProductVariationForm;
 import com.ecommerce.backend.form.productVariation.UpdateProductVariationForm;
 import com.ecommerce.backend.storage.entity.ProductVariation;
 import org.mapstruct.*;

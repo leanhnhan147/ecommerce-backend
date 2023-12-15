@@ -1,12 +1,10 @@
 package com.ecommerce.backend.mapper;
 
-import com.ecommerce.backend.dto.customer.CustomerDto;
 import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.dto.user.UserDto;
 import com.ecommerce.backend.form.user.CreateUserForm;
 import com.ecommerce.backend.form.user.UpdateProfileUserForm;
 import com.ecommerce.backend.form.user.UpdateUserForm;
-import com.ecommerce.backend.storage.entity.Customer;
 import com.ecommerce.backend.storage.entity.User;
 import org.mapstruct.*;
 

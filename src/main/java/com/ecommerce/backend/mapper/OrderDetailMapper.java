@@ -1,7 +1,6 @@
 package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.orderDetail.OrderDetailDto;
-import com.ecommerce.backend.mapper.ProductVariationMapper;
 import com.ecommerce.backend.storage.entity.OrderDetail;
 import org.mapstruct.*;
 

@@ -3,7 +3,6 @@ package com.ecommerce.backend.service.impl;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.pricingStrategy.PricingStrategyAdminDto;
 import com.ecommerce.backend.dto.pricingStrategy.PricingStrategyDto;
-import com.ecommerce.backend.exception.AlreadyExistsException;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.exception.BadRequestException;
 import com.ecommerce.backend.form.pricingStrategy.CreatePricingStrategyForm;

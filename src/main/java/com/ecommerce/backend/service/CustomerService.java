@@ -1,7 +1,6 @@
 package com.ecommerce.backend.service;
 
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.account.LoginAuthDto;
 import com.ecommerce.backend.dto.customer.CustomerAdminDto;
 import com.ecommerce.backend.dto.customer.CustomerDto;
 import com.ecommerce.backend.form.customer.LoginCustomerForm;

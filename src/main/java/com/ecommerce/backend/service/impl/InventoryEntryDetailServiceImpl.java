@@ -1,7 +1,6 @@
 package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
-import com.ecommerce.backend.dto.inventoryEntry.InventoryEntryAdminDto;
 import com.ecommerce.backend.dto.inventoryEntryDetail.InventoryEntryDetailAdminDto;
 import com.ecommerce.backend.dto.inventoryEntryDetail.InventoryEntryDetailDto;
 import com.ecommerce.backend.exception.AlreadyExistsException;
