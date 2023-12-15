@@ -1,14 +1,9 @@
 package com.ecommerce.backend.mapper;
 
-import com.ecommerce.backend.dto.category.CategoryAdminDto;
-import com.ecommerce.backend.dto.category.CategoryDto;
 import com.ecommerce.backend.dto.nation.NationAdminDto;
 import com.ecommerce.backend.dto.nation.NationDto;
-import com.ecommerce.backend.form.category.CreateCategoryForm;
-import com.ecommerce.backend.form.category.UpdateCategoryForm;
 import com.ecommerce.backend.form.nation.CreateNationForm;
 import com.ecommerce.backend.form.nation.UpdateNationForm;
-import com.ecommerce.backend.storage.entity.Category;
 import com.ecommerce.backend.storage.entity.Nation;
 import org.mapstruct.*;
 

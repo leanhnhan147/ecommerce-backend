@@ -1,0 +1,98 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="LENOVO (generated)" id="1702279912777-1">
+        <createTable tableName="review">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="reviewPK"/>
+            </column>
+            <column name="content" type="TEXT"/>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="point" type="INT"/>
+            <column name="state" type="INT"/>
+            <column name="customer_id" type="BIGINT"/>
+            <column name="order_id" type="BIGINT"/>
+            <column name="product_variation_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-2">
+        <createTable tableName="review_image">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="review_imagePK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="INT"/>
+            <column name="media_resource_id" type="BIGINT"/>
+            <column name="review_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-3">
+        <addForeignKeyConstraint baseColumnNames="review_id" baseTableName="review_image" constraintName="FK16wp089tx9nm0obc217gvdd6l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="review" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-4">
+        <addForeignKeyConstraint baseColumnNames="media_resource_id" baseTableName="review_image" constraintName="FK8xu4f90r2064i9xvojb7pibiq" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="media_resource" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-5">
+        <addForeignKeyConstraint baseColumnNames="product_variation_id" baseTableName="review" constraintName="FKc6s5pbkg4nns0qhucchnbx1kb" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product_variation" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-6">
+        <addForeignKeyConstraint baseColumnNames="customer_id" baseTableName="review" constraintName="FKgce54o0p6uugoc2tev4awewly" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="customer" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-7">
+        <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="review" constraintName="FKnkc5s3da46cbx8oeqrfhnm7es" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="orders" validate="true"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-8">
+        <dropColumn columnName="average_rating" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-9">
+        <dropColumn columnName="discount" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-10">
+        <dropColumn columnName="max_discounted_price" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-11">
+        <dropColumn columnName="max_price" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-12">
+        <dropColumn columnName="min_discounted_price" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-13">
+        <dropColumn columnName="min_price" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-14">
+        <dropColumn columnName="rating1" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-15">
+        <dropColumn columnName="rating2" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-16">
+        <dropColumn columnName="rating3" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-17">
+        <dropColumn columnName="rating4" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-18">
+        <dropColumn columnName="rating5" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-19">
+        <dropColumn columnName="rating_count" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-20">
+        <dropColumn columnName="sold_count" tableName="product"/>
+    </changeSet>
+    <changeSet author="LENOVO (generated)" id="1702279912777-21">
+        <dropColumn columnName="stock" tableName="product"/>
+    </changeSet>
+</databaseChangeLog>

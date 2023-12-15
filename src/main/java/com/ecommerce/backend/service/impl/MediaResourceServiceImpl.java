@@ -1,7 +1,6 @@
 package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.constant.Constant;
-import com.ecommerce.backend.controller.MediaResourceController;
 import com.ecommerce.backend.dto.mediaResource.MediaResourceDto;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.mapper.MediaResourceMapper;
@@ -17,7 +16,6 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.File;
 import java.io.FileInputStream;

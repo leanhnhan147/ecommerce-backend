@@ -22,10 +22,10 @@ public class BasicController {
         return userService.getAddInfoFromToken();
     }
 
-    public boolean isSuperAdmin(){
+    public boolean isAdmin(){
         JwtUtils jwtUtils = userService.getAddInfoFromToken();
         if(jwtUtils !=null){
-            return Objects.equals(jwtUtils.getUserKind(), Constant.USER_KIND_ADMIN) && jwtUtils.getIsSuperAdmin();
+            return Objects.equals(jwtUtils.getUserKind(), Constant.USER_KIND_ADMIN);
         }
         return false;
     }
@@ -34,14 +34,6 @@ public class BasicController {
         JwtUtils jwtUtils = userService.getAddInfoFromToken();
         if(jwtUtils !=null){
             return Objects.equals(jwtUtils.getUserKind(), Constant.USER_KIND_MANAGER);
-        }
-        return false;
-    }
-
-    public boolean isDriver(){
-        JwtUtils jwtUtils = userService.getAddInfoFromToken();
-        if(jwtUtils !=null){
-            return Objects.equals(jwtUtils.getUserKind(), Constant.USER_KIND_DRIVER);
         }
         return false;
     }

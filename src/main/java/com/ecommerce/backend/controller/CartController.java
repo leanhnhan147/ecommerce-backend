@@ -32,9 +32,9 @@ public class CartController extends BasicController{
     }
 
     @PostMapping(value = "/create-item", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiMessageDto<String> create(@Valid @RequestBody CreateCartItemForm createCartItemForm, BindingResult bindingResult) {
-        ApiMessageDto<String> apiMessageDto = new ApiMessageDto<>();
-        cartService.createItem(createCartItemForm, getCurrentUser());
+    public ApiMessageDto<CartItemDto> create(@Valid @RequestBody CreateCartItemForm createCartItemForm, BindingResult bindingResult) {
+        ApiMessageDto<CartItemDto> apiMessageDto = new ApiMessageDto<>();
+        apiMessageDto.setData(cartService.createItem(createCartItemForm, getCurrentUser()));
         apiMessageDto.setMessage("Create cart item success");
         return apiMessageDto;
     }

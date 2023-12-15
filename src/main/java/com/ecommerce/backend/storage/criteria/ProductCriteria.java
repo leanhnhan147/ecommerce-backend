@@ -18,6 +18,10 @@ public class ProductCriteria {
     private Integer status;
     private Long categoryId;
 
+    // sort
+    private Integer createdDate;
+    private Integer soldCount;
+
     public Specification<Product> getCriteria() {
         return new Specification<Product>() {
             private static final long serialVersionUID = 1L;

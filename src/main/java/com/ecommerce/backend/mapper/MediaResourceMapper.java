@@ -1,9 +1,7 @@
 package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.mediaResource.MediaResourceDto;
-import com.ecommerce.backend.dto.option.OptionDto;
 import com.ecommerce.backend.storage.entity.MediaResource;
-import com.ecommerce.backend.storage.entity.Option;
 import org.mapstruct.*;
 
 import java.util.List;

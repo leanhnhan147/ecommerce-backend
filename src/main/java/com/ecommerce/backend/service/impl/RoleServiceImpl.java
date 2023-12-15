@@ -2,7 +2,6 @@ package com.ecommerce.backend.service.impl;
 
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.Role.RoleAdminDto;
-import com.ecommerce.backend.dto.option.OptionAdminDto;
 import com.ecommerce.backend.exception.NotFoundException;
 import com.ecommerce.backend.form.role.CreateRoleForm;
 import com.ecommerce.backend.form.role.UpdateRoleForm;
@@ -11,7 +10,6 @@ import com.ecommerce.backend.repository.PermissionRepository;
 import com.ecommerce.backend.repository.RoleRepository;
 import com.ecommerce.backend.service.RoleService;
 import com.ecommerce.backend.storage.criteria.RoleCriteria;
-import com.ecommerce.backend.storage.entity.Option;
 import com.ecommerce.backend.storage.entity.Permission;
 import com.ecommerce.backend.storage.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;

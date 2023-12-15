@@ -4,7 +4,6 @@ import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.ResponseListDto;
 import com.ecommerce.backend.dto.format.product.ProductFormat;
 import com.ecommerce.backend.dto.product.ProductAdminDto;
-import com.ecommerce.backend.dto.product.ProductDto;
 import com.ecommerce.backend.dto.product.ProductIdDto;
 import com.ecommerce.backend.form.product.CreateProductForm;
 import com.ecommerce.backend.form.product.UpdateProductForm;
@@ -41,6 +40,14 @@ public class ProductController {
     public ApiMessageDto<ResponseListDto<List<ProductAdminDto>>> getList(ProductCriteria productCriteria, Pageable pageable) {
         ApiMessageDto<ResponseListDto<List<ProductAdminDto>>> responseListDtoApiMessageDto = new ApiMessageDto<>();
         responseListDtoApiMessageDto.setData(productService.getProductList(productCriteria, pageable));
+        responseListDtoApiMessageDto.setMessage("Get list product success");
+        return responseListDtoApiMessageDto;
+    }
+
+    @GetMapping(value = "/list-product", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApiMessageDto<ResponseListDto<List<ProductFormat>>> getListProduct(ProductCriteria productCriteria, Pageable pageable) {
+        ApiMessageDto<ResponseListDto<List<ProductFormat>>> responseListDtoApiMessageDto = new ApiMessageDto<>();
+        responseListDtoApiMessageDto.setData(productService.getProductFormatList(productCriteria, pageable));
         responseListDtoApiMessageDto.setMessage("Get list product success");
         return responseListDtoApiMessageDto;
     }

@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class ProductVariationFormat {
+    private Long id;
     private Double price;
     private Double discountedPrice;
     private Integer stock;

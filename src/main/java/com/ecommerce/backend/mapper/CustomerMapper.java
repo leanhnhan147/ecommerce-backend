@@ -2,13 +2,10 @@ package com.ecommerce.backend.mapper;
 
 import com.ecommerce.backend.dto.customer.CustomerAdminDto;
 import com.ecommerce.backend.dto.customer.CustomerDto;
-import com.ecommerce.backend.dto.user.UserAdminDto;
 import com.ecommerce.backend.form.customer.RegisterCustomerForm;
 import com.ecommerce.backend.form.customer.UpdateCustomerForm;
 import com.ecommerce.backend.form.customer.UpdateProfileCustomerForm;
-import com.ecommerce.backend.form.user.UpdateProfileUserForm;
 import com.ecommerce.backend.storage.entity.Customer;
-import com.ecommerce.backend.storage.entity.User;
 import org.mapstruct.*;
 
 import java.util.List;

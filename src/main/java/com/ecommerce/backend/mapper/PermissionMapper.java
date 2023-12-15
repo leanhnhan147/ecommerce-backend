@@ -1,11 +1,9 @@
 package com.ecommerce.backend.mapper;
 
-import com.ecommerce.backend.dto.option.OptionDto;
 import com.ecommerce.backend.dto.permission.PermissionAdminDto;
 import com.ecommerce.backend.dto.permission.PermissionDto;
 import com.ecommerce.backend.form.permission.CreatePermissionForm;
 import com.ecommerce.backend.form.permission.UpdatePermissionForm;
-import com.ecommerce.backend.storage.entity.Option;
 import com.ecommerce.backend.storage.entity.Permission;
 import org.mapstruct.*;
 

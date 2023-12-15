@@ -3,7 +3,6 @@ package com.ecommerce.backend.controller;
 import com.ecommerce.backend.dto.ApiMessageDto;
 import com.ecommerce.backend.dto.mediaResource.MediaResourceDto;
 import com.ecommerce.backend.service.MediaResourceService;
-import com.ecommerce.backend.storage.entity.MediaResource;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.engine.jdbc.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;

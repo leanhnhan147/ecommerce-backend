@@ -4,7 +4,6 @@ public class Constant {
 
     public static final Integer USER_KIND_ADMIN = 1;
     public static final Integer USER_KIND_MANAGER = 2;
-    public static final Integer USER_KIND_DRIVER = 4;
     public static final Integer USER_KIND_CUSTOMER = 5;
 
     public static final Integer STATUS_ACTIVE = 1;
@@ -36,4 +35,7 @@ public class Constant {
     public static final Integer ORDER_STATE_CONFIRMED = 100;
     public static final Integer ORDER_STATE_DELIVERING = 200;
     public static final Integer ORDER_STATE_DELIVERED = 300;
+
+    public static final Integer REVIEW_STATE_PENDING = 0;
+    public static final Integer REVIEW_STATE_ACTIVE = 1;
 }

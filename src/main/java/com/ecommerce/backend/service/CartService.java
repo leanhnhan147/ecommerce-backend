@@ -10,7 +10,7 @@ public interface CartService {
 
     List<CartItemDto> getCart(Long customerId);
 
-    void createItem(CreateCartItemForm createCartItemForm, Long customerId);
+    CartItemDto createItem(CreateCartItemForm createCartItemForm, Long customerId);
 
     void updateItem(UpdateCartItemForm updateCartItemForm, Long customerId);
 

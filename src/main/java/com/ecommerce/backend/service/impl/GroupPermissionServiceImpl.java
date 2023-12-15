@@ -10,7 +10,6 @@ import com.ecommerce.backend.mapper.GroupPermissionMapper;
 import com.ecommerce.backend.repository.GroupPermissionRepository;
 import com.ecommerce.backend.service.GroupPermissionService;
 import com.ecommerce.backend.storage.criteria.GroupPermissionCriteria;
-import com.ecommerce.backend.storage.entity.Category;
 import com.ecommerce.backend.storage.entity.GroupPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
